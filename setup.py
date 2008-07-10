@@ -9,7 +9,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 setup(name='grokui.admin',
-      version='0.1',
+      version='0.2dev',
       description="The Grok administration and development UI (base)",
       long_description=(
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
@@ -18,7 +18,7 @@ setup(name='grokui.admin',
         ),
       # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        'Development Status :: 1 - Beta',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
@@ -26,7 +26,7 @@ setup(name='grokui.admin',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope3 :: Grok'], 
+        'Framework :: Zope3'], 
       keywords="zope3 grok grokadmin",
       author="Uli Fouquet and lots of contributors from grok community",
       author_email="grok-dev@zope.org",
