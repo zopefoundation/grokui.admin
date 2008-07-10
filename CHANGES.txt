@@ -1,0 +1,11 @@
+grokui.admin changes
+********************
+
+
+0.1 series (unreleased)
+=======================
+
+Feature changes
+---------------
+
+Initial implementation by factoring out ``grok.admin`` from ``grok``.

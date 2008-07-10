@@ -1,5 +1,7 @@
-A basic grok admin UI
-*********************
+grokui.admin: A basic grok admin UI
+***********************************
+
+The replacement for the former ``grok.admin`` package.
 
 The internal name of the admin UI is:
 Grok Application Interface Application or, for short GAIA.
