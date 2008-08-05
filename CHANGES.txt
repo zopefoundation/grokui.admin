@@ -7,6 +7,8 @@ grokui.admin changes
 Bug fixes
 ---------
 
+Fixed wrong links in docgrok template.
+
 
 0.1 (2008-07-10)
 ================
