@@ -42,7 +42,7 @@
 	    <a href=""
 	       class="emph"
 	       tal:attributes="href string: 
-			      ${view/root_url}/docgrok/grok/admin/docgrok.txt">
+			      ${view/root_url}/docgrok/grokui/admin/docgrok.txt">
 	      docgrok documentation</a> to learn more
 	      about this feature of Grok.
 	  </p>
@@ -69,7 +69,7 @@
           <p>
 	    See <a href="" class="emph"
 	    tal:attributes="href string:
-	    ${view/root_url}/docgrok/grok/admin/inspect.txt">object
+	    ${view/root_url}/docgrok/grokui/admin/inspect.txt">object
 	    browsers documentation</a> to learn more about this
 	    feature of Grok.
 	  </p>
