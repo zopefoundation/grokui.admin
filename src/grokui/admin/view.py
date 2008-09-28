@@ -383,7 +383,7 @@ class Server(GAIAView):
 
     @property
     def server_control(self):
-        return zope.component.getUtility(IServerControl)
+        return zope.component.queryUtility(IServerControl, '', None)
 
     @property
     def runtime_info(self):
