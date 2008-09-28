@@ -4,11 +4,13 @@ grokui.admin changes
 0.1.2 (unreleased)
 ==================
 
+* Made server controls dependent from availability of
+  `IServerControl`. Otherwise the buttons for restarting or stopping
+  the server process are not rendered.
+
+
 0.1.1 (2008-08-05)
 ==================
-
-Bug fixes
----------
 
 * Fixed wrong links in docgrok template.
 
