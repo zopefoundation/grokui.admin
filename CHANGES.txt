@@ -4,6 +4,18 @@ grokui.admin changes
 0.2 (unreleased)
 ===================
 
+Bug fixes
+---------
+
+* Made server controls dependent from availability of
+  `IServerControl`. Otherwise the buttons for restarting or stopping
+  the server process are not rendered.
+
+* Fixed wrong links in docgrok template.
+
+* Fixed ftesting.zcml that did not work with Grok 0.13.
+
+
 0.1 (2008-07-10)
 ================
 
