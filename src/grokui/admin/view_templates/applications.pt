@@ -2,7 +2,7 @@
   <div metal:fill-slot="content">
 
     <form tal:define="apps context/values"
-	  tal:attributes="action string:${context/@@absolute_url}/delete">
+	  tal:attributes="action string:${context/@@absolute_url}/manageapps">
 
       <fieldset>
         <legend>Installed applications</legend>

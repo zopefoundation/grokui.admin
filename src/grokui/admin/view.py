@@ -90,8 +90,8 @@ class Add(grok.View):
         self.redirect(self.url(self.context))
 
 
-class Delete(grok.View):
-    """Delete an application.
+class ManageApps(grok.View):
+    """Manage applications (delete, rename).
     """
 
     grok.require('grok.ManageApplications')
