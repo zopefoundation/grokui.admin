@@ -4,6 +4,11 @@ grokui.admin changes
 0.2 (unreleased)
 ===================
 
+Feature changes
+---------------
+
+* Added capability to rename apps.
+
 Bug fixes
 ---------
 
