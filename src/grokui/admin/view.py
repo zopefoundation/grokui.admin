@@ -67,7 +67,8 @@ class Add(grok.View):
 
     def update(self, inspectapp=None, application=None):
         if inspectapp is not None:
-            self.redirect(self.url("docgrok") + "/%s/index"%(application.replace('.','/'),))
+            self.redirect(self.url("docgrok") + "/%s/index"%(
+                    application.replace('.','/'),))
         return
 
     def render(self, application, name, inspectapp=None):
@@ -206,7 +207,8 @@ class Inspect(GAIAView):
                 method['interface'] = getPathLinksForDottedName(
                     method['interface'], root_url)
             if method['doc']:
-                method['doc'] = renderText(method['doc'], getattr(obj,'__module__', None))
+                method['doc'] = renderText(method['doc'], getattr(
+                        obj,'__module__', None))
 
         attrs = [x for x in list(ob_info.getAttributes())
                  if self.show_private or not x['name'].startswith('_')
