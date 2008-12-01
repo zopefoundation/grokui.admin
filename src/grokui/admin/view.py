@@ -163,7 +163,46 @@ class GrokAdminMacros(GAIAView):
 
     grok.context(Interface)
 
+class Rename(GAIAView):
+    """Rename Grok applications.
+    """
+    grok.name('grokadmin_rename')
+    grok.template('rename')
+    grok.require('grok.ManageApplications')
+    
+    def update(self, cancel=None, items=None, new_names=None):
+        msg = u''
 
+        if cancel is not None:
+            return self.redirect(self.url(self.context))
+        
+        if not isinstance(items, list):
+            items = [items]
+        self.apps = items
+        
+        if new_names is not None and len(new_names) != len(items):
+            return self.redirect(self.url(self.context))
+
+        if new_names is None:
+            return
+        
+        mapping = dict([(items[x], new_names[x]) for x in range(len(items))])
+
+        for oldname, newname in mapping.items():
+            if oldname == newname:
+                continue
+            if oldname not in self.context.keys():
+                self.flash('Could not rename %s: not found' % oldname)
+                continue
+            if newname in self.context.keys():
+                self.flash('`%s` already exists.' % newname)
+                continue
+            self.context[newname] = self.context[oldname]
+            self.context[newname].__name__ = newname
+            del self.context[oldname]
+            self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
+        self.redirect(self.url(self.context))
+        return
 
 class Inspect(GAIAView):
     """Basic object browser.
