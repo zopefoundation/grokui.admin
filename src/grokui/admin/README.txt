@@ -44,6 +44,8 @@ Applications
 
 * You can add new instances of Grok applications
 
+* You can rename instances of Grok applications
+
 * For each installed application you can directly call:
 
   - the object browser (telling you more about this concrete object)
