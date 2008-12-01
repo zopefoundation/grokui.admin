@@ -26,6 +26,7 @@ from grokui.admin.docgrok import DocGrokClass, DocGrokInterface, getItemLink
 from grokui.admin.objectinfo import ZopeObjectInfo
 from grokui.admin.utilities import getPathLinksForObject, getPathLinksForClass
 from grokui.admin.utilities import getPathLinksForDottedName, getParentURL
+from grokui.admin.utilities import getURLWithParams
 
 from ZODB.broken import Broken
 from BTrees.OOBTree import OOBTree
@@ -138,8 +139,9 @@ class ManageApps(grok.View):
         if delete is not None:
             return self.delete(items)
         elif rename is not None:
-            return self.redirect(self.url(self.context, '@@grokadmin_rename',
-                                          data=dict(items=items)))
+            return self.redirect(getURLWithParams(
+                    self.url(self.context, '@@grokadmin_rename'),
+                    data=dict(items=items)))
         self.redirect(self.url(self.context))
 
 
