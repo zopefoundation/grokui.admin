@@ -96,13 +96,10 @@ class Delete(grok.View):
 
     grok.require('grok.ManageApplications')
 
-    def render(self, items=None):
-        if items is None:
-            self.redirect(self.url(self.context))
-            return
+    def delete(self, items):
+        """Delete applications in items.
+        """
         msg = u''
-        if not isinstance(items, list):
-            items = [items]
         for name in items:
             try:
                 del self.context[name]
@@ -128,6 +125,21 @@ class Delete(grok.View):
                        u'deleted.\n' % (msg, name))
 
         self.flash(msg)
+        self.redirect(self.url(self.context))
+
+    def render(self, rename=None, delete=None, items=None):
+
+        if items is None:
+            return self.redirect(self.url(self.context))
+
+        if not isinstance(items, list):
+            items = [items]
+        
+        if delete is not None:
+            return self.delete(items)
+        elif rename is not None:
+            return self.redirect(self.url(self.context, '@@grokadmin_rename',
+                                          data=dict(items=items)))
         self.redirect(self.url(self.context))
 
 
