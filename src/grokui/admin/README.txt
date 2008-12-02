@@ -18,7 +18,7 @@ Before you can use the admin UI, you first must log in.
 
 The username and password of the manager principal (kind of super
 user) can be found in the file ``buildout.cfg`` in the root of your
-subversion checkout. 
+subversion checkout.
 
 In case you do not know, what 'subversion checkout' means, look for a
 file ``site.zcml`` in your installation.
@@ -64,6 +64,9 @@ Server
 
 * Start/Restart the server. Caution! This does not work, if the server
   was started in 'foreground mode' (with 'zopectl fg').
+
+* Pack the ZODB. This removes old data from the database, freeing up
+  disk space.
 
 * Get basic information about the running Zope system.
 
