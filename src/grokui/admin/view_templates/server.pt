@@ -31,7 +31,7 @@
               tal:attributes="action string:${context/@@absolute_url}/server">
 	  <input type="hidden" name="submitted" value="true"/>
           <input type="hidden" name="dbName" value="" tal:attributes="value db/utilName" />
-          <input type="text" name="history" value="0" size="3" title="Days of history to keep" />
+          <input type="text" name="days" value="0" size="3" title="Days of history to keep" />
           <input class="button" type="submit" name="pack" value="Pack" />
           <span tal:replace="db/dbName" />
           <span tal:replace="db/size" />

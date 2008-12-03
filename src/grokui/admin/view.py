@@ -460,7 +460,7 @@ class Server(GAIAView, ZODBControlView):
 
     def update(self, time=None, restart=None, shutdown=None,
                admin_message=None, submitted=False,
-               dbName=None, pack=None, history=None):
+               dbName=None, pack=None, days=None):
         if not submitted:
             return
         # Admin message control
@@ -486,13 +486,13 @@ class Server(GAIAView, ZODBControlView):
             self.server_control.shutdown(time)
 
         if pack is not None:
-            return self.pack(dbName, history)
+            return self.pack(dbName, days)
 
         self.redirect(self.url())
 
-    def pack(self, dbName, history):
+    def pack(self, dbName, days):
         try:
-            days = int(history)
+            days = int(days)
         except ValueError:
             self.flash('Error: Invalid Number')
             return
