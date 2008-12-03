@@ -20,6 +20,25 @@
       </fieldset>
     </form>
 
+    <fieldset>
+      <legend>Manage your databases</legend>
+      <div tal:condition="not: python: len(view.databases)">
+        <p class="menu-description1">Currently no databases are active.</p>
+      </div>
+      <div tal:condition="python: len(view.databases) or True"
+	   tal:repeat="db view/databases">
+        <form method="post" action=""
+              tal:attributes="action string:${context/@@absolute_url}/server">
+	  <input type="hidden" name="submitted" value="true"/>
+          <input type="hidden" name="dbName" value="" tal:attributes="value db/utilName" />
+          <input type="text" name="days" value="0" size="3" title="Days of history to keep" />
+          <input class="button" type="submit" name="pack" value="Pack" />
+          <span tal:replace="db/dbName" />
+          <span tal:replace="db/size" />
+        </form>
+      </div>
+    </fieldset>
+
     <form method="post" action=""
       tal:attributes="action string:${context/@@absolute_url}/server">
       <fieldset>

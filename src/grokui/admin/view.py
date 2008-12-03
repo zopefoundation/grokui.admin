@@ -29,6 +29,7 @@ from grokui.admin.utilities import getPathLinksForDottedName, getParentURL
 from grokui.admin.utilities import getURLWithParams
 
 from ZODB.broken import Broken
+from ZODB.interfaces import IDatabase
 from BTrees.OOBTree import OOBTree
 
 import zope.component
@@ -38,6 +39,7 @@ from zope.app.applicationcontrol.interfaces import IServerControl
 from zope.app.applicationcontrol.applicationcontrol import applicationController
 from zope.app.applicationcontrol.runtimeinfo import RuntimeInfo
 from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
+from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView
 from zope.app.apidoc import utilities, codemodule
 from zope.app.apidoc.utilities import getPythonPath, renderText, columnize
 from zope.app.apidoc.codemodule.module import Module
@@ -51,6 +53,7 @@ from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.exceptions import DuplicationError
 from zope.proxy import removeAllProxies
 from zope.tal.taldefs import attrEscape
+from ZODB.FileStorage.FileStorage import FileStorageError
 
 import z3c.flashmessage.interfaces
 
@@ -135,7 +138,7 @@ class ManageApps(grok.View):
 
         if not isinstance(items, list):
             items = [items]
-        
+
         if delete is not None:
             return self.delete(items)
         elif rename is not None:
@@ -177,29 +180,30 @@ class GrokAdminMacros(GAIAView):
 
     grok.context(Interface)
 
+
 class Rename(GAIAView):
     """Rename Grok applications.
     """
     grok.name('grokadmin_rename')
     grok.template('rename')
     grok.require('grok.ManageApplications')
-    
+
     def update(self, cancel=None, items=None, new_names=None):
         msg = u''
 
         if cancel is not None:
             return self.redirect(self.url(self.context))
-        
+
         if not isinstance(items, list):
             items = [items]
         self.apps = items
-        
+
         if new_names is not None and len(new_names) != len(items):
             return self.redirect(self.url(self.context))
 
         if new_names is None:
             return
-        
+
         mapping = dict([(items[x], new_names[x]) for x in range(len(items))])
 
         for oldname, newname in mapping.items():
@@ -431,7 +435,7 @@ class AdminMessageSource(grok.GlobalUtility):
             raise KeyError(message)
 
 
-class Server(GAIAView):
+class Server(GAIAView, ZODBControlView):
     """Zope3 management screen."""
 
     grok.require('grok.ManageApplications')
@@ -455,7 +459,8 @@ class Server(GAIAView):
             return messages[0]
 
     def update(self, time=None, restart=None, shutdown=None,
-              admin_message=None, submitted=False):
+               admin_message=None, submitted=False,
+               dbName="", pack=None, days=0):
         if not submitted:
             return
         # Admin message control
@@ -480,7 +485,23 @@ class Server(GAIAView):
         elif shutdown is not None:
             self.server_control.shutdown(time)
 
+        if pack is not None:
+            return self.pack(dbName, days)
+
         self.redirect(self.url())
+
+    def pack(self, dbName, days):
+        try:
+            days = int(days)
+        except ValueError:
+            self.flash('Error: Invalid Number')
+            return
+        db = zope.component.getUtility(IDatabase, name=dbName)
+        try:
+            db.pack(days=days)
+            self.flash('ZODB `%s` successfully packed.' % (dbName))
+        except FileStorageError, err:
+            self.flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
 
 
 class Users(GAIAView):

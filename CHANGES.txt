@@ -4,6 +4,11 @@ grokui.admin changes
 0.3 (unreleased)
 ================
 
+Feature changes
+---------------
+
+* Added capability to pack ZODBs.
+
 0.2 (2008-12-01)
 ================
 
