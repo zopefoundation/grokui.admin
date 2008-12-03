@@ -460,7 +460,7 @@ class Server(GAIAView, ZODBControlView):
 
     def update(self, time=None, restart=None, shutdown=None,
                admin_message=None, submitted=False,
-               dbName=None, pack=None, days=None):
+               dbName="", pack=None, days=0):
         if not submitted:
             return
         # Admin message control

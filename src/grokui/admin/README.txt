@@ -66,7 +66,11 @@ Server
   was started in 'foreground mode' (with 'zopectl fg').
 
 * Pack the ZODB. This removes old data from the database, freeing up
-  disk space.
+  disk space. In a production environment, you might want to pack the
+  ZODB automatically from `cron`. This can be done using a command
+  like the following::
+
+    curl -q -s -u admin:admin "http://localhost:8080/server?pack=1&submitted=1"
 
 * Get basic information about the running Zope system.
 
