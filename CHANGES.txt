@@ -17,12 +17,16 @@ Feature changes
 
 * Added capability to rename apps.
 
-Bug fixes
----------
+0.1.2 (2008-09-28)
+==================
 
 * Made server controls dependent from availability of
   `IServerControl`. Otherwise the buttons for restarting or stopping
   the server process are not rendered.
+
+
+0.1.1 (2008-08-05)
+==================
 
 * Fixed wrong links in docgrok template.
 
