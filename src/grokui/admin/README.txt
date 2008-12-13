@@ -70,7 +70,10 @@ Server
   ZODB automatically from `cron`. This can be done using a command
   like the following::
 
-    curl -q -s -u admin:admin "http://localhost:8080/server?pack=1&submitted=1"
+    curl -q -s -u admin:admin "http://localhost:8080/server?pack=1&days=1"
+
+  which will remove old data older than one day. If you leave out the
+  `days` parameter, all old data will be removed.
 
 * Get basic information about the running Zope system.
 
