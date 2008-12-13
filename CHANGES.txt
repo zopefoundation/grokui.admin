@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-0.3 (unreleased)
+0.3 (2008-12-13)
 ================
 
 Feature changes
