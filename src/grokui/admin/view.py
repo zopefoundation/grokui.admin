@@ -461,8 +461,14 @@ class Server(GAIAView, ZODBControlView):
     def update(self, time=None, restart=None, shutdown=None,
                admin_message=None, submitted=False,
                dbName="", pack=None, days=0):
+
+        # Packing control
+        if pack is not None:
+            return self.pack(dbName, days)
+
         if not submitted:
             return
+
         # Admin message control
         source = zope.component.getUtility(
           z3c.flashmessage.interfaces.IMessageSource, name='admin')
@@ -484,9 +490,6 @@ class Server(GAIAView, ZODBControlView):
             self.server_control.restart(time)
         elif shutdown is not None:
             self.server_control.shutdown(time)
-
-        if pack is not None:
-            return self.pack(dbName, days)
 
         self.redirect(self.url())
 
