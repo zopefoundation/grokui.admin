@@ -7,7 +7,7 @@ grokui.admin changes
 Feature changes
 ---------------
 
-* Added capability to pack ZODBs.
+* Added capability to pack ZODBs (thanks to Jasper Spaans).
 
 0.2 (2008-12-01)
 ================
