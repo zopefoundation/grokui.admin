@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2007 Zope Corporation and Contributors.
+# Copyright (c) 2007-2008 Zope Corporation and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -16,7 +16,10 @@
 import grok
 import os
 import inspect
+import time
 from urllib import urlencode
+
+from grokui.admin.interfaces import ISecurityNotifier
 
 from grokui.admin import docgrok
 from grokui.admin.docgrok import DocGrok, DocGrokPackage, DocGrokModule
@@ -24,6 +27,7 @@ from grokui.admin.docgrok import DocGrokTextFile, DocGrokGrokApplication
 from grokui.admin.docgrok import DocGrokClass, DocGrokInterface, getItemLink
 
 from grokui.admin.objectinfo import ZopeObjectInfo
+from grokui.admin.security import SecurityNotifier
 from grokui.admin.utilities import getPathLinksForObject, getPathLinksForClass
 from grokui.admin.utilities import getPathLinksForDottedName, getParentURL
 from grokui.admin.utilities import getURLWithParams
@@ -441,6 +445,30 @@ class Server(GAIAView, ZODBControlView):
     grok.require('grok.ManageApplications')
 
     @property
+    def security_notifier(self):
+        """Get a local security notifier.
+
+        The security notifier is installed as a local utility by an
+        event handler in the security module.
+        """
+        site = grok.getSite()
+        site_manager = site.getSiteManager()
+        return site_manager.queryUtility(ISecurityNotifier, default=None)
+    
+    @property
+    def secnotes_enabled(self):
+        if self.security_notifier is None:
+            # Safety belt if installation of notifier failed
+            return False
+        return self.security_notifier.enabled
+
+    @property
+    def secnotes_message(self):
+        if self.security_notifier is None:
+            return u'Security notifier is not installed.'
+        return self.security_notifier.getNotification()
+    
+    @property
     def server_control(self):
         return zope.component.queryUtility(IServerControl, '', None)
 
@@ -458,14 +486,35 @@ class Server(GAIAView, ZODBControlView):
         if messages:
             return messages[0]
 
+    def emitSecurityNotification(self):
+        message = self.secnotes_message
+        self.flash(message)
+        return
+
+    def updateSecurityNotifier(self, setsecnotes=None):
+        if self.security_notifier is None:
+            return
+        if setsecnotes is not None:
+            if self.security_notifier.enabled is True:
+                self.security_notifier.disable()
+            else:
+                self.security_notifier.enable()
+        if self.secnotes_enabled is False:
+            return
+        self.emitSecurityNotification()
+        return
+        
     def update(self, time=None, restart=None, shutdown=None,
-               admin_message=None, submitted=False,
+               setsecnotes=None, admin_message=None, submitted=False,
                dbName="", pack=None, days=0):
 
         # Packing control
         if pack is not None:
             return self.pack(dbName, days)
 
+        # Security notification control
+        self.updateSecurityNotifier(setsecnotes)
+        
         if not submitted:
             return
 
