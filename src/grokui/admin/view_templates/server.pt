@@ -2,6 +2,41 @@
   <div metal:fill-slot="content">
     <h1>Manage your Zope 3 instance</h1>
 
+    <fieldset>
+      <legend>Security notifications</legend>
+      <form method="post" action=""
+	    tal:attributes="action
+	    string:${context/@@absolute_url}/server">
+	<div>
+	  <div tal:replace="view/secnotes_message">Message</div>
+	</div>
+	<div>
+	  You can be notified if serious security-related issues were
+	  discovered that concern your installation.
+	</div>
+	<div>
+	  Note, that if you enable this, HTTP-lookups of the grok site
+	  will happen to check, whether there are any published
+	  security issues for the installed version of grok.
+	</div>
+	<div>&nbsp;</div>
+	<div tal:condition="view/secnotes_enabled">
+	  <span class="emph">
+	    Status: Security notifications are enabled
+	  </span>
+	  <input class="button" type="submit" name="setsecnotes"
+		 value="Disable" />
+	</div>
+	<div tal:condition="not: view/secnotes_enabled">
+	  <span class="emph">
+	    Status: Security notifications are disabled
+	  </span>
+	  <input class="button" type="submit" name="setsecnotes"
+		 value="Enable" />
+	</div>
+      </form>
+    </fieldset>
+
     <form method="post" action=""
       tal:attributes="action string:${context/@@absolute_url}/server">
       <fieldset>
