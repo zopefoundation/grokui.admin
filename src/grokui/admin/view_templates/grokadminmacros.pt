@@ -71,11 +71,6 @@
             Server Control
           </span>
         </span>
-<!--
-        &nbsp;&nbsp;
-        <a href=""
-          tal:attributes="href view/root_url">Debug</a>
--->
         &nbsp;&nbsp;
         <a href=""
           tal:attributes="href string:${view/root_url}/docgrok/">
