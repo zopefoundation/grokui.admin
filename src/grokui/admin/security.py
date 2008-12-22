@@ -16,7 +16,6 @@
 The machinery to do home-calling security notifications.
 """
 import grok
-import pkg_resources
 import time
 import urllib2
 import urlparse
@@ -25,6 +24,7 @@ from zope.app.folder.interfaces import IRootFolder
 from zope.component import adapter, provideHandler
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
+from grokui.admin.utilities import getGrokVersion
 
 class SecurityScreen(grok.ViewletManager):
     """A viewlet manager that keeps security related notifications.
@@ -116,7 +116,7 @@ class SecurityNotifier(Persistent):
         if self.enabled is False:
             # Safety belt.
             return
-        version = self.getGrokVersion()
+        version = getGrokVersion()
         filename = 'grok-%s.security.txt' % version
         url = urlparse.urljoin(self.lookup_url, filename)
         try:
@@ -139,14 +139,6 @@ class SecurityNotifier(Persistent):
         """
         self.last_display = time.time()
         return
-
-    def getGrokVersion(self):
-        """Determine the version of grok used in background.
-        """
-        info = pkg_resources.get_distribution('grok')
-        if info.has_version and info.version:
-            return info.version
-        return None
 
 def setupSecurityNotification(site):
     """Setup a SecurityNotifier as persistent utility.
