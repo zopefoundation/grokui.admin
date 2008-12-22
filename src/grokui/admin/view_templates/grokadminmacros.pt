@@ -83,6 +83,10 @@
 
           <div id="messages" tal:content="structure context/@@messages" />
 
+	  <div id="securitynotifications"
+	       tal:content="structure provider:grokadmin_security"
+	       tal:on-error="nothing" />
+
           <div metal:define-slot="content">
 
             <h1>Welcome to Grok!</h1>
