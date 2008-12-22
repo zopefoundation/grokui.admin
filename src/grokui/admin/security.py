@@ -42,7 +42,7 @@ class SecurityNotificationViewlet(grok.Viewlet):
         """Get a local security notifier.
 
         The security notifier is installed as a local utility by an
-        event handler in the security module.
+        event handler triggered on startup.
         """
         site = grok.getSite()
         site_manager = site.getSiteManager()
