@@ -114,7 +114,8 @@ that stores our last tries::
 Ah, there is no security warning for our version. So let us create
 one::
 
-  >>> version = sn.getGrokVersion()
+  >>> from grokui.admin.utilities import getGrokVersion
+  >>> version = getGrokVersion()
   >>> fake_warning_file = 'grok-%s.security.txt' % version
   >>> fake_warning_file = os.path.join(fake_source, fake_warning_file)
   >>> open(fake_warning_file, 'w').write('You better smash %s' % version)
@@ -137,18 +138,6 @@ Clean up::
   >>> import os
   >>> os.unlink(fake_warning_file)
 
-Minor stuff security notifiers can do
--------------------------------------
-
-Instances of `SecurityNotifier` are able to determine the Grok version
-used in background::
-
-  >>> version = sn.getGrokVersion()
-  >>> import pkg_resources
-  >>> info = pkg_resources.get_distribution('grok')
-  >>> info.version == version
-  True
-  
   
 `SecurityNotifier` in `grokui.admin`
 ====================================
