@@ -21,9 +21,35 @@ import time
 import urllib2
 import urlparse
 from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
+from zope.app.folder.interfaces import IRootFolder
 from zope.component import adapter, provideHandler
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
+
+class SecurityScreen(grok.ViewletManager):
+    """A viewlet manager that keeps security related notifications.
+    """
+    grok.name('grokadmin_security')
+    grok.context(IRootFolder)
+
+class SecurityNotificationViewlet(grok.Viewlet):
+    """Viewlet displaying notifications from a local `SecurityNotifier`.
+    """
+    grok.context(IRootFolder)
+
+    @property
+    def security_notifier(self):
+        """Get a local security notifier.
+
+        The security notifier is installed as a local utility by an
+        event handler in the security module.
+        """
+        site = grok.getSite()
+        site_manager = site.getSiteManager()
+        return site_manager.queryUtility(ISecurityNotifier, default=None)
+
+    def render(self):
+        return self.security_notifier.getNotification()
 
 class SecurityNotifier(Persistent):
     """A security notifier.
