@@ -13,6 +13,7 @@
 ##############################################################################
 """Helper functions for grok admin.
 """
+import pkg_resources
 import re
 import urllib
 from zope.tal.taldefs import attrEscape
@@ -267,3 +268,11 @@ def getURLWithParams(url, data=None):
                 or item for item in v]
         url += '?' + urllib.urlencode(data, doseq=True)
     return url
+
+def getGrokVersion():
+    """Determine the version of grok used in background.
+    """
+    info = pkg_resources.get_distribution('grok')
+    if info.has_version and info.version:
+        return info.version
+    return None
