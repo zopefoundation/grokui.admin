@@ -121,13 +121,17 @@ class SecurityNotifier(Persistent):
         url = urlparse.urljoin(self.lookup_url, filename)
         try:
             self._message = urllib2.urlopen(url).read()
+            self._warningstate = True
+        except (urllib2.HTTPError, OSError), e:
+            if (getattr(e, 'code', None) == 404) or (
+                getattr(e, 'errno', None) == 2):
+                # No security warning found, good message.
+                self._message = u''
+                self._warningstate = False
         except:
-            # Currently we tolerate any error, while only certain
-            # ones, like HTTPError 404 or OSError 'File not found'
-            # should be accepted.
-            #
-            # In case of an error we assume, that there is no security
-            # notification available.
+            # An unexpected problem occured...
+            pass
+        if self._message == self.MSG_DISABLED:
             self._message = u''
         self.last_lookup = time.time()
         return
