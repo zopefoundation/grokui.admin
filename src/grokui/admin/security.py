@@ -62,8 +62,9 @@ class SecurityNotifier(Persistent):
 
     VERSION = 1 # for possibly updates/downgrades
     MSG_DISABLED = u'Security notifications are disabled.'
+    DEFAULT_URL = 'http://grok.zope.org/releaseinfo/'
     
-    lookup_url = 'http://grok.zope.org/releaseinfo/'
+    lookup_url = DEFAULT_URL
     last_lookup = None   # When did we do the last lookup?
     lookup_timeout = 2   # Number of seconds to wait
     last_display = None  # When did we display the last time?
@@ -136,6 +137,13 @@ class SecurityNotifier(Persistent):
         self.last_lookup = time.time()
         return
 
+    def setLookupURL(self, url):
+        """Set the url to lookup notifications.
+        """
+        self.lookup_url = url
+        self.last_lookup = None
+        return
+    
     def display(self):
         """Display the message.
 
