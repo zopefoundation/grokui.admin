@@ -67,11 +67,9 @@ class SecurityNotifier(Persistent):
     lookup_url = DEFAULT_URL
     last_lookup = None   # When did we do the last lookup?
     lookup_timeout = 2   # Number of seconds to wait
-    last_display = None  # When did we display the last time?
     enabled = False      # By default we disable the notfier.
 
-    lookup_frequency = 3600 * 3 # Lookup every three hours.
-    display_frequency = 3600 * 3 # Display warnings every three hours.
+    lookup_frequency = 3600 # Lookup every hour.
 
     _message = u''
     _warningstate = False
