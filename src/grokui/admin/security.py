@@ -24,7 +24,7 @@ from zope.app.folder.interfaces import IRootFolder
 from zope.component import adapter, provideHandler
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getGrokVersion, TimeoutableHTTPHandler
+from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 
 class SecurityScreen(grok.ViewletManager):
     """A viewlet manager that keeps security related notifications.
@@ -117,7 +117,7 @@ class SecurityNotifier(Persistent):
         if self.enabled is False:
             # Safety belt.
             return
-        version = getGrokVersion()
+        version = getVersion('grok')
         filename = 'grok-%s.security.txt' % version
         url = urlparse.urljoin(self.lookup_url, filename)
         # We create a HTTP handler with a timeout.
