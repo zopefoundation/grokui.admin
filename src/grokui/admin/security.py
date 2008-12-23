@@ -16,6 +16,7 @@
 The machinery to do home-calling security notifications.
 """
 import grok
+import cgi
 import time
 import urllib2
 import urlparse
@@ -123,7 +124,8 @@ class SecurityNotifier(Persistent):
         opener = urllib2.build_opener(http_handler)
         req = urllib2.Request(url)
         try:
-            self._message = opener.open(req).read()
+            message = opener.open(req).read()
+            self._message = cgi.escape(message)
             self._warningstate = True
         except (urllib2.HTTPError, OSError), e:
             if (getattr(e, 'code', None) == 404) or (
