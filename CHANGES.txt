@@ -4,6 +4,21 @@ grokui.admin changes
 0.4 (unreleased)
 ================
 
+Feature changes
+---------------
+
+* Added a security notifier to inform users when security issues are
+  published on http://grok.zope.org. The notifier must be explicitly
+  enabled. You can also run your own site/directory to place security
+  notifications.
+
+* Added info views to get important information easier with tools like
+  ``curl``. Supported infos:
+
+    - Grok version used
+
+    - Current security notification (if any).
+
 0.3 (2008-12-13)
 ================
 
