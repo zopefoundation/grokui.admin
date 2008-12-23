@@ -24,7 +24,7 @@ from zope.app.folder.interfaces import IRootFolder
 from zope.component import adapter, provideHandler
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getGrokVersion
+from grokui.admin.utilities import getGrokVersion, TimeoutableHTTPHandler
 
 class SecurityScreen(grok.ViewletManager):
     """A viewlet manager that keeps security related notifications.
@@ -120,8 +120,12 @@ class SecurityNotifier(Persistent):
         version = getGrokVersion()
         filename = 'grok-%s.security.txt' % version
         url = urlparse.urljoin(self.lookup_url, filename)
+        # We create a HTTP handler with a timeout.
+        http_handler = TimeoutableHTTPHandler(timeout=self.lookup_timeout)
+        opener = urllib2.build_opener(http_handler)
+        req = urllib2.Request(url)
         try:
-            self._message = urllib2.urlopen(url).read()
+            self._message = opener.open(req).read()
             self._warningstate = True
         except (urllib2.HTTPError, OSError), e:
             if (getattr(e, 'code', None) == 404) or (
