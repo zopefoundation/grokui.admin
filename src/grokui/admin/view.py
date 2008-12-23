@@ -30,7 +30,7 @@ from grokui.admin.objectinfo import ZopeObjectInfo
 from grokui.admin.security import SecurityNotifier
 from grokui.admin.utilities import getPathLinksForObject, getPathLinksForClass
 from grokui.admin.utilities import getPathLinksForDottedName, getParentURL
-from grokui.admin.utilities import getURLWithParams
+from grokui.admin.utilities import getURLWithParams, getVersion
 
 from ZODB.broken import Broken
 from ZODB.interfaces import IDatabase
@@ -161,6 +161,14 @@ class GAIAView(grok.View):
 
     """
 
+    @property
+    def grok_version(self):
+        return getVersion('grok')
+
+    @property
+    def grokuiadmin_version(self):
+        return getVersion('grokui.admin')
+    
     def root_url(self, name=None):
         obj = self.context
         result = ""
