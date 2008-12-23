@@ -55,7 +55,7 @@ We can enter an admin message::
 
 If we submit that message, it should appear in the page::
 
-  >>> msg_form = browser.getForm(index=2)
+  >>> msg_form = browser.getForm(index=3)
   >>> msg_form.submit()
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">

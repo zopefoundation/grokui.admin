@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2007 Zope Corporation and Contributors.
+# Copyright (c) 2007-2008 Zope Corporation and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -16,7 +16,10 @@
 import grok
 import os
 import inspect
+import time
 from urllib import urlencode
+
+from grokui.admin.interfaces import ISecurityNotifier
 
 from grokui.admin import docgrok
 from grokui.admin.docgrok import DocGrok, DocGrokPackage, DocGrokModule
@@ -24,9 +27,10 @@ from grokui.admin.docgrok import DocGrokTextFile, DocGrokGrokApplication
 from grokui.admin.docgrok import DocGrokClass, DocGrokInterface, getItemLink
 
 from grokui.admin.objectinfo import ZopeObjectInfo
+from grokui.admin.security import SecurityNotifier
 from grokui.admin.utilities import getPathLinksForObject, getPathLinksForClass
 from grokui.admin.utilities import getPathLinksForDottedName, getParentURL
-from grokui.admin.utilities import getURLWithParams
+from grokui.admin.utilities import getURLWithParams, getVersion
 
 from ZODB.broken import Broken
 from ZODB.interfaces import IDatabase
@@ -63,6 +67,40 @@ grok.context(IRootFolder)
 class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
 
+class GrokAdminInfoView(grok.View):
+    """A base to provide machinereadable views.
+    """
+    grok.name('grokadmin')
+    grok.require('grok.ManageApplications')
+    
+    def render(self):
+        return u'go to @@version or @@secnotes'
+
+class GrokAdminVersion(grok.View):
+    """Display grok version.
+
+    Call this view via http://localhost:8080/@@grokadmin/@@version
+    """
+    grok.name('version')
+    grok.context(GrokAdminInfoView)
+    grok.require('grok.ManageApplications')
+    def render(self):
+        return u'grok %s' % (getVersion('grok'),)
+
+class GrokAdminSecurityNotes(grok.View):
+    """Display current security notification.
+
+    Call this view via http://localhost:8080/@@grokadmin/@@secnote
+    """
+    grok.name('secnote')
+    grok.context(GrokAdminInfoView)
+    grok.require('grok.ManageApplications')
+    def render(self):
+        site = grok.getSite()
+        site_manager = site.getSiteManager()
+        notifier = site_manager.queryUtility(ISecurityNotifier, default=None)
+        return notifier.getNotification()
+    
 class Add(grok.View):
     """Add an application.
     """
@@ -157,6 +195,14 @@ class GAIAView(grok.View):
 
     """
 
+    @property
+    def grok_version(self):
+        return getVersion('grok')
+
+    @property
+    def grokuiadmin_version(self):
+        return getVersion('grokui.admin')
+    
     def root_url(self, name=None):
         obj = self.context
         result = ""
@@ -441,6 +487,36 @@ class Server(GAIAView, ZODBControlView):
     grok.require('grok.ManageApplications')
 
     @property
+    def security_notifier_url(self):
+        """Get the URL to look up for security warnings.
+        """
+        return self.security_notifier.lookup_url
+    
+    @property
+    def security_notifier(self):
+        """Get a local security notifier.
+
+        The security notifier is installed as a local utility by an
+        event handler in the security module.
+        """
+        site = grok.getSite()
+        site_manager = site.getSiteManager()
+        return site_manager.queryUtility(ISecurityNotifier, default=None)
+    
+    @property
+    def secnotes_enabled(self):
+        if self.security_notifier is None:
+            # Safety belt if installation of notifier failed
+            return False
+        return self.security_notifier.enabled
+
+    @property
+    def secnotes_message(self):
+        if self.security_notifier is None:
+            return u'Security notifier is not installed.'
+        return self.security_notifier.getNotification()
+    
+    @property
     def server_control(self):
         return zope.component.queryUtility(IServerControl, '', None)
 
@@ -458,14 +534,35 @@ class Server(GAIAView, ZODBControlView):
         if messages:
             return messages[0]
 
+    def updateSecurityNotifier(self, setsecnotes=None, setsecnotesource=None,
+                               secnotesource=None):
+        if self.security_notifier is None:
+            return
+        if setsecnotesource is not None:
+            self.security_notifier.setLookupURL(secnotesource)
+        if setsecnotes is not None:
+            if self.security_notifier.enabled is True:
+                self.security_notifier.disable()
+            else:
+                self.security_notifier.enable()
+        if self.secnotes_enabled is False:
+            return
+        return
+        
     def update(self, time=None, restart=None, shutdown=None,
-               admin_message=None, submitted=False,
-               dbName="", pack=None, days=0):
+               setsecnotes=None, secnotesource=None, setsecnotesource=None,
+               admin_message=None, submitted=False, dbName="", pack=None,
+               days=0):
 
         # Packing control
         if pack is not None:
             return self.pack(dbName, days)
 
+        # Security notification control
+        self.updateSecurityNotifier(setsecnotes, setsecnotesource,
+                                    secnotesource)
+
+        
         if not submitted:
             return
 

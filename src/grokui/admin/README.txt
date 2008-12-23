@@ -38,7 +38,7 @@ management activities currently possible with GAIA:
 
 
 Applications
-============
+------------
 
 * List of all instanciated applications
 
@@ -60,7 +60,12 @@ Applications
 
 
 Server
-======
+------
+
+* Set security notifications. Those are by default disabled, because
+  they mean home-calling functionality you may do not want. You can
+  enable/disable those notifications or set a URL to retrieve
+  information about security related problems.
 
 * Start/Restart the server. Caution! This does not work, if the server
   was started in 'foreground mode' (with 'zopectl fg').
@@ -83,7 +88,7 @@ Server
 
 
 Documentation
-=============
+-------------
 
 * From here you get starting points to the more elaborated
   documentation features of Grok, namely:
@@ -96,6 +101,25 @@ Documentation
 
     gives documentation to classes, packages and other things, which
     are not instances.
+
+Maintaining grok installations with the admin UI
+================================================
+
+There are some special info views available especially for the use of
+system administrators that want to automate Grok administration in
+some aspects. They provide minimal information about certain topics.
+
+Currently the following infos are available this way:
+
+  - The grok version working in background::
+
+    curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@version"
+
+  - The security notification (if any)::
+
+    curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@secnote"
+
+Beside this you can pack the ZODB databases as described above.
 
 
 Bugs, Caveats and Ways to Get Help
