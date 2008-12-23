@@ -67,6 +67,40 @@ grok.context(IRootFolder)
 class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
 
+class GrokAdminInfoView(grok.View):
+    """A base to provide machinereadable views.
+    """
+    grok.name('grokadmin')
+    grok.require('grok.ManageApplications')
+    
+    def render(self):
+        return u'go to @@version or @@secnotes'
+
+class GrokAdminVersion(grok.View):
+    """Display grok version.
+
+    Call this view via http://localhost:8080/@@grokadmin/@@version
+    """
+    grok.name('version')
+    grok.context(GrokAdminInfoView)
+    grok.require('grok.ManageApplications')
+    def render(self):
+        return u'grok %s' % (getVersion('grok'),)
+
+class GrokAdminSecurityNotes(grok.View):
+    """Display current security notification.
+
+    Call this view via http://localhost:8080/@@grokadmin/@@secnote
+    """
+    grok.name('secnote')
+    grok.context(GrokAdminInfoView)
+    grok.require('grok.ManageApplications')
+    def render(self):
+        site = grok.getSite()
+        site_manager = site.getSiteManager()
+        notifier = site_manager.queryUtility(ISecurityNotifier, default=None)
+        return notifier.getNotification()
+    
 class Add(grok.View):
     """Add an application.
     """
