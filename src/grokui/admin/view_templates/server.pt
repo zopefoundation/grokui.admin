@@ -8,9 +8,6 @@
 	    tal:attributes="action
 	    string:${context/@@absolute_url}/server">
 	<div>
-	  <div tal:replace="view/secnotes_message">Message</div>
-	</div>
-	<div>
 	  You can be notified if serious security-related issues were
 	  discovered that concern your installation.
 	</div>
@@ -18,6 +15,14 @@
 	  Note, that if you enable this, HTTP-lookups of the grok site
 	  will happen to check, whether there are any published
 	  security issues for the installed version of grok.
+	</div>
+	<div>&nbsp;</div>
+	<div>
+	  <label for="secnotesource">URL to lookup:</label>
+	  <input type="text" size="30" name="secnotesource"
+		 tal:attributes="value view/security_notifier_url" />
+	  <input class="button" type="submit" name="setsecnotesource"
+		 value="Set URL" />
 	</div>
 	<div>&nbsp;</div>
 	<div tal:condition="view/secnotes_enabled">
