@@ -8,6 +8,11 @@
 	    tal:attributes="action
 	    string:${context/@@absolute_url}/server">
 	<div>
+	  Running Grok <span tal:replace="view/grok_version" /> /
+	  grokui.admin <span tal:replace="view/grokuiadmin_version" />
+	</div>
+	<div>&nbsp;</div>
+	<div>
 	  You can be notified if serious security-related issues were
 	  discovered that concern your installation.
 	</div>
