@@ -93,7 +93,7 @@ information source::
   >>> import os.path
   >>> fake_source = os.path.join(os.path.dirname(__file__), 'releaseinfo')
   >>> fake_source_url = 'file://%s' % fake_source + os.path.sep
-  >>> sn.lookup_url = fake_source_url
+  >>> sn.setLookupURL(fake_source_url)
 
 Now we can safely enable the notifier and see, whether there are infos
 for us. It is sufficient to call `getNotification()` as this will
@@ -133,10 +133,11 @@ fix the lookup timestamp, we get the real value::
   >>> sn.getNotification()
   'You better smash ...'
 
-Clean up::
+To decide, whether the delivered string is actually a warning, we can
+call the `isWarning` method::
 
-  >>> import os
-  >>> os.unlink(fake_warning_file)
+  >>> sn.isWarning()
+  True
 
   
 `SecurityNotifier` in `grokui.admin`
@@ -181,5 +182,64 @@ warning::
 
   >>> notifier.isWarning()
   False
+
+The notifier we got here is the same as when using the UI. We log into
+the admin screen to set a new notifier URL::
+
+  >>> from zope.testbrowser.testing import Browser
+  >>> browser = Browser()
+  >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
+  >>> browser.open('http://localhost/@@server')
+
+On the server administration page we can see the status of our
+notifier (enabled or disabled)::
+
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ... Status: Security notifications are disabled
+  ...
+
+We can also see the current message which also informs us, if security
+notifications are disabled. This message is displayed on (nearly)
+every `grokui.admin` page::
+
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...
+
+But we are not bound to the default URL to do lookups. We can set
+another one ourselves::
+
+  >>> browser.getControl(name='secnotesource').value=fake_source_url
+  >>> browser.getControl('Set URL').click()
+
+Now, as we set a lookup URL which we can control better, we can enable
+the security notifications::
+
+  >>> browser.getControl('Enable').click()
+
+The result of the lookup again is displayed. This time we get a 'real'
+result::
+
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ...<div id="securitynotifications">You better smash ...</div>
+  ...
+
+We can of course disable security notifications at any time::
+
+  >>> browser.getControl('Disable').click()
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...
+  
+Clean up::
+
+  >>> import os
+  >>> os.unlink(fake_warning_file)
+
+
   
 """
