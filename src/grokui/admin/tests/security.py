@@ -114,8 +114,8 @@ that stores our last tries::
 Ah, there is no security warning for our version. So let us create
 one::
 
-  >>> from grokui.admin.utilities import getGrokVersion
-  >>> version = getGrokVersion()
+  >>> from grokui.admin.utilities import getVersion
+  >>> version = getVersion('grok')
   >>> fake_warning_file = 'grok-%s.security.txt' % version
   >>> fake_warning_file = os.path.join(fake_source, fake_warning_file)
   >>> open(fake_warning_file, 'w').write('You better smash %s' % version)
