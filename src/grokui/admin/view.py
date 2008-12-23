@@ -445,6 +445,12 @@ class Server(GAIAView, ZODBControlView):
     grok.require('grok.ManageApplications')
 
     @property
+    def security_notifier_url(self):
+        """Get the URL to look up for security warnings.
+        """
+        return self.security_notifier.lookup_url
+    
+    @property
     def security_notifier(self):
         """Get a local security notifier.
 
@@ -486,14 +492,12 @@ class Server(GAIAView, ZODBControlView):
         if messages:
             return messages[0]
 
-    def emitSecurityNotification(self):
-        message = self.secnotes_message
-        self.flash(message)
-        return
-
-    def updateSecurityNotifier(self, setsecnotes=None):
+    def updateSecurityNotifier(self, setsecnotes=None, setsecnotesource=None,
+                               secnotesource=None):
         if self.security_notifier is None:
             return
+        if setsecnotesource is not None:
+            self.security_notifier.setLookupURL(secnotesource)
         if setsecnotes is not None:
             if self.security_notifier.enabled is True:
                 self.security_notifier.disable()
@@ -501,19 +505,21 @@ class Server(GAIAView, ZODBControlView):
                 self.security_notifier.enable()
         if self.secnotes_enabled is False:
             return
-        self.emitSecurityNotification()
         return
         
     def update(self, time=None, restart=None, shutdown=None,
-               setsecnotes=None, admin_message=None, submitted=False,
-               dbName="", pack=None, days=0):
+               setsecnotes=None, secnotesource=None, setsecnotesource=None,
+               admin_message=None, submitted=False, dbName="", pack=None,
+               days=0):
 
         # Packing control
         if pack is not None:
             return self.pack(dbName, days)
 
         # Security notification control
-        self.updateSecurityNotifier(setsecnotes)
+        self.updateSecurityNotifier(setsecnotes, setsecnotesource,
+                                    secnotesource)
+
         
         if not submitted:
             return
