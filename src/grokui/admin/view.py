@@ -77,15 +77,18 @@ class GrokAdminInfoView(grok.View):
         return u'go to @@version or @@secnotes'
 
 class GrokAdminVersion(grok.View):
-    """Display grok version.
+    """Display version of a package.
 
-    Call this view via http://localhost:8080/@@grokadmin/@@version
+    Call this view via http://localhost:8080/@@grokadmin/@@version to
+    get the used grok version. Call
+    http://localhost:8080/@@grokadmin/@@version?pkg=<pkgname> to get
+    the used version of package <pkgname>.
     """
     grok.name('version')
     grok.context(GrokAdminInfoView)
     grok.require('grok.ManageApplications')
-    def render(self):
-        return u'grok %s' % (getVersion('grok'),)
+    def render(self, pkg='grok'):
+        return u'%s %s' % (pkg, getVersion(pkg))
 
 class GrokAdminSecurityNotes(grok.View):
     """Display current security notification.
