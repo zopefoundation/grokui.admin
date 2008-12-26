@@ -52,6 +52,21 @@ oiptional bugfix release number like 'grok 0.14.1'::
   >>> re.match('^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
   <_sre.SRE_Match object at 0x...>
 
+
+Getting the version of any other installed package
+--------------------------------------------------
+
+If we want to determine the versions of packages, then we are not
+restricted to the `grok` package. We can also ask for other packages
+by passing a `pkg` parameter.
+
+To determine the used version of `grokui.admin` we can call::
+
+  >>> browser.open('http://localhost/@@grokadmin/@@version?pkg=grokui.admin')
+  >>> print browser.contents[:16]
+  grokui.admin 0.4
+
+
 Getting the current security notification
 -----------------------------------------
 
