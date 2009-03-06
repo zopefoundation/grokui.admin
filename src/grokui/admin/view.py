@@ -613,9 +613,6 @@ class Server(GAIAView, ZODBControlView):
             self.flash('Error: Invalid Number')
             return
         db = zope.component.getUtility(IDatabase, name=dbName)
-        print "DB: ", db, days
-        db.pack(days=days)
-        return
         try:
             db.pack(days=days)
             self.flash('ZODB `%s` successfully packed.' % (dbName))
