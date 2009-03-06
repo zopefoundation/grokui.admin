@@ -56,7 +56,6 @@ from zope.app.security.interfaces import ILogout, IAuthentication
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.exceptions import DuplicationError
 from zope.proxy import removeAllProxies
-from zope.security.management import getInteraction
 from zope.tal.taldefs import attrEscape
 from ZODB.FileStorage.FileStorage import FileStorageError
 
@@ -405,24 +404,12 @@ class Inspect(GAIAView):
 
 
 class Index(GAIAView):
-    """A redirector to the real frontpage.
-
-    If a user is not authenticated, we redirect to the
-    login form. This avoids raising of Unauthorized exceptions, if
-    the debugger is used.
-    """
+    """A redirector to the real frontpage."""
 
     grok.name('index.html') # The root folder is not a grok.Model
+    grok.require('grok.ManageApplications')
 
     def update(self):
-        interaction = getInteraction()
-        if not interaction.checkPermission('grok.ManageApplications',
-                                           self.context):
-            # If the user is has no proper permissions we redirect to
-            # the login form, which pops up a basic-auth by default.
-            self.redirect(
-                'login.html?nextURL=%s' % self.url())
-            return
         apps = zope.component.getAllUtilitiesRegisteredFor(
             grok.interfaces.IApplication)
         self.applications = ("%s.%s" % (x.__module__, x.__name__)
