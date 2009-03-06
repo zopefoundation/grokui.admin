@@ -19,15 +19,6 @@ Feature changes
 
     - Current security notification (if any).
 
-Bug fixes
----------
-
-* Fix bug: https://bugs.launchpad.net/grok/+bug/332061
-
-  If the root folders default view is called, now a basic-auth dialog
-  pops up instead of raising an `Unauthorized` exception. Now
-  developers can authenticate also when using ``debug.ini``.
-
 0.3 (2008-12-13)
 ================
 
