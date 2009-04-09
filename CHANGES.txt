@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-0.3.1 (unreleased)
+0.3.1 (2009-04-09)
 ==================
 
 * Fixed missing dependencies in setup.py.
