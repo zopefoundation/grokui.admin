@@ -4,6 +4,8 @@ grokui.admin changes
 0.3.1 (unreleased)
 ==================
 
+* Fixed missing dependencies in setup.py.
+
 0.3 (2008-12-13)
 ================
 
