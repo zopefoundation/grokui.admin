@@ -19,6 +19,13 @@ Feature changes
 
     - Current security notification (if any).
 
+Bug fixes
+---------
+
+* Added dependency for zope.app.preference. This is needed by
+  zope.app.apidoc but not alway fetched.
+
+
 0.3 (2008-12-13)
 ================
 
