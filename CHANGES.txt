@@ -1,8 +1,12 @@
 grokui.admin changes
 ********************
 
-0.3.2 (unreleased)
+0.3.2 (2009-04-10)
 ==================
+
+* Fixed sometimes missing zope.app.preference dependency. This is
+  required by zope.app.apidoc, but sometimes it seems not to be
+  installed.
 
 0.3.1 (2009-04-09)
 ==================
