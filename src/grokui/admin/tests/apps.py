@@ -122,12 +122,13 @@ We are able to delete installed mammoth-managers
 """
 
 import grok
+import grokcore.view
 
 class MammothManager(grok.Application, grok.Container):
     """A mammoth manager"""
     pass
 
-class Index(grok.View):#
+class Index(grokcore.view.CodeView):
 
     def render(self):
         return u"Let's manage some mammoths!"

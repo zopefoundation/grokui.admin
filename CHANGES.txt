@@ -7,6 +7,9 @@ grokui.admin changes
 Feature changes
 ---------------
 
+* Adapting this package to use the new version of grokcore.view 
+  which splits View into CodeView.
+
 * Added a security notifier to inform users when security issues are
   published on http://grok.zope.org. The notifier must be explicitly
   enabled. You can also run your own site/directory to place security

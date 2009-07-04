@@ -60,14 +60,17 @@ from zope.tal.taldefs import attrEscape
 from ZODB.FileStorage.FileStorage import FileStorageError
 
 import z3c.flashmessage.interfaces
-
-
+import grokcore.view
 grok.context(IRootFolder)
+
+def flash(message, type='message'):
+    src = zope.component.getUtility(z3c.flashmessage.interfaces.IMessageSource, name='session')
+    src.send(message, type)
 
 class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
 
-class GrokAdminInfoView(grok.View):
+class GrokAdminInfoView(grokcore.view.CodeView):
     """A base to provide machinereadable views.
     """
     grok.name('grokadmin')
@@ -76,7 +79,7 @@ class GrokAdminInfoView(grok.View):
     def render(self):
         return u'go to @@version or @@secnotes'
 
-class GrokAdminVersion(grok.View):
+class GrokAdminVersion(grokcore.view.CodeView):
     """Display version of a package.
 
     Call this view via http://localhost:8080/@@grokadmin/@@version to
@@ -90,7 +93,7 @@ class GrokAdminVersion(grok.View):
     def render(self, pkg='grok'):
         return u'%s %s' % (pkg, getVersion(pkg))
 
-class GrokAdminSecurityNotes(grok.View):
+class GrokAdminSecurityNotes(grokcore.view.CodeView):
     """Display current security notification.
 
     Call this view via http://localhost:8080/@@grokadmin/@@secnote
@@ -104,7 +107,7 @@ class GrokAdminSecurityNotes(grok.View):
         notifier = site_manager.queryUtility(ISecurityNotifier, default=None)
         return notifier.getNotification()
     
-class Add(grok.View):
+class Add(grokcore.view.CodeView):
     """Add an application.
     """
 
@@ -127,15 +130,15 @@ class Add(grok.View):
                                         name=application)
         try:
             self.context[name] = app()
-            self.flash(u'Added %s `%s`.' % (application, name))
+            flash(u'Added %s `%s`.' % (application, name))
         except DuplicationError:
-            self.flash(
+            flash(
                 u'Name `%s` already in use. Please choose another name.' % (
                 name,))
         self.redirect(self.url(self.context))
 
 
-class ManageApps(grok.View):
+class ManageApps(grokcore.view.CodeView):
     """Manage applications (delete, rename).
     """
 
@@ -169,7 +172,7 @@ class ManageApps(grok.View):
                 msg = (u'%sBroken application `%s` was successfully '
                        u'deleted.\n' % (msg, name))
 
-        self.flash(msg)
+        flash(msg)
         self.redirect(self.url(self.context))
 
     def render(self, rename=None, delete=None, items=None):
@@ -189,7 +192,7 @@ class ManageApps(grok.View):
         self.redirect(self.url(self.context))
 
 
-class GAIAView(grok.View):
+class GAIAViewBase(object):
     """A grok.View with a special application_url.
 
     We have to compute the application_url different from common
@@ -205,7 +208,7 @@ class GAIAView(grok.View):
     @property
     def grokuiadmin_version(self):
         return getVersion('grokui.admin')
-    
+
     def root_url(self, name=None):
         obj = self.context
         result = ""
@@ -223,6 +226,15 @@ class GAIAView(grok.View):
         """
         return not IUnauthenticatedPrincipal.providedBy(self.request.principal)
 
+
+class GAIAView(GAIAViewBase, grok.View):
+    """ Base Class for grok.View"""
+    grok.baseclass()
+
+
+class GAIACodeView(GAIAViewBase, grokcore.view.CodeView):    
+    """ Base Class for grokcore.view.CodeView"""
+    grok.baseclass()
 
 class GrokAdminMacros(GAIAView):
     """Provides the o-wrap layout."""
@@ -259,15 +271,15 @@ class Rename(GAIAView):
             if oldname == newname:
                 continue
             if oldname not in self.context.keys():
-                self.flash('Could not rename %s: not found' % oldname)
+                flash('Could not rename %s: not found' % oldname)
                 continue
             if newname in self.context.keys():
-                self.flash('`%s` already exists.' % newname)
+                flash('`%s` already exists.' % newname)
                 continue
             self.context[newname] = self.context[oldname]
             self.context[newname].__name__ = newname
             del self.context[oldname]
-            self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
+            flash('Renamed `%s` to `%s`.' % (oldname, newname))
         self.redirect(self.url(self.context))
         return
 
@@ -597,7 +609,7 @@ class Server(GAIAView, ZODBControlView):
         try:
             days = int(days)
         except ValueError:
-            self.flash('Error: Invalid Number')
+            flash('Error: Invalid Number')
             return
         db = zope.component.getUtility(IDatabase, name=dbName)
         print "DB: ", db, days
@@ -605,9 +617,9 @@ class Server(GAIAView, ZODBControlView):
         return
         try:
             db.pack(days=days)
-            self.flash('ZODB `%s` successfully packed.' % (dbName))
+            flash('ZODB `%s` successfully packed.' % (dbName))
         except FileStorageError, err:
-            self.flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
+            flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
 
 
 class Users(GAIAView):
