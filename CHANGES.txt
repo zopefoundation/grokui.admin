@@ -25,6 +25,10 @@ Bug fixes
 * Added dependency for zope.app.preference. This is needed by
   zope.app.apidoc but not alway fetched.
 
+* Upgraded the versions to the alpha 4 list to avoid a dependency
+  problem with zope.container versions.
+
+* Include the new grok.View permissions for testing.
 
 0.3 (2008-12-13)
 ================
