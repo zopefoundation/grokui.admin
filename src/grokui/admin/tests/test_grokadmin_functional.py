@@ -11,7 +11,8 @@ from zope.app.testing.functional import (HTTPCaller, getRootFolder,
 ftesting_zcml = os.path.join(os.path.dirname(grokui.admin.__file__),
                              'ftesting.zcml')
 GrokAdminFunctionalLayer = ZCMLLayer(ftesting_zcml, __name__,
-                                     'GrokAdminFunctionalLayer')
+                                     'GrokAdminFunctionalLayer',
+                                     allow_teardown = True)
 
 def setUp(test):
     FunctionalTestSetup().setUp()
