@@ -66,13 +66,16 @@ And clean up after ourselves.
 """
 
 import grok
-import grokcore.view
+try:
+    from grokcore.view import CodeView as View
+except ImportError:
+    from grok import View
 
 class StuffedMammoth(grok.Application, grok.Container):
     """A stuffed mammoth"""
     stuffing = None
 
-class Index(grokcore.view.CodeView):#
+class Index(View):#
 
     def update(self, stuffing=None):
         if stuffing is not None:
