@@ -195,9 +195,8 @@ we have registered a special docgrok for Mammoth-things, we get::
 
 """
 import grok
-import grokcore.view
 from grokui.admin.docgrok import DocGrok, DocGrokHandler
-from grokui.admin.view import DocGrokView
+from grokui.admin.view import DocGrokView, GrokCoreViewOrCodeView
 
 class Mammoth(object):
     """A (large) thing, we want to document later on.
@@ -229,7 +228,7 @@ class DocGrokForMammothsHandler(DocGrokHandler):
             return
         return DocGrokForMammoths(dotted_path)
 
-class DocGrokViewForMammoths(grokcore.view.CodeView):
+class DocGrokViewForMammoths(GrokCoreViewOrCodeView):
     """A view, that should fit into the other docgrok documentation.
     """
     # We bind to the docgrok which provides us with information about
