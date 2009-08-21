@@ -60,7 +60,13 @@ from zope.tal.taldefs import attrEscape
 from ZODB.FileStorage.FileStorage import FileStorageError
 
 import z3c.flashmessage.interfaces
-import grokcore.view
+try:
+    # For grokcore.view >= 1.9 working sets...
+    from grokcore.view import CodeView as GrokCoreViewOrCodeView
+except ImportError:
+    # For grokcore.view < 1.9 working sets...
+    from grok import View as GrokCoreViewOrCodeView
+    
 grok.context(IRootFolder)
 
 def flash(message, type='message'):
@@ -70,7 +76,7 @@ def flash(message, type='message'):
 class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
 
-class GrokAdminInfoView(grokcore.view.CodeView):
+class GrokAdminInfoView(GrokCoreViewOrCodeView):
     """A base to provide machinereadable views.
     """
     grok.name('grokadmin')
@@ -79,7 +85,7 @@ class GrokAdminInfoView(grokcore.view.CodeView):
     def render(self):
         return u'go to @@version or @@secnotes'
 
-class GrokAdminVersion(grokcore.view.CodeView):
+class GrokAdminVersion(GrokCoreViewOrCodeView):
     """Display version of a package.
 
     Call this view via http://localhost:8080/@@grokadmin/@@version to
@@ -93,7 +99,7 @@ class GrokAdminVersion(grokcore.view.CodeView):
     def render(self, pkg='grok'):
         return u'%s %s' % (pkg, getVersion(pkg))
 
-class GrokAdminSecurityNotes(grokcore.view.CodeView):
+class GrokAdminSecurityNotes(GrokCoreViewOrCodeView):
     """Display current security notification.
 
     Call this view via http://localhost:8080/@@grokadmin/@@secnote
@@ -107,7 +113,7 @@ class GrokAdminSecurityNotes(grokcore.view.CodeView):
         notifier = site_manager.queryUtility(ISecurityNotifier, default=None)
         return notifier.getNotification()
     
-class Add(grokcore.view.CodeView):
+class Add(GrokCoreViewOrCodeView):
     """Add an application.
     """
 
@@ -138,7 +144,7 @@ class Add(grokcore.view.CodeView):
         self.redirect(self.url(self.context))
 
 
-class ManageApps(grokcore.view.CodeView):
+class ManageApps(GrokCoreViewOrCodeView):
     """Manage applications (delete, rename).
     """
 
@@ -232,7 +238,7 @@ class GAIAView(GAIAViewBase, grok.View):
     grok.baseclass()
 
 
-class GAIACodeView(GAIAViewBase, grokcore.view.CodeView):    
+class GAIACodeView(GAIAViewBase, GrokCoreViewOrCodeView):    
     """ Base Class for grokcore.view.CodeView"""
     grok.baseclass()
 
