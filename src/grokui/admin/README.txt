@@ -111,13 +111,13 @@ some aspects. They provide minimal information about certain topics.
 
 Currently the following infos are available this way:
 
-  - The grok version working in background::
+* The grok version working in background::
 
-    curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@version"
+   curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@version"
 
-  - The security notification (if any)::
+* The security notification (if any)::
 
-    curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@secnote"
+   curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@secnote"
 
 Beside this you can pack the ZODB databases as described above.
 
