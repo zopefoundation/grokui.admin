@@ -25,13 +25,21 @@ Feature changes
 Bug fixes
 ---------
 
-* Added dependency for zope.app.preference. This is needed by
-  zope.app.apidoc but not always fetched.
-
 * Upgraded the versions to the alpha 4 list to avoid a dependency
   problem with zope.container versions.
 
 * Include the new grok.View permissions for testing.
+
+0.3.2 (2009-04-10)
+==================
+
+* Added dependency for zope.app.preference. This is needed by
+  zope.app.apidoc but not always fetched.
+
+0.3.1 (2009-04-09)
+==================
+
+* Fixed missing dependencies in setup.py.
 
 0.3 (2008-12-13)
 ================
