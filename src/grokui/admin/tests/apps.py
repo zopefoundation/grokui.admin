@@ -123,7 +123,7 @@ We are able to delete installed mammoth-managers
 
 import grok
 try:
-    from grokcore.component import CodeView as View
+    from grokcore.view import CodeView as View
 except ImportError:
     from grok import View
 from grokui.admin.view import GrokCoreViewOrCodeView
