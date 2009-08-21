@@ -26,7 +26,7 @@ Bug fixes
 ---------
 
 * Added dependency for zope.app.preference. This is needed by
-  zope.app.apidoc but not alway fetched.
+  zope.app.apidoc but not always fetched.
 
 * Upgraded the versions to the alpha 4 list to avoid a dependency
   problem with zope.container versions.
