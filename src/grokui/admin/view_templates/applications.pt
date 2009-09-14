@@ -20,12 +20,8 @@
 				 name string:items" />
 	  <a tal:attributes="href string:${context/@@absolute_url}/${app/__name__}">
 	    <span tal:replace="app/__name__"/>
-	    (<span tal:replace="app/__class__/__name__"/>)
 	  </a>
-	  &nbsp;&nbsp;
-	  [<a href=""
-	      tal:attributes="href string:${context/@@absolute_url}/${app/__name__}/@@inspect.html"
-	      >object browser</a>]
+	    (<span tal:replace="app/__module__"/>.<span tal:replace="app/__class__/__name__"/>)
 	</div>
 
 	<div tal:condition="view/broken_applications">
@@ -60,13 +56,13 @@
 	<form action="" tal:attributes="action string:${context/@@absolute_url}/add;
                                         name python: app['name'].split('.')[-1]">
 	  <div class="menu-box2">
-	    <div class="menu-head1"><a href=""
-				       tal:attributes="href string:${context/@@absolute_url}/docgrok/${app/docurl}"
-				       tal:content="app/name">Application Name</a></div>
+	    <div class="menu-head1">
+	      <h3 tal:content="app/name">Application Name</h3>
+	    </div>
 	    <div class="menu-description1">
-	      <span tal:replace="structure python: view.getDocOfApp(app['name']) or ''">
+	      <p tal:replace="structure app/name/__doc__">
 		Application description here.
-	      </span>
+	      </p>
 	    </div>
 	    <div class="menu-box3">
 	      <label>Name your new app: <input type="text" name="name"/></label>

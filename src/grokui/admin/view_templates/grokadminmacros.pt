@@ -71,12 +71,6 @@
             Server Control
           </span>
         </span>
-        &nbsp;&nbsp;
-        <a href=""
-          tal:attributes="href string:${view/root_url}/docgrok/">
-          <span tal:attributes="class python:view.in_docgrok() and 'emph'"
-            >Documentation</span>
-        </a>
       </div>
 
         <div id="content">

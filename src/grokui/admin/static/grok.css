@@ -200,6 +200,10 @@ border:1px solid #fc9;
 padding:0.5em;
 }
 
+.menu-box3 {
+  margin: 1em 0.5em;
+}
+
 .menu-description1 {
 margin-left:1.5em;
 }
@@ -208,59 +212,10 @@ margin-left:1.5em;
 width: 40em;
 }
 
-/* ---- docgrok related ---- */
-.docgrok-entry {
-margin-bottom:0.5em;
+.menu-head1 h3 {
+  margin: 0.2em 0.3em;
 }
 
-.docgrok-value { 
-margin-left:2em;
-}
-
-.docgrok-pathvalue {
-font-family:courier;
-}
-
-.docgrok-annotation1 {
-margin-left:2em;
-}
-
-.docgrok-annotation2 {
-margin-left:5em;
-}
-
-.docgrok-pycode1 {
-color:#00f;
-font-family:courier;
-}
-
-.docgrok-sourcetext {
-background-color:#f8f8f8;
-border:2px groove #eee;
-margin:1em;
-padding:1.5em;
-}
-
-.docgrok-sourceheader {
-background-color:#fff;
-}
-
-.docgrok-table { 
-font-size:1.0em;
-empty-cells:show;
-border-collapse:separate;
-}
-.docgrok-table th { 
-padding-left:3px;
-padding-right:3px;
-border:1px solid #eee;
-}
-.docgrok-table td {
-min-height:1.0em;
-padding-left:5px;
-padding-right:5px;
-
-}
 
 /* --- system proces related --- */
 div#server-processes {

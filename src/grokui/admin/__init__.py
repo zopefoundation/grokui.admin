@@ -13,3 +13,10 @@
 ##############################################################################
 # a package
 __import__('pkg_resources').declare_namespace(__name__)
+
+
+import grok
+
+class Test(grok.Container, grok.Application):
+    """test
+    """
