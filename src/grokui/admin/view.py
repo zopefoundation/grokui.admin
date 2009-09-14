@@ -135,7 +135,9 @@ class Add(GrokCoreViewOrCodeView):
         app = zope.component.getUtility(grok.interfaces.IApplication,
                                         name=application)
         try:
-            self.context[name] = app()
+            new_app = app()
+            grok.notify(grok.ObjectCreatedEvent(new_app))
+            self.context[name] = new_app
             flash(u'Added %s `%s`.' % (application, name))
         except DuplicationError:
             flash(
