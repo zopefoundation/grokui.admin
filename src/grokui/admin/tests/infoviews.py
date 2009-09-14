@@ -64,7 +64,7 @@ To determine the used version of `grokui.admin` we can call::
 
   >>> browser.open('http://localhost/@@grokadmin/@@version?pkg=grokui.admin')
   >>> print browser.contents[:16]
-  grokui.admin 0.4
+  grokui.admin 0.5
 
 
 Getting the current security notification
