@@ -18,11 +18,9 @@ import unittest
 from pkg_resources import resource_listdir
 from zope.testing import doctest, cleanup
 import zope.component.eventtesting
-from zope.annotation.attribute import AttributeAnnotations
 
 def setUpZope(test):
     zope.component.eventtesting.setUp(test)
-    zope.component.provideAdapter(AttributeAnnotations)
 
 def cleanUpZope(test):
     cleanup.cleanUp()
