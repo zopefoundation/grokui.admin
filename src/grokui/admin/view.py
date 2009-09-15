@@ -282,10 +282,6 @@ class Applications(AdminViewBase):
 
 
     def update(self):
-        from ZODB import broken
-
-        from zope.app.broken.broken import IBroken
-
         # Available apps...
         apps = zope.component.getAllUtilitiesRegisteredFor(
             grok.interfaces.IApplication)
