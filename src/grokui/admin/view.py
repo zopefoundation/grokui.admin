@@ -21,7 +21,7 @@ from grokui.admin.utilities import getVersion, getURLWithParams
 
 from ZODB.broken import Broken
 from ZODB.interfaces import IDatabase
-from BTrees.OBTree import OOBTree
+from BTrees.OOBTree import OOBTree
 
 import zope.component
 from zope.interface import Interface
