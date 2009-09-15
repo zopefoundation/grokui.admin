@@ -300,7 +300,8 @@ class Applications(AdminViewBase):
             grok.interfaces.IApplication)
         self.applications = (
             {'name': "%s.%s" % (x.__module__, x.__name__),
-             'docurl':("%s.%s" % (x.__module__, x.__name__)).replace('.', '/')}
+             'docurl':("%s.%s" % (x.__module__, x.__name__)).replace('.', '/'),
+             'descr': x.__doc__}
             for x in apps)
 
         # Installed apps...
