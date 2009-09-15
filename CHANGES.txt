@@ -4,6 +4,12 @@ grokui.admin changes
 0.5 (unreleased)
 ================
 
+Feature changes
+---------------
+
+* The whole introspector stuff was removed in order to reduce number
+  of dependencies.
+
 Bug fixes
 ---------
 
