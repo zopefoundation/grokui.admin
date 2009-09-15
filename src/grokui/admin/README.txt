@@ -46,17 +46,11 @@ Applications
 
 * You can rename instances of Grok applications
 
-* For each installed application you can directly call:
-
-  - the object browser (telling you more about this concrete object)
-
-  - the class browser (telling you more about the class of your app)
-
-* For each available application type you can directly call:
-
-  - the class browser (telling you more about the class of your app)
-
 * You can delete your installed applications.
+
+.. note:: starting with version 0.5 there is no introspector/class
+   browser included in `grokui.admin` anymore. Eventually this will be
+   made availabel in another package by someone else.
 
 
 Server
@@ -87,20 +81,6 @@ Server
   the empty string in the appropriate input box.
 
 
-Documentation
--------------
-
-* From here you get starting points to the more elaborated
-  documentation features of Grok, namely:
-
-  - The object browser:
-
-    helps browsing the ZODB and other objects.
-
-  - The class browser:
-
-    gives documentation to classes, packages and other things, which
-    are not instances.
 
 Maintaining grok installations with the admin UI
 ================================================
