@@ -14,50 +14,42 @@
 """Views for the grok admin UI"""
 
 import grok
-import os
-import inspect
-import time
-from urllib import urlencode
+import z3c.flashmessage.interfaces
 
 from grokui.admin.interfaces import ISecurityNotifier
-
-from grokui.admin.security import SecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 
 from ZODB.broken import Broken
 from ZODB.interfaces import IDatabase
-from BTrees.OOBTree import OOBTree
+from BTrees.OBTree import OOBTree
 
 import zope.component
 from zope.interface import Interface
-from zope.interface.interface import InterfaceClass
 from zope.app.applicationcontrol.interfaces import IServerControl
 from zope.app.applicationcontrol.applicationcontrol import applicationController
-from zope.app.applicationcontrol.runtimeinfo import RuntimeInfo
 from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
 from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView
 from zope.app.folder.interfaces import IRootFolder
-from zope.app.security.interfaces import ILogout, IAuthentication
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.exceptions import DuplicationError
-from zope.proxy import removeAllProxies
-from zope.tal.taldefs import attrEscape
 from ZODB.FileStorage.FileStorage import FileStorageError
 
-import z3c.flashmessage.interfaces
 try:
     # For grokcore.view >= 1.9 working sets...
     from grokcore.view import CodeView as GrokCoreViewOrCodeView
 except ImportError:
     # For grokcore.view < 1.9 working sets...
     from grok import View as GrokCoreViewOrCodeView
+
     
 grok.context(IRootFolder)
 
-def flash(message, type='message'):
-    src = zope.component.getUtility(z3c.flashmessage.interfaces.IMessageSource, name='session')
-    src.send(message, type)
 
+def flash(message, type='message'):
+    src = zope.component.getUtility(
+        z3c.flashmessage.interfaces.IMessageSource, name='session'
+        )
+    src.send(message, type)
 
 
 class ManageApplications(grok.Permission):
@@ -225,7 +217,6 @@ class ManageApps(GrokCoreViewOrCodeView):
         self.redirect(self.url(self.context))
 
 
-
 class Rename(AdminViewBase):
     """Rename Grok applications.
     """
@@ -343,10 +334,9 @@ class AdminMessageSource(grok.GlobalUtility):
 
 
 class GrokAdminMacros(AdminViewBase):
-    """Provides the o-wrap layout."""
-
+    """Provides the o-wrap layout.
+    """
     grok.context(Interface)
-
 
 
 class Server(AdminViewBase, ZODBControlView):

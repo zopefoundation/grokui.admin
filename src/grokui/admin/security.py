@@ -7,18 +7,21 @@ import cgi
 import time
 import urllib2
 import urlparse
+
+from persistent import Persistent
+from zope.component import adapter, provideHandler
 from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
 from zope.app.folder.interfaces import IRootFolder
-from zope.component import adapter, provideHandler
-from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
+
 
 class SecurityScreen(grok.ViewletManager):
     """A viewlet manager that keeps security related notifications.
     """
     grok.name('grokadmin_security')
     grok.context(IRootFolder)
+
 
 class SecurityNotificationViewlet(grok.Viewlet):
     """Viewlet displaying notifications from a local `SecurityNotifier`.
@@ -38,6 +41,7 @@ class SecurityNotificationViewlet(grok.Viewlet):
 
     def render(self):
         return self.security_notifier.getNotification()
+
 
 class SecurityNotifier(Persistent):
     """A security notifier.
@@ -143,6 +147,7 @@ class SecurityNotifier(Persistent):
         self.last_display = time.time()
         return
 
+
 def setupSecurityNotification(site):
     """Setup a SecurityNotifier as persistent utility.
 
@@ -162,6 +167,7 @@ def setupSecurityNotification(site):
     utility = site_manager['grokadmin_security']
     site_manager.registerUtility(utility, ISecurityNotifier, name=u'')
     return
+
     
 @adapter(IDatabaseOpenedWithRootEvent)
 def securitySetupHandler(event):
@@ -171,6 +177,7 @@ def securitySetupHandler(event):
     
     db, connection, root, root_folder = getInformationFromEvent(event)
     setupSecurityNotification(root_folder)
-    
+
+
 # ...then install the event handler:
 provideHandler(securitySetupHandler)
