@@ -60,7 +60,7 @@
 	      <h3 tal:content="app/name">Application Name</h3>
 	    </div>
 	    <div class="menu-description1">
-	      <p tal:replace="structure app/name/__doc__">
+	      <p tal:replace="structure app/descr">
 		Application description here.
 	      </p>
 	    </div>
