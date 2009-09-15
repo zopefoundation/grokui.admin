@@ -459,28 +459,3 @@ class Server(AdminViewBase, ZODBControlView):
             flash('ZODB `%s` successfully packed.' % (dbName))
         except FileStorageError, err:
             flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
-
-
-class Users(AdminViewBase):
-    """Users management screen.
-    """
-    grok.name('users')
-    grok.require('grok.ManageApplications')
-
-    def getPrincipals(self):
-        from grok.admin import AUTH_FOLDERNAME, USERFOLDER_NAME
-
-        sm = self.context.getSiteManager()
-        if AUTH_FOLDERNAME not in list(sm.keys()):
-            return []
-        pau = sm[AUTH_FOLDERNAME]
-        if USERFOLDER_NAME not in list(pau.keys()):
-            return []
-        userfolder = pau[USERFOLDER_NAME]
-        users = list(userfolder.search({'search':''}))
-        return [userfolder.principalInfo(x) for x in users]
-
-
-    def update(self):
-        self.principals = self.getPrincipals()
-        pass
