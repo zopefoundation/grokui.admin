@@ -18,11 +18,11 @@ Create a mammoth-manager, and stuff it with data which can be packed.
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open("http://localhost/")
+
   >>> subform = browser.getForm(name='StuffedMammoth')
   >>> subform.getControl('Name your new app:').value = 'my-stuffed-mammoth'
   >>> subform.getControl('Create').click()
-
-  >>> mylink = browser.getLink('my-stuffed-mammoth (StuffedMammoth)').click()
+  >>> mylink = browser.getLink('my-stuffed-mammoth').click()
 
 Stuff this mammoth.
   >>> url = browser.url

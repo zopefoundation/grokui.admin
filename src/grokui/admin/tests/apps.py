@@ -52,22 +52,12 @@ We are able to add a mammoth manager...
 
 Launch the added mammoth manager
 
-  >>> mylink = browser.getLink('my-mammoth-manager (MammothManager)').click()
+  >>> mylink = browser.getLink('my-mammoth-manager').click()
   >>> print browser.contents
   Let's manage some mammoths!
 
   >>> print browser.url
   http://localhost/my-mammoth-manager
-
-We can go to the object browser for every installed application:
-
-  >>> browser.open("http://localhost/applications")
-  >>> browser.getLink('object browser').click()
-  >>> print browser.contents
-  <html xmlns="http://www.w3.org/1999/xhtml">
-  ...
-  ...<span ...>...<a href=...>MammothManager</a> object at ...></span>
-  ... 
 
 We can also rename applications. For this we choose the application we
 installed and click `Rename`::
@@ -97,7 +87,6 @@ Our app was indeed renamed::
   ...
   ...<a href="http://localhost/my-new-mammoth-manager">
   ...my-new-mammoth-manager
-  ...(MammothManager)
   ...
   
 We are able to delete installed mammoth-managers
