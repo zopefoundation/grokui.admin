@@ -12,4 +12,7 @@
 #
 ##############################################################################
 # a package
-
+import grok
+class Test(grok.Application, grok.Container):
+    """My super application
+    """

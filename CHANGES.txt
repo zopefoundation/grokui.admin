@@ -4,6 +4,8 @@ grokui.admin changes
 0.6 (unreleased)
 ================
 
+* Reflect the changes in grokcore.view 1.12 where View and CodeView become a single View again.
+
 
 0.5 (2009-09-15)
 ================
