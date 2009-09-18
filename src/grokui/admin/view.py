@@ -181,7 +181,7 @@ class ManageApps(grok.View):
                 msg = (u'%sBroken application `%s` was successfully '
                        u'deleted.\n' % (msg, name))
 
-        flash(msg)
+        self.flash(msg)
         self.redirect(self.url(self.context))
 
     def render(self, rename=None, delete=None, items=None):
@@ -230,15 +230,15 @@ class Rename(AdminViewBase):
             if oldname == newname:
                 continue
             if oldname not in self.context.keys():
-                flash('Could not rename %s: not found' % oldname)
+                self.flash('Could not rename %s: not found' % oldname)
                 continue
             if newname in self.context.keys():
-                flash('`%s` already exists.' % newname)
+                self.flash('`%s` already exists.' % newname)
                 continue
             self.context[newname] = self.context[oldname]
             self.context[newname].__name__ = newname
             del self.context[oldname]
-            flash('Renamed `%s` to `%s`.' % (oldname, newname))
+            self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
         self.redirect(self.url(self.context))
         return
 

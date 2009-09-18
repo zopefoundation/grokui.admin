@@ -1,5 +1,5 @@
 <form tal:define="apps context/values"
-      tal:attributes="action string:${context/@@absolute_url}/manageapps">
+      tal:attributes="action string:${view/url}/manageapps">
 
   <fieldset>
     <legend>Installed applications</legend>
@@ -20,6 +20,7 @@
 	<span tal:replace="app/__name__"/>
       </a>
       (<span tal:replace="app/classname"/>)
+      <div tal:content="app/@@info" />
     </div>
 
     <div tal:condition="view/broken">
@@ -53,7 +54,7 @@
   <div class="menu-box1"
        tal:repeat="app view/installable">
     <form action=""
-	  tal:attributes="action string:${context/@@absolute_url}/add;
+	  tal:attributes="action string:${view/url}/add;
 			  name app/__name__">
       <div class="menu-box2">
 	<div class="menu-head1">
@@ -64,7 +65,7 @@
 	    Application description here.
 	  </p>
 	</div>
-	<div tal:replace="app/@@info" />
+	<div tal:content="app/@@info" />
 	<div class="menu-box3">
 	  <label>Name your new app: <input type="text" name="name"/></label>
 	  <input type="hidden" name="application" value=""
