@@ -4,6 +4,7 @@ from zope.traversing.browser import absoluteURL
 from zope.contentprovider.interfaces import IContentProvider
 from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
 from grokui.base.layout import AdminView
+from grokui.base.namespace import GrokUILayer
 from grokui.base.contentproviders import ApplicationInformation
 from grokui.base.interfaces import IInstallableApplication, \
                                    IInstalledApplication, \
@@ -17,10 +18,10 @@ class InstalledApplication(object):
     """
     """
     grok.implements(IInstalledApplication)
-    
+   
     def __init__(self, obj, request):
         self.__name__ = obj.__name__
-        self.url = absoluteURL(obj, request)
+        self.url = absoluteURL(obj, request).replace('/++grokui++', '')
         self.description = obj.__doc__
         self.__parent__ = obj.__parent__
         self.classname = ".".join((obj.__class__.__module__,
@@ -43,8 +44,6 @@ class BrokenApplication(object):
 
 
 class InstallableApplication(object):
-    """
-    """
     grok.implements(IInstallableApplication)
     
     def __init__(self, klass):
@@ -69,16 +68,12 @@ class ApplicationInfo(grok.View):
 class Applications(AdminView):
     """View for application management.
     """
+    grok.layer(GrokUILayer)
     grok.name('applications')
     grok.title('Applications')
     grok.require('grok.ManageApplications')
 
-
     def update(self):
-        # URL of the context
-        self.url = getMultiAdapter((self.context, self.request),
-                                   name="absolute_url")
-
         # Available apps...
         apps = getAllUtilitiesRegisteredFor(grok.interfaces.IApplication)
         self.installable = (InstallableApplication(x) for x in apps)
