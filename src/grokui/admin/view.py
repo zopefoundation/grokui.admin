@@ -22,26 +22,19 @@ from grokui.admin.utilities import getVersion, getURLWithParams
 from ZODB.broken import Broken
 from ZODB.interfaces import IDatabase
 from BTrees.OOBTree import OOBTree
+from ZODB.FileStorage.FileStorage import FileStorageError
 
 import zope.component
 from zope.interface import Interface
+from zope.exceptions import DuplicationError
+from zope.site.interfaces import IRootFolder
+from zope.authentication.interfaces import IUnauthenticatedPrincipal
+
 from zope.app.applicationcontrol.interfaces import IServerControl
 from zope.app.applicationcontrol.applicationcontrol import applicationController
 from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
 from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView
-from zope.app.folder.interfaces import IRootFolder
-from zope.app.security.interfaces import IUnauthenticatedPrincipal
-from zope.exceptions import DuplicationError
-from ZODB.FileStorage.FileStorage import FileStorageError
 
-try:
-    # For grokcore.view >= 1.9 working sets...
-    from grokcore.view import CodeView as GrokCoreViewOrCodeView
-except ImportError:
-    # For grokcore.view < 1.9 working sets...
-    from grok import View as GrokCoreViewOrCodeView
-
-    
 grok.context(IRootFolder)
 
 
@@ -56,7 +49,7 @@ class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
 
 
-class GrokAdminInfoView(GrokCoreViewOrCodeView):
+class GrokAdminInfoView(grok.View):
     """A base to provide machinereadable views.
     """
     grok.name('grokadmin')
@@ -68,11 +61,9 @@ class GrokAdminInfoView(GrokCoreViewOrCodeView):
 
 class AdminViewBase(grok.View):
     """A grok.View with a special application_url.
-
     We have to compute the application_url different from common
     grok.Views, because we have no root application object in the
     adminUI. To avoid mismatch, we also call it 'root_url'.
-
     """
     grok.baseclass()
     
@@ -91,7 +82,6 @@ class AdminViewBase(grok.View):
 
     def root_url(self, name=None):
         obj = self.context
-        result = ""
         while obj is not None:
             if IRootFolder.providedBy(obj):
                 return self.url(obj, name)
@@ -100,9 +90,8 @@ class AdminViewBase(grok.View):
 
 
 
-class GrokAdminVersion(GrokCoreViewOrCodeView):
+class GrokAdminVersion(grok.View):
     """Display version of a package.
-
     Call this view via http://localhost:8080/@@grokadmin/@@version to
     get the used grok version. Call
     http://localhost:8080/@@grokadmin/@@version?pkg=<pkgname> to get
@@ -115,9 +104,8 @@ class GrokAdminVersion(GrokCoreViewOrCodeView):
         return u'%s %s' % (pkg, getVersion(pkg))
 
 
-class GrokAdminSecurityNotes(GrokCoreViewOrCodeView):
+class GrokAdminSecurityNotes(grok.View):
     """Display current security notification.
-
     Call this view via http://localhost:8080/@@grokadmin/@@secnote
     """
     grok.name('secnote')
@@ -130,10 +118,9 @@ class GrokAdminSecurityNotes(GrokCoreViewOrCodeView):
         return notifier.getNotification()
 
 
-class Add(GrokCoreViewOrCodeView):
+class Add(grok.View):
     """Add an application.
     """
-
     grok.require('grok.ManageApplications')
 
     def update(self, inspectapp=None, application=None):
@@ -163,10 +150,9 @@ class Add(GrokCoreViewOrCodeView):
         self.redirect(self.url(self.context))
 
 
-class ManageApps(GrokCoreViewOrCodeView):
+class ManageApps(grok.View):
     """Manage applications (delete, rename).
     """
-
     grok.require('grok.ManageApplications')
 
     def delete(self, items):
@@ -181,7 +167,6 @@ class ManageApps(GrokCoreViewOrCodeView):
             except AttributeError:
                 # Object is broken.. Try it the hard way...
                 # TODO: Try to repair before deleting.
-                obj = self.context[name]
                 if not hasattr(self.context, 'data'):
                     msg = (
                         u'%sCould not delete application `%s`: no '
@@ -225,8 +210,8 @@ class Rename(AdminViewBase):
     grok.require('grok.ManageApplications')
 
     def update(self, cancel=None, items=None, new_names=None):
-        msg = u''
-
+        """We proceed with the renaming, using the request parameters.
+        """
         if cancel is not None:
             return self.redirect(self.url(self.context))
 
