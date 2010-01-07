@@ -3,6 +3,9 @@ from setuptools import setup, find_packages
 
 tests_require = [
     'z3c.testsetup',
+    'zope.testbrowser',
+    'zope.testing',
+    'zope.app.testing',
     ]
 
 def read(*rnames):
@@ -45,17 +48,11 @@ setup(name='grokui.admin',
                         'z3c.flashmessage',
                         'zope.app.applicationcontrol',
                         'zope.app.appsetup',
-                        'zope.app.folder',
-                        'zope.app.preference',
-                        'zope.app.security',
-                        'zope.app.testing',
                         'zope.component',
                         'zope.exceptions',
                         'zope.interface',
                         'zope.schema',
                         'zope.security',
-                        'zope.testbrowser',
-                        'zope.testing',
                         ],
       tests_require = tests_require,
       extras_require = dict(test=tests_require),
