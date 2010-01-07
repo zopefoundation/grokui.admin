@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import grok
 from ZODB.broken import Broken
 from zope.traversing.browser import absoluteURL
@@ -5,7 +7,6 @@ from zope.contentprovider.interfaces import IContentProvider
 from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
 from grokui.base.layout import AdminView
 from grokui.base.namespace import GrokUILayer
-from grokui.base.contentproviders import ApplicationInformation
 from grokui.base.interfaces import IInstallableApplication, \
                                    IInstalledApplication, \
                                    IApplicationRepresentation
@@ -14,6 +15,7 @@ from grokui.base.interfaces import IInstallableApplication, \
 grok.templatedir("templates")
 
 
+from zope.annotation import IAnnotations
 class InstalledApplication(object):
     """
     """
@@ -21,7 +23,11 @@ class InstalledApplication(object):
    
     def __init__(self, obj, request):
         self.__name__ = obj.__name__
-        self.url = absoluteURL(obj, request).replace('/++grokui++', '')
+        grokui_info = IAnnotations(request).get('grokui')
+        if not grokui_info:
+            self.url = absoluteURL(obj, request)
+        else:
+            self.url = grokui_info.get('root_url')
         self.description = obj.__doc__
         self.__parent__ = obj.__parent__
         self.classname = ".".join((obj.__class__.__module__,

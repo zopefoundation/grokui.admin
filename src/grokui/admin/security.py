@@ -11,7 +11,7 @@ import urlparse
 from persistent import Persistent
 from zope.component import adapter, provideHandler
 from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
-from zope.app.folder.interfaces import IRootFolder
+from zope.site.interfaces import IRootFolder
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 

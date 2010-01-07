@@ -1,46 +1,18 @@
-##############################################################################
-#
-# Copyright (c) 2007-2008 Zope Corporation and Contributors.
-# All Rights Reserved.
-#
-# This software is subject to the provisions of the Zope Public License,
-# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
-# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
-# FOR A PARTICULAR PURPOSE.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
 """Views for the grok admin UI"""
 
 import grok
-import z3c.flashmessage.interfaces
+import zope.component
 
+from BTrees.OOBTree import OOBTree
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 
-from ZODB.broken import Broken
-from ZODB.interfaces import IDatabase
-from BTrees.OOBTree import OOBTree
-
-import zope.component
-from zope.interface import Interface
-from zope.traversing.browser import absoluteURL
-from zope.app.applicationcontrol.interfaces import IServerControl
-from zope.app.applicationcontrol.applicationcontrol import applicationController
-from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
-from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView
-from zope.app.folder.interfaces import IRootFolder
+from zope.site.interfaces import IRootFolder
 from zope.exceptions import DuplicationError
-from ZODB.FileStorage.FileStorage import FileStorageError
-from zope.contentprovider.interfaces import IContentProvider
-
-from grokui.base.layout import AdminView
-from grokui.base.interfaces import IInstallableApplication, IInstalledApplication, IApplicationRepresentation
   
 grok.context(IRootFolder)
 grok.templatedir("templates")
-
 
 
 class ManageApplications(grok.Permission):

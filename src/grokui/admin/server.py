@@ -5,14 +5,12 @@ import z3c.flashmessage.interfaces
 
 from grokui.base.layout import AdminView
 from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getVersion, getURLWithParams
+from grokui.admin.utilities import getVersion
 
 from ZODB.interfaces import IDatabase
 from ZODB.FileStorage.FileStorage import FileStorageError
 
 import zope.component
-from zope.interface import Interface
-from zope.traversing.browser import absoluteURL
 from zope.app.applicationcontrol.interfaces import IServerControl
 from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
 from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView

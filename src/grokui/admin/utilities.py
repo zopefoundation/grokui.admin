@@ -1,11 +1,8 @@
 import httplib
 import pkg_resources
-import re
 import socket
 import urllib
 import urllib2
-from zope.tal.taldefs import attrEscape
-from urlparse import urlparse, urlunparse
 
 
 def getURLWithParams(url, data=None):

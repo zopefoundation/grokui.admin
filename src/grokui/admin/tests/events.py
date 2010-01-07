@@ -36,7 +36,6 @@ below will be called:
 
 """
 import grok
-from zope.component import interfaces
 
 class App(grok.Application, grok.Container):
     pass
