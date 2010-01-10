@@ -5,13 +5,15 @@ import grok
 import zope.component
 
 from BTrees.OOBTree import OOBTree
+from grokui.base import IGrokuiRealm
+from grokui.base.layout import AdminView
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 
 from zope.site.interfaces import IRootFolder
 from zope.exceptions import DuplicationError
   
-grok.context(IRootFolder)
+grok.context(IGrokuiRealm)
 grok.templatedir("templates")
 
 
@@ -27,34 +29,6 @@ class GrokAdminInfoView(grok.View):
     
     def render(self):
         return u'go to @@version or @@secnotes'
-
-
-class AdminViewBase(grok.View):
-    """A grok.View with a special application_url.
-
-    We have to compute the application_url different from common
-    grok.Views, because we have no root application object in the
-    adminUI. To avoid mismatch, we also call it 'root_url'.
-
-    """
-    grok.baseclass()
-    
-    @property
-    def grok_version(self):
-        return getVersion('grok')
-
-    @property
-    def grokuiadmin_version(self):
-        return getVersion('grokui.admin')
-
-    def root_url(self, name=None):
-        obj = self.context
-        result = ""
-        while obj is not None:
-            if IRootFolder.providedBy(obj):
-                return self.url(obj, name)
-            obj = obj.__parent__
-        raise ValueError("No application nor root element found.")
 
 
 class GrokAdminVersion(grok.View):
@@ -90,7 +64,6 @@ class GrokAdminSecurityNotes(grok.View):
 class Add(grok.View):
     """Add an application.
     """
-
     grok.require('grok.ManageApplications')
 
     def update(self, inspectapp=None, application=None):
@@ -101,22 +74,22 @@ class Add(grok.View):
 
     def render(self, application, name, inspectapp=None):
         if name is None or name == "":
-            self.redirect(self.url(self.context))
+            self.redirect(self.url(self.context, 'applications'))
             return
         if name is None or name == "":
-            self.redirect(self.url(self.context))
+            self.redirect(self.url(self.context, 'applications'))
             return
         app = zope.component.getUtility(grok.interfaces.IApplication,
                                         name=application)
         try:
             new_app = app()
             grok.notify(grok.ObjectCreatedEvent(new_app))
-            self.context[name] = new_app
+            self.context.root[name] = new_app
             self.flash(u'Added %s `%s`.' % (application, name))
         except DuplicationError:
             self.flash(u'Name `%s` already in use. '
                        u'Please choose another name.' % (name,))
-        self.redirect(self.url(self.context))
+        self.redirect(self.url(self.context, 'applications'))
 
 
 class ManageApps(grok.View):
@@ -131,35 +104,35 @@ class ManageApps(grok.View):
         msg = u''
         for name in items:
             try:
-                del self.context[name]
+                del self.context.root[name]
                 msg = (u'%sApplication `%s` was successfully '
                        u'deleted.\n' % (msg, name))
             except AttributeError:
                 # Object is broken.. Try it the hard way...
                 # TODO: Try to repair before deleting.
-                obj = self.context[name]
-                if not hasattr(self.context, 'data'):
+                obj = self.context.root[name]
+                if not hasattr(self.context.root, 'data'):
                     msg = (
                         u'%sCould not delete application `%s`: no '
                         u'`data` attribute found.\n' % (msg, name))
                     continue
-                if not isinstance(self.context.data, OOBTree):
+                if not isinstance(self.context.root.data, OOBTree):
                     msg = (
                         u'%sCould not delete application `%s`: no '
                         u'`data` is not a BTree.\n' % (msg, name))
                     continue
-                self.context.data.pop(name)
-                self.context.data._p_changed = True
+                self.context.root.data.pop(name)
+                self.context.root.data._p_changed = True
                 msg = (u'%sBroken application `%s` was successfully '
                        u'deleted.\n' % (msg, name))
 
         self.flash(msg)
-        self.redirect(self.url(self.context))
+        self.redirect(self.url(self.context, 'applications'))
 
     def render(self, rename=None, delete=None, items=None):
 
         if items is None:
-            return self.redirect(self.url(self.context))
+            return self.redirect(self.url(self.context, 'applications'))
 
         if not isinstance(items, list):
             items = [items]
@@ -170,10 +143,10 @@ class ManageApps(grok.View):
             return self.redirect(getURLWithParams(
                     self.url(self.context, '@@grokadmin_rename'),
                     data=dict(items=items)))
-        self.redirect(self.url(self.context))
+        self.redirect(self.url(self.context, 'applications'))
 
 
-class Rename(AdminViewBase):
+class Rename(AdminView):
     """Rename Grok applications.
     """
     grok.name('grokadmin_rename')
@@ -183,15 +156,15 @@ class Rename(AdminViewBase):
     def update(self, cancel=None, items=None, new_names=None):
         msg = u''
 
-        if cancel is not None:
-            return self.redirect(self.url(self.context))
+        if cancel is not None or not items:
+            return self.redirect(self.url(self.context, 'applications'))
 
         if not isinstance(items, list):
             items = [items]
         self.apps = items
 
         if new_names is not None and len(new_names) != len(items):
-            return self.redirect(self.url(self.context))
+            return self.redirect(self.url(self.context, 'applications'))
 
         if new_names is None:
             return
@@ -211,20 +184,17 @@ class Rename(AdminViewBase):
             self.context[newname].__name__ = newname
             del self.context[oldname]
             self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
-        self.redirect(self.url(self.context))
+        self.redirect(self.url(self.context, 'applications'))
         return
 
 
-class Index(AdminViewBase):
+class Index(grok.View):
     """A redirector to the real frontpage.
     """
     grok.name('index.html') # The root folder is not a grok.Model
     grok.require('grok.ManageApplications')
+    grok.context(IRootFolder)
 
-    def update(self):
-        apps = zope.component.getAllUtilitiesRegisteredFor(
-            grok.interfaces.IApplication)
-        self.applications = ("%s.%s" % (x.__module__, x.__name__)
-                             for x in apps)
-        # Go to the first page immediately.
-        self.redirect(self.url('applications'))
+    def render(self):
+        grokui_url = self.url(self.context) + '/++grokui++/applications'
+        self.redirect(grokui_url)

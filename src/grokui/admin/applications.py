@@ -14,7 +14,6 @@ from grokui.base.interfaces import IInstallableApplication, \
 
 grok.templatedir("templates")
 
-
 from zope.annotation import IAnnotations
 class InstalledApplication(object):
     """
@@ -33,8 +32,8 @@ class InstalledApplication(object):
         self.classname = ".".join((obj.__class__.__module__,
                                    obj.__class__.__name__))
 
-    def __cmp__(self, a, b):
-        return cmp(a.__name__, b.__name__)
+    def __cmp__(self, other):
+        return cmp(self.__name__, other.__name__)
 
 
 class BrokenApplication(object):
@@ -45,8 +44,8 @@ class BrokenApplication(object):
         self.classname = ".".join((obj.__class__.__module__,
                                    obj.__class__.__name__))
 
-    def __cmp__(self, a, b):
-        return cmp(a.__name__, b.__name__)
+    def __cmp__(self, other):
+        return cmp(self.__name__, other.__name__)
 
 
 class InstallableApplication(object):
