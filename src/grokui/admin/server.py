@@ -11,19 +11,37 @@ from ZODB.interfaces import IDatabase
 from ZODB.FileStorage.FileStorage import FileStorageError
 
 import zope.component
-from zope.app.applicationcontrol.interfaces import IServerControl
-from zope.app.applicationcontrol.browser.runtimeinfo import RuntimeInfoView
-from zope.app.applicationcontrol.browser.zodbcontrol import ZODBControlView
-from zope.app.applicationcontrol.applicationcontrol import applicationController
+from zope.size import byteDisplay
+from ZODB.interfaces import IDatabase
+from zope.applicationcontrol.interfaces import IServerControl
+from zope.applicationcontrol.interfaces import IRuntimeInfo
+from zope.applicationcontrol.applicationcontrol import applicationController
 
+from zope.i18nmessageid import MessageFactory
+
+_ = MessageFactory('grokui')
 grok.templatedir("templates")
 
 
-class Server(AdminView, ZODBControlView):
+class Server(AdminView):
     """Zope3 management screen.
     """
     grok.title('Server')
     grok.require('grok.ManageApplications')
+
+    _fields = (
+        "ZopeVersion",
+        "PythonVersion",
+        "PythonPath",
+        "SystemPlatform",
+        "PreferredEncoding",
+        "FileSystemEncoding",
+        "CommandLine",
+        "ProcessId",
+        "DeveloperMode",
+        )
+    
+    _unavailable = _("Unavailable")
 
     @property
     def grok_version(self):
@@ -74,13 +92,43 @@ class Server(AdminView, ZODBControlView):
     
     @property
     def server_control(self):
-        return zope.component.queryUtility(IServerControl, '', None)
+        return zope.component.queryUtility(IServerControl)
 
     @property
     def runtime_info(self):
-        riv = RuntimeInfoView()
-        riv.context = applicationController
-        return riv.runtimeInfo()
+        try:
+            ri = IRuntimeInfo(self.context)
+        except TypeError:
+            formatted = dict.fromkeys(self._fields, self._unavailable)
+            formatted["Uptime"] = self._unavailable
+        else:
+            formatted = self._getInfo(ri)
+        return formatted
+
+    def _getInfo(self, ri):
+        formatted = {}
+        for name in self._fields:
+            try:
+                value = getattr(ri, "get" + name)()
+            except ValueError:
+                value = self._unavailable
+            formatted[name] = value
+        formatted["Uptime"] = self._getUptime(ri)
+        return formatted
+
+    def _getUptime(self, ri):
+        # make a unix "uptime" uptime format
+        uptime = long(ri.getUptime())
+        minutes, seconds = divmod(uptime, 60)
+        hours, minutes = divmod(minutes, 60)
+        days, hours = divmod(hours, 24)
+
+        return _('${days} day(s) ${hours}:${minutes}:${seconds}',
+                 mapping = {'days': '%d' % days,
+                            'hours': '%02d' % hours,
+                            'minutes': '%02d' % minutes,
+                            'seconds': '%02d' % seconds})
+
 
     @property
     def current_message(self):
@@ -145,6 +193,24 @@ class Server(AdminView, ZODBControlView):
             self.server_control.shutdown(time)
 
         self.redirect(self.url())
+
+    @property
+    def databases(self):
+        res = []
+        for name, db in zope.component.getUtilitiesFor(IDatabase):
+            d = dict(dbName = db.getName(),
+                     utilName = str(name),
+                     size = self._getSize(db),
+                     )
+            res.append(d)
+        return res
+            
+    def _getSize(self, db):
+        """Get the database size in a human readable format."""
+        size = db.getSize()        
+        if not isinstance(size, (int, long, float)):
+            return str(size)
+        return byteDisplay(size)
 
     def pack(self, dbName, days):
         try:

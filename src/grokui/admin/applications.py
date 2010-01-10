@@ -88,7 +88,7 @@ class Applications(AdminView):
         self.broken = []
         self.installed = []
 
-        for name, app in self.context.items():
+        for name, app in self.context.root.items():
             is_broken = isinstance(app, Broken)
             if is_broken:
                 self.broken.append(BrokenApplication(name, app))
