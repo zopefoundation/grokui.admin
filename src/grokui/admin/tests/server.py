@@ -60,7 +60,9 @@ If we submit that message, it should appear in the page::
   >>> msg_form.submit()
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ... <li class="admin">Hi there!</li>
+  ...
+  <dl class="messages-list">
+    <dd class="admin">Hi there!</dd>
   ...
 
 The message stays, even if we call another page::
@@ -69,9 +71,7 @@ The message stays, even if we call another page::
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
-  ... <li class="admin">Hi there!</li>
-  ...
-  ...
+  ... <dd class="admin">Hi there!</dd>
   ...      <legend>Add application</legend>
   ...
 
@@ -81,7 +81,7 @@ Get back to the server stuff::
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
-  ... <li class="admin">Hi there!</li>
+  ... <dd class="admin">Hi there!</dd>
   ...
 
 

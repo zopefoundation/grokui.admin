@@ -205,7 +205,7 @@ every `grokui.admin` page::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
 
 But we are not bound to the default URL to do lookups. We can set
@@ -224,7 +224,7 @@ result::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">You better smash ...</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">You better smash ...</div>
   ...
 
 We can of course disable security notifications at any time::
@@ -232,14 +232,13 @@ We can of course disable security notifications at any time::
   >>> browser.getControl('Disable').click()
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
+
   
 Clean up::
 
   >>> import os
   >>> os.unlink(fake_warning_file)
 
-
-  
 """
