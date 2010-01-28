@@ -2,14 +2,12 @@
 
 import grok
 from ZODB.broken import Broken
+from grokui.admin import representation
 from zope.traversing.browser import absoluteURL
 from zope.contentprovider.interfaces import IContentProvider
 from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
-from grokui.base.layout import AdminView
+from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
-from grokui.base.interfaces import IInstallableApplication, \
-                                   IInstalledApplication, \
-                                   IApplicationRepresentation
 
 
 grok.templatedir("templates")
@@ -18,7 +16,7 @@ from zope.annotation import IAnnotations
 class InstalledApplication(object):
     """
     """
-    grok.implements(IInstalledApplication)
+    grok.implements(representation.IInstalledApplication)
    
     def __init__(self, obj, request):
         self.__name__ = obj.__name__
@@ -37,7 +35,7 @@ class InstalledApplication(object):
 
 
 class BrokenApplication(object):
-    grok.implements(IApplicationRepresentation)
+    grok.implements(representation.IApplicationRepresentation)
 
     def __init__(self, name, obj):
         self.__name__ = name
@@ -49,7 +47,7 @@ class BrokenApplication(object):
 
 
 class InstallableApplication(object):
-    grok.implements(IInstallableApplication)
+    grok.implements(representation.IInstallableApplication)
     
     def __init__(self, klass):
         self.__name__ = klass.__name__
@@ -59,18 +57,18 @@ class InstallableApplication(object):
     
 class ApplicationInfo(grok.View):
     grok.name('info')
-    grok.context(IApplicationRepresentation)
+    grok.context(representation.IApplicationRepresentation)
 
     def render(self):
         info = getMultiAdapter(
             (self.context, self.request, self),
             IContentProvider,
-            name='grokui_application_info')
+            name='grokui_admin_appinfo')
         info.update()
         return info.render()
 
 
-class Applications(AdminView):
+class Applications(GrokUIView):
     """View for application management.
     """
     grok.layer(GrokUILayer)

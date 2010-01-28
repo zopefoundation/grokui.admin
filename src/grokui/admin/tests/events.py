@@ -29,8 +29,8 @@ installable grok applications/components.
 When we create a new instance of our app, the eventhandler defined
 below will be called:
 
-  >>> subform = browser.getForm(name='App')
-  >>> subform.getControl('Name your new app:').value = 'my-app'
+  >>> subform = browser.getForm(name='grokui.admin.tests.events.App')
+  >>> subform.getControl(name='name').value = 'my-app'
   >>> subform.getControl('Create').click()
   ObjectCreated event happened.
 

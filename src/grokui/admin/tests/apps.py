@@ -33,13 +33,13 @@ installed yet:
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
-  ... <p ...>Currently no working...applications are installed.</p>
+  ... Currently no working...applications are installed.
   ...
 
 We are able to add a mammoth manager...
 
-  >>> subform = browser.getForm(name='MammothManager')
-  >>> subform.getControl('Name your new app:').value = 'my-mammoth-manager'
+  >>> subform = browser.getForm(name='grokui.admin.tests.apps.MammothManager')
+  >>> subform.getControl(name='name').value = 'my-mammoth-manager'
   >>> subform.getControl('Create').click()
 
   >>> print browser.contents
@@ -62,7 +62,7 @@ Launch the added mammoth manager
 We can also rename applications. For this we choose the application we
 installed and click `Rename`::
 
-  >>> browser.open("http://localhost/applications")
+  >>> browser.open("http://localhost/++grokui++/applications")
   >>> ctrl = browser.getControl(name='items')
   >>> ctrl.getControl(value='my-mammoth-manager').selected = True
   >>> browser.getControl('Rename').click()
@@ -91,7 +91,7 @@ Our app was indeed renamed::
   
 We are able to delete installed mammoth-managers
 
-  >>> browser.open("http://localhost/applications")
+  >>> browser.open("http://localhost/++grokui++/applications")
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
@@ -103,7 +103,7 @@ We are able to delete installed mammoth-managers
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
-  ... <p ...>Currently no working applications...are installed.</p>
+  ... Currently no working applications are installed.
   ...
   ...<legend>Add application</legend>
   ...

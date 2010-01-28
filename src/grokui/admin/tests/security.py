@@ -189,7 +189,7 @@ the admin screen to set a new notifier URL::
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
-  >>> browser.open('http://localhost/@@server')
+  >>> browser.open('http://localhost/++grokui++/@@server')
 
 On the server administration page we can see the status of our
 notifier (enabled or disabled)::

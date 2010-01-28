@@ -35,7 +35,8 @@ There should be a link to the server admin pages::
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
-  ...   <a href="http://localhost/server">Server Control</a>
+  <a href="http://localhost/++grokui++/server"
+     title="Server Control">Server Control</a>
   ...
 
 Now we can click that link and should get the server administration
@@ -43,7 +44,7 @@ page::
 
   >>> browser.getLink('Server Control').click()
   >>> browser.title
-  'grok administration interface'
+  'Grok User Interface'
 
 We can enter an admin message::
 

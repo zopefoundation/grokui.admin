@@ -26,24 +26,25 @@ We first setup the environment:
 If no broken applications are in the root, everything should look as
 usual:
 
-  >>> browser.open('http://localhost/applications')
+  >>> browser.open('http://localhost/++grokui++/applications')
   >>> 'Broken applications:' not in browser.contents
   True
 
 We have an application type available, which is intentionally broken
 and defined below::
 
-  >>> browser.open('http://localhost/applications')
+  >>> browser.open('http://localhost/++grokui++/applications')
   >>> 'PseudoBroken' in browser.contents
   True
 
 We add an instance of that new type:
 
-  >>> subform = browser.getForm(name='PseudoBroken')
+  >>> subform = browser.getForm(
+  ...             name='grokui.admin.tests.brokenobjs.PseudoBroken')
   >>> subform
   <zope.testbrowser.browser.Form object at 0x...>
 
-  >>> subform.getControl('Name your new app').value = 'mybrokenobj'
+  >>> subform.getControl(name='name').value = 'mybrokenobj'
   >>> subform.getControl('Create').click()
 
 and the broken object should show up in the applications list:

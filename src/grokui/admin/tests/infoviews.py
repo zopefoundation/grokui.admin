@@ -29,7 +29,7 @@ We must have a browser available::
 
 We must be authenticated to fetch those infos::
 
-  >>> browser.open('http://localhost/@@grokadmin/@@version')
+  >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
   Traceback (most recent call last):
   ...
   HTTPError: HTTP Error 401: Unauthorized
@@ -40,7 +40,7 @@ Getting the current grok version
 When we are authenticated, we can retrieve the grok version used::
   
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
-  >>> browser.open('http://localhost/@@grokadmin/@@version')
+  >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
   >>> print browser.contents
   grok ...
 
@@ -63,7 +63,7 @@ by passing a `pkg` parameter.
 To determine the used version of `grokui.admin` we can call::
 
   >>> import pkg_resources
-  >>> browser.open('http://localhost/@@grokadmin/@@version?pkg=grokui.admin')
+  >>> browser.open('http://localhost/++grokui++/@@admin/@@version?pkg=grokui.admin')
   >>> version = pkg_resources.get_distribution('grokui.admin').version
   >>> browser.contents == ('grokui.admin ' + version)
   True
@@ -74,7 +74,7 @@ Getting the current security notification
 
 We can get the current security notification::
 
-  >>> browser.open('http://localhost/@@grokadmin/@@secnote')
+  >>> browser.open('http://localhost/++grokui++/@@admin/@@secnote')
   >>> print browser.contents
   Security notifications are disabled.
 

@@ -59,14 +59,14 @@ def test_suite():
     for name in []:
         suite.addTest(suiteFromPackage(name))
     for name in ['utilities.py']:
-        suite.addTest(doctest.DocFileSuite(name,
-                                           package='grokui.admin',
-                                           globs=globs,
-                                           setUp=setUpZope,
-                                           tearDown=cleanUpZope,
-                                           optionflags=doctest.ELLIPSIS+
-                                           doctest.NORMALIZE_WHITESPACE)
-                      )
+        suite.addTest(doctest.DocFileSuite(
+            name,
+            package='grokui.admin',
+            globs=globs,
+            setUp=setUpZope,
+            tearDown=cleanUpZope,
+            optionflags=(doctest.ELLIPSIS|doctest.NORMALIZE_WHITESPACE),
+            ))
     return suite
 
 if __name__ == '__main__':

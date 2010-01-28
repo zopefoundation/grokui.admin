@@ -3,7 +3,7 @@
 import grok
 import z3c.flashmessage.interfaces
 
-from grokui.base.layout import AdminView
+from grokui.base.layout import GrokUIView
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion
 
@@ -23,10 +23,10 @@ _ = MessageFactory('grokui')
 grok.templatedir("templates")
 
 
-class Server(AdminView):
+class Server(GrokUIView):
     """Zope3 management screen.
     """
-    grok.title('Server')
+    grok.title('Server Control')
     grok.require('grok.ManageApplications')
 
     _fields = (

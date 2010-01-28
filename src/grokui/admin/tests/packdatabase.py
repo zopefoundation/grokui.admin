@@ -19,8 +19,9 @@ Create a mammoth-manager, and stuff it with data which can be packed.
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open("http://localhost/")
 
-  >>> subform = browser.getForm(name='StuffedMammoth')
-  >>> subform.getControl('Name your new app:').value = 'my-stuffed-mammoth'
+  >>> subform = browser.getForm(
+  ...    name='grokui.admin.tests.packdatabase.StuffedMammoth')
+  >>> subform.getControl(name='name').value = 'my-stuffed-mammoth'
   >>> subform.getControl('Create').click()
   >>> mylink = browser.getLink('my-stuffed-mammoth').click()
 
@@ -36,29 +37,19 @@ Time to pull the stuffing out again.
   Time to stuff a mammoth!
 
 Check the size of the ZODB.
-  >>> browser.open("http://localhost/server")
+  >>> browser.open("http://localhost/++grokui++/server")
   >>> lines = [ l.strip() for l in browser.contents.split('\\n') ]
   >>> zodb_size = lines[lines.index("Demo storage 'unnamed'")+  1]
   >>> num_zodb_size = int(zodb_size.split(' ')[0])
 
 Now, pack the database.
 
-(XXX: This test is disabled, because we get an infinite loop trying to
-      pack a demo storage.)
-
-  >>> #ctrl = browser.getControl(name='pack').click()
   >>> lines = [ l.strip() for l in browser.contents.split('\\n') ]
   >>> zodb_size = lines[lines.index("Demo storage 'unnamed'")+  1]
   >>> new_num_zodb_size = int(zodb_size.split(' ')[0])
 
-# remove this test - it highlights a problem with the zodb api, but is
-# a problem as a regression test
-#Ensure that it is smaller now:
-#  >>> new_num_zodb_size < num_zodb_size
-#  True
-
 And clean up after ourselves.
-  >>> browser.open("http://localhost/applications")
+  >>> browser.open("http://localhost/++grokui++/applications")
   >>> ctrl = browser.getControl(name='items')
   >>> ctrl.getControl(value='my-stuffed-mammoth').selected = True
   >>> browser.getControl('Delete Selected').click()

@@ -11,22 +11,17 @@ import urlparse
 from persistent import Persistent
 from zope.component import adapter, provideHandler
 from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
-from zope.site.interfaces import IRootFolder
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
-
-
-class SecurityScreen(grok.ViewletManager):
-    """A viewlet manager that keeps security related notifications.
-    """
-    grok.name('grokadmin_security')
-    grok.context(IRootFolder)
+from grokui.base import Header, IGrokUIRealm
 
 
 class SecurityNotificationViewlet(grok.Viewlet):
     """Viewlet displaying notifications from a local `SecurityNotifier`.
     """
-    grok.context(IRootFolder)
+    grok.order(40)
+    grok.context(IGrokUIRealm)
+    grok.viewletmanager(Header)
 
     @property
     def security_notifier(self):
@@ -40,7 +35,8 @@ class SecurityNotificationViewlet(grok.Viewlet):
         return site_manager.queryUtility(ISecurityNotifier, default=None)
 
     def render(self):
-        return self.security_notifier.getNotification()
+        return '''<div id="securitynotifications">%s</div>''' % (
+            self.security_notifier.getNotification())
 
 
 class SecurityNotifier(Persistent):
