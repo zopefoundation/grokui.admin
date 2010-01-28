@@ -3,4 +3,13 @@
   <include package="grok" />
   <include package="zope.login" />
   <grok:grok package="." />
+
+  <!-- For now, it's provided this way to avoid
+       zope.app.component conflicts -->
+  <adapter 
+     for="zope.applicationcontrol.interfaces.IApplicationControl"
+     provides="zope.applicationcontrol.interfaces.IRuntimeInfo"
+     factory="zope.applicationcontrol.runtimeinfo.RuntimeInfo"
+     permission="zope.ManageApplication" />
+
 </configure>

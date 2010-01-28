@@ -97,12 +97,13 @@ class Server(GrokUIView):
     @property
     def runtime_info(self):
         try:
-            ri = IRuntimeInfo(self.context)
+            ri = IRuntimeInfo(applicationController)
         except TypeError:
             formatted = dict.fromkeys(self._fields, self._unavailable)
             formatted["Uptime"] = self._unavailable
         else:
             formatted = self._getInfo(ri)
+            
         return formatted
 
     def _getInfo(self, ri):
