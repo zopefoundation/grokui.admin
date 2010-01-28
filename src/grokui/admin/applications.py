@@ -9,22 +9,15 @@ from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
 from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
 
-
 grok.templatedir("templates")
 
-from zope.annotation import IAnnotations
+
 class InstalledApplication(object):
-    """
-    """
     grok.implements(representation.IInstalledApplication)
    
     def __init__(self, obj, request):
         self.__name__ = obj.__name__
-        grokui_info = IAnnotations(request).get('grokui')
-        if not grokui_info:
-            self.url = absoluteURL(obj, request)
-        else:
-            self.url = grokui_info.get('root_url')
+        self.url = absoluteURL(obj, request)
         self.description = obj.__doc__
         self.__parent__ = obj.__parent__
         self.classname = ".".join((obj.__class__.__module__,

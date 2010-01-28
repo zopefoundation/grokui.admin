@@ -13,7 +13,7 @@ from zope.component import adapter, provideHandler
 from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
-from grokui.base import Header, IGrokUIRealm
+from grokui.base import Header, Messages, IGrokUIRealm
 
 
 class SecurityNotificationViewlet(grok.Viewlet):
@@ -21,7 +21,7 @@ class SecurityNotificationViewlet(grok.Viewlet):
     """
     grok.order(40)
     grok.context(IGrokUIRealm)
-    grok.viewletmanager(Header)
+    grok.viewletmanager(Messages)
 
     @property
     def security_notifier(self):
@@ -35,7 +35,7 @@ class SecurityNotificationViewlet(grok.Viewlet):
         return site_manager.queryUtility(ISecurityNotifier, default=None)
 
     def render(self):
-        return '''<div id="securitynotifications">%s</div>''' % (
+        return '''<div class="grokui-security message">%s</div>''' % (
             self.security_notifier.getNotification())
 
 

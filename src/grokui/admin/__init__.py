@@ -16,3 +16,7 @@ import grok
 class Test(grok.Application, grok.Container):
     """My super application
     """
+
+class Other(grok.Application, grok.Container):
+    """My other application
+    """

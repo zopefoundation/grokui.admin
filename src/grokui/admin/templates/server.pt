@@ -101,36 +101,46 @@
 
 	</p>
       </fieldset>
-      <span class="header">Server process info</span>
-      <div id="server-processes">
-      <dl tal:define="ri view/runtime_info">
-          <dt class="emph">Uptime:</dt>
-          <dd tal:content="ri/Uptime">unknown</dd>
-          <dt class="emph">System platform:</dt>
-          <dd tal:content="ri/SystemPlatform">unknown</dd>
-          <dt class="emph">Zope version:</dt>
-          <dd tal:content="ri/ZopeVersion">unknown</dd>
-          <dt class="emph">Python version:</dt>
-          <dd tal:content="ri/PythonVersion">unknown</dd>
-          <dt class="emph">Command line:</dt>
-          <dd tal:content="ri/CommandLine">unknown</dd>
-          <dt class="emph">Preferred encoding:</dt>
-          <dd tal:content="ri/PreferredEncoding">unknown</dd>
-          <dt class="emph">File system encoding:</dt>
-          <dd tal:content="ri/FileSystemEncoding">unknown</dd>
-          <dt class="emph">Process ID:</dt>
-          <dd tal:content="ri/ProcessId">unknown</dd>
-          <dt class="emph">Python path:</dt>
-          <dd>
-            <ul>
-            <tal:block tal:repeat="path ri/PythonPath">
-              <li tal:content="path">unknown</li>
-            </tal:block>
-            </ul>
-          </dd>
-      </dl>
-      </div>
-
     </form>
 
+    <fieldset id="server-process-info">
+      <legend>Server process info</legend>
+      <dl class="table" tal:define="ri view/runtime_info">
+
+	<dt>Uptime</dt>
+	<dd tal:content="ri/Uptime" />
+	
+	<dt>System platform</dt>
+	<dd tal:content="ri/SystemPlatform" />
+	
+	<dt>Zope version</dt>
+	<dd tal:content="ri/ZopeVersion" />
+	
+	<dt>Python version</dt>
+	<dd tal:content="ri/PythonVersion" />
+	
+	<dt>Command line</dt>
+	<dd tal:content="ri/CommandLine" />
+	
+	<dt>Preferred encoding</dt>
+	<dd tal:content="ri/PreferredEncoding" />
+	
+	<dt>File system encoding</dt>
+	<dd tal:content="ri/FileSystemEncoding" />
+	
+	<dt>Process ID</dt>
+	<dd tal:content="ri/ProcessId" />
+	
+	<dt>Python path</dt>
+	<dd>
+	  <ul class="simple">
+	    <tal:block tal:repeat="path ri/PythonPath">
+	      <li tal:content="path">unknown</li>
+	    </tal:block>
+	  </ul>
+	</dd>
+	
+      </dl>
+    </fieldset>
   </div>
+  

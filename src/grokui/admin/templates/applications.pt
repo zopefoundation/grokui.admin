@@ -49,29 +49,26 @@
 
   <fieldset>	
     <legend>Add application</legend>
-
-    <div class="menu-box1" tal:repeat="app view/installable">
+    <div tal:repeat="app view/installable">
+      <div class="details">
+	<h3 tal:content="app/__name__">Application Name</h3>
+	<p class="description"
+	   tal:content="structure app/description">
+	  Application description here.
+	</p>
+	<div tal:content="app/@@info" />
+      </div>	  
       <form action="add" tal:attributes="name app/classname">
-	<div class="menu-box2">
-	  <div class="menu-head1">
-	    <h3 tal:content="app/__name__">Application Name</h3>
-	  </div>
-	  <div class="menu-description1">
-	    <p tal:replace="structure app/description">
-	      Application description here.
-	    </p>
-	  </div>
-	  <div tal:content="app/@@info" />
-	  <div class="menu-box3">
-	    <label for="name">Name your new app:</label>
-	    <input type="text" name="name"/>
-	    <input type="hidden" name="application" value=""
-		   tal:attributes="value app/classname" />
-	    <input class="button" type="submit" name="Add" value="Create"/>
-	  </div>
-	</div>
+	<fieldset>
+	  <label for="name">Create a new application</label>
+	  <br />
+	  <input type="text" name="name"/>
+	  <input type="hidden" name="application" value=""
+		 tal:attributes="value app/classname" />
+	  <input class="button" type="submit" name="Add" value="Create"/>
+	</fieldset>
       </form>
-    </div>
-
+    </div> 
   </fieldset>
+
 </div>
