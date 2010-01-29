@@ -52,8 +52,10 @@
 	<p>
 	  <legend>Manage server process</legend>
 	  <span tal:condition="view/server_control">
-	    <input type="submit" name="restart" class="button" value="Restart Zope 3" />
-	    <input type="submit" name="shutdown" class="button" value="Stop Zope 3" />
+	    <input type="submit" name="restart" class="button"
+		   value="Restart server" />
+	    <input type="submit" name="shutdown" class="button"
+		   value="Stop server" />
 	    after <input type="text" name="time" value="0" size="4" /> seconds
 	    <input type="hidden" name="submitted" value="true"/>
 	  </span>
@@ -74,8 +76,10 @@
         <form method="post" action=""
               tal:attributes="action string:${context/@@absolute_url}/server">
 	  <input type="hidden" name="submitted" value="true"/>
-          <input type="hidden" name="dbName" value="" tal:attributes="value db/utilName" />
-          <input type="text" name="days" value="0" size="3" title="Days of history to keep" />
+          <input type="hidden" name="dbName" value=""
+		 tal:attributes="value db/utilName" />
+          <input type="text" name="days" value="0"
+		 size="3" title="Days of history to keep" />
           <input class="button" type="submit" name="pack" value="Pack" />
           <span tal:replace="db/dbName" />
           <span tal:replace="db/size" />
