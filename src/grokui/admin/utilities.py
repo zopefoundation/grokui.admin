@@ -1,11 +1,8 @@
 import httplib
 import pkg_resources
-import re
 import socket
 import urllib
 import urllib2
-from zope.tal.taldefs import attrEscape
-from urlparse import urlparse, urlunparse
 
 
 def getURLWithParams(url, data=None):
@@ -38,7 +35,6 @@ class TimeoutableHTTPConnection(httplib.HTTPConnection):
     """A customised HTTPConnection allowing a per-connection
     timeout, specified at construction.
     """
-
     def __init__(self, host, port=None, strict=None, timeout=None):
         httplib.HTTPConnection.__init__(self, host, port,
                 strict)
@@ -71,7 +67,6 @@ class TimeoutableHTTPHandler(urllib2.HTTPHandler):
     """A customised HTTPHandler which times out connection
     after the duration specified at construction.
     """
-
     def __init__(self, timeout=None):
         urllib2.HTTPHandler.__init__(self)
         self.timeout = timeout
@@ -84,4 +79,3 @@ class TimeoutableHTTPHandler(urllib2.HTTPHandler):
                     timeout = self.timeout)
 
         return self.do_open(makeConnection, req)
-

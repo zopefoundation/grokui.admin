@@ -149,17 +149,7 @@ interface.
 
 Currently, as `grokui.admin` is merely a collection of views bound to
 root folders, also the security notification utility is normally
-managed by the local site manager of the root folder::
-
-  >>> root = getRootFolder()
-  >>> sm = root.getSiteManager()
-
-Now we can lookup the utility::
-
-  >>> from grokui.admin.interfaces import ISecurityNotifier
-  >>> notifier = sm.getUtility(ISecurityNotifier)
-  >>> notifier
-  <grokui.admin.security.SecurityNotifier object at 0x...>
+managed by the local site manager of the root folder.
 
 The utility is local, because different root folders might want
 different settings for security notifications.
@@ -167,29 +157,22 @@ different settings for security notifications.
 The utility is persistent, so that the settings are preserved when
 shutting down.
 
-Immediately after startup, the notifier exists, but is disabled::
+Immediately after startup, the notifier doesn't exists::
 
-  >>> notifier.enabled
-  False
+  >>> from grokui.admin.interfaces import ISecurityNotifier
+  
+  >>> root = getRootFolder()
+  >>> sm = root.getSiteManager()
+  >>> notifier = sm.queryUtility(ISecurityNotifier)
+  >>> notifier is None
+  True
 
-We can get notifications, of course::
-
-  >>> notifier.getNotification()
-  u'Security notifications are disabled.'
-
-We can check in a formal way, whether the current notification is a
-warning::
-
-  >>> notifier.isWarning()
-  False
-
-The notifier we got here is the same as when using the UI. We log into
-the admin screen to set a new notifier URL::
+We log into the admin screen to set a new notifier URL::
 
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
-  >>> browser.open('http://localhost/@@server')
+  >>> browser.open('http://localhost/++grokui++/@@server')
 
 On the server administration page we can see the status of our
 notifier (enabled or disabled)::
@@ -205,7 +188,7 @@ every `grokui.admin` page::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
 
 But we are not bound to the default URL to do lookups. We can set
@@ -224,7 +207,7 @@ result::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">You better smash ...</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">You better smash ...</div>
   ...
 
 We can of course disable security notifications at any time::
@@ -232,14 +215,13 @@ We can of course disable security notifications at any time::
   >>> browser.getControl('Disable').click()
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...<div id="securitynotifications">Security notifications are disabled.</div>
+  ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
+
   
 Clean up::
 
   >>> import os
   >>> os.unlink(fake_warning_file)
 
-
-  
 """

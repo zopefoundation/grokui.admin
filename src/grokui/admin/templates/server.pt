@@ -1,0 +1,150 @@
+<div>
+    <h1>Manage your Zope 3 instance</h1>
+
+    <fieldset>
+      <legend>Security notifications</legend>
+      <form method="post" action=""
+	    tal:attributes="action
+	    string:${context/@@absolute_url}/server">
+	<div>
+	  Running Grok <span tal:replace="view/grok_version" /> /
+	  grokui.admin <span tal:replace="view/grokuiadmin_version" />
+	</div>
+	<div>&nbsp;</div>
+	<div>
+	  You can be notified if serious security-related issues were
+	  discovered that concern your installation.
+	</div>
+	<div>
+	  Note, that if you enable this, HTTP-lookups of the grok site
+	  will happen to check, whether there are any published
+	  security issues for the installed version of grok.
+	</div>
+	<div>&nbsp;</div>
+	<div>
+	  <label for="secnotesource">URL to lookup:</label>
+	  <input type="text" size="30" name="secnotesource"
+		 tal:attributes="value view/security_notifier_url" />
+	  <input class="button" type="submit" name="setsecnotesource"
+		 value="Set URL" />
+	</div>
+	<div>&nbsp;</div>
+	<div tal:condition="view/secnotes_enabled">
+	  <span class="emph">
+	    Status: Security notifications are enabled
+	  </span>
+	  <input class="button" type="submit" name="setsecnotes"
+		 value="Disable" />
+	</div>
+	<div tal:condition="not: view/secnotes_enabled">
+	  <span class="emph">
+	    Status: Security notifications are disabled
+	  </span>
+	  <input class="button" type="submit" name="setsecnotes"
+		 value="Enable" />
+	</div>
+      </form>
+    </fieldset>
+
+    <form method="post" action=""
+      tal:attributes="action string:${context/@@absolute_url}/server">
+      <fieldset>
+	<p>
+	  <legend>Manage server process</legend>
+	  <span tal:condition="view/server_control">
+	    <input type="submit" name="restart" class="button"
+		   value="Restart server" />
+	    <input type="submit" name="shutdown" class="button"
+		   value="Stop server" />
+	    after <input type="text" name="time" value="0" size="4" /> seconds
+	    <input type="hidden" name="submitted" value="true"/>
+	  </span>
+	  <span tal:condition="not: view/server_control">
+	  You have to start/stop/restart the server process from the cmdline.
+	  </span>
+	</p>
+      </fieldset>
+    </form>
+
+    <fieldset>
+      <legend>Manage your databases</legend>
+      <div tal:condition="not: python: len(view.databases)">
+        <p class="menu-description1">Currently no databases are active.</p>
+      </div>
+      <div tal:condition="python: len(view.databases) or True"
+	   tal:repeat="db view/databases">
+        <form method="post" action=""
+              tal:attributes="action string:${context/@@absolute_url}/server">
+	  <input type="hidden" name="submitted" value="true"/>
+          <input type="hidden" name="dbName" value=""
+		 tal:attributes="value db/utilName" />
+          <input type="text" name="days" value="0"
+		 size="3" title="Days of history to keep" />
+          <input class="button" type="submit" name="pack" value="Pack" />
+          <span tal:replace="db/dbName" />
+          <span tal:replace="db/size" />
+        </form>
+      </div>
+    </fieldset>
+
+    <form method="post" action=""
+      tal:attributes="action string:${context/@@absolute_url}/server">
+      <fieldset>
+        <legend>Admin message</legend>
+
+        <p>Lets you display an administrative message on all pages.<br />
+
+        <input
+          type="text"
+          name="admin_message"
+          tal:attributes="value view/current_message/message|nothing"
+          />
+
+        <input type="hidden" name="submitted" value="true"/>
+        <input type="submit" name="save_message" class="button" value="Save"/>
+
+	</p>
+      </fieldset>
+    </form>
+
+    <fieldset id="server-process-info">
+      <legend>Server process info</legend>
+      <dl class="table" tal:define="ri view/runtime_info">
+
+	<dt>Uptime</dt>
+	<dd tal:content="ri/Uptime" />
+	
+	<dt>System platform</dt>
+	<dd tal:content="ri/SystemPlatform" />
+	
+	<dt>Zope version</dt>
+	<dd tal:content="ri/ZopeVersion" />
+	
+	<dt>Python version</dt>
+	<dd tal:content="ri/PythonVersion" />
+	
+	<dt>Command line</dt>
+	<dd tal:content="ri/CommandLine" />
+	
+	<dt>Preferred encoding</dt>
+	<dd tal:content="ri/PreferredEncoding" />
+	
+	<dt>File system encoding</dt>
+	<dd tal:content="ri/FileSystemEncoding" />
+	
+	<dt>Process ID</dt>
+	<dd tal:content="ri/ProcessId" />
+	
+	<dt>Python path</dt>
+	<dd>
+	  <ul class="simple">
+	    <tal:block tal:repeat="path ri/PythonPath">
+	      <li tal:content="path">unknown</li>
+	    </tal:block>
+	  </ul>
+	</dd>
+	
+      </dl>
+    </fieldset>
+  </div>
+  

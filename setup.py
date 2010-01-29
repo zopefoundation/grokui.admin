@@ -2,10 +2,11 @@ import os
 from setuptools import setup, find_packages
 
 tests_require = [
-    'z3c.testsetup',
+    'zope.app.testing',
     'zope.testbrowser',
     'zope.testing',
-    'zope.app.testing',
+    'zope.security',
+    'zope.securitypolicy'
     ]
 
 def read(*rnames):
@@ -19,7 +20,6 @@ setup(name='grokui.admin',
           '\n\n' +
           read('CHANGES.txt')
         ),
-      # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
@@ -39,21 +39,27 @@ setup(name='grokui.admin',
       packages=find_packages('src'),
       include_package_data=True,
       zip_safe=False,
-      namespace_packages = ['grokui'],
-      install_requires=['setuptools',
-                        'ZODB3',
-                        'grok',
-			'grokcore.view',
-                        'martian',
-                        'z3c.flashmessage',
-                        'zope.app.applicationcontrol',
-                        'zope.app.appsetup',
-                        'zope.component',
-                        'zope.exceptions',
-                        'zope.interface',
-                        'zope.schema',
-                        'zope.security',
-                        ],
+      namespace_packages=['grokui'],
+      install_requires=[
+          'ZODB3',
+          'grok',
+          'grokui.base',
+          'setuptools',
+          'z3c.flashmessage',
+          'zope.applicationcontrol',
+          'zope.component',
+          'zope.configuration',
+          'zope.contentprovider',
+          'zope.exceptions',
+          'zope.i18nmessageid',
+          'zope.interface',
+          'zope.location',
+          'zope.login',
+          'zope.schema',
+          'zope.site',
+          'zope.size',
+          'zope.traversing',
+          ],
       tests_require = tests_require,
       extras_require = dict(test=tests_require),
       entry_points="""

@@ -10,23 +10,19 @@ import urlparse
 
 from persistent import Persistent
 from zope.component import adapter, provideHandler
-from zope.site.interfaces import IRootFolder
-from zope.app.appsetup.interfaces import IDatabaseOpenedWithRootEvent
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
+from grokui.base import Header, Messages, IGrokUIRealm
 
-
-class SecurityScreen(grok.ViewletManager):
-    """A viewlet manager that keeps security related notifications.
-    """
-    grok.name('grokadmin_security')
-    grok.context(IRootFolder)
+MSG_DISABLED = u'Security notifications are disabled.'
 
 
 class SecurityNotificationViewlet(grok.Viewlet):
     """Viewlet displaying notifications from a local `SecurityNotifier`.
     """
-    grok.context(IRootFolder)
+    grok.order(40)
+    grok.context(IGrokUIRealm)
+    grok.viewletmanager(Messages)
 
     @property
     def security_notifier(self):
@@ -40,7 +36,11 @@ class SecurityNotificationViewlet(grok.Viewlet):
         return site_manager.queryUtility(ISecurityNotifier, default=None)
 
     def render(self):
-        return self.security_notifier.getNotification()
+        notifier = self.security_notifier
+        if notifier is None:
+            return u""
+        return '''<div class="grokui-security message">%s</div>''' % (
+            self.security_notifier.getNotification())
 
 
 class SecurityNotifier(Persistent):
@@ -49,11 +49,9 @@ class SecurityNotifier(Persistent):
     It can be placed in a site to store notification dates and other
     data persistently.
     """
-
     grok.implements(ISecurityNotifier)
 
     VERSION = 1 # for possibly updates/downgrades
-    MSG_DISABLED = u'Security notifications are disabled.'
     DEFAULT_URL = 'http://grok.zope.org/releaseinfo/'
     
     lookup_url = DEFAULT_URL
@@ -82,7 +80,7 @@ class SecurityNotifier(Persistent):
         """Get the current security notification.
         """
         if self.enabled is False:
-            return self.MSG_DISABLED
+            return MSG_DISABLED
         self.updateMessage()
         return self._message
 
@@ -127,7 +125,7 @@ class SecurityNotifier(Persistent):
         except:
             # An unexpected problem occured...
             pass
-        if self._message == self.MSG_DISABLED:
+        if self._message == MSG_DISABLED:
             self._message = u''
         self.last_lookup = time.time()
         return
@@ -146,38 +144,3 @@ class SecurityNotifier(Persistent):
         """
         self.last_display = time.time()
         return
-
-
-def setupSecurityNotification(site):
-    """Setup a SecurityNotifier as persistent utility.
-
-    The utility is installed as a local and persistent utility. It is
-    local to `site` and installed under the name
-    ``grokadmin_security`` in the site manager of `site`.
-
-    It can be retrieved with a call like::
-
-      site.getSiteManager().getUtiliy(ISecurityNotifier)
-
-    See also ``security.py`` in ``tests``.
-    """
-    site_manager = site.getSiteManager()
-    if 'grokadmin_security' not in site_manager:
-        site_manager['grokadmin_security'] = SecurityNotifier()
-    utility = site_manager['grokadmin_security']
-    site_manager.registerUtility(utility, ISecurityNotifier, name=u'')
-    return
-
-    
-@adapter(IDatabaseOpenedWithRootEvent)
-def securitySetupHandler(event):
-    """Call security notification setup as soon as DB is ready.
-    """
-    from zope.app.appsetup.bootstrap import getInformationFromEvent
-    
-    db, connection, root, root_folder = getInformationFromEvent(event)
-    setupSecurityNotification(root_folder)
-
-
-# ...then install the event handler:
-provideHandler(securitySetupHandler)
