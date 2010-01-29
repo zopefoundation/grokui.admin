@@ -149,17 +149,7 @@ interface.
 
 Currently, as `grokui.admin` is merely a collection of views bound to
 root folders, also the security notification utility is normally
-managed by the local site manager of the root folder::
-
-  >>> root = getRootFolder()
-  >>> sm = root.getSiteManager()
-
-Now we can lookup the utility::
-
-  >>> from grokui.admin.interfaces import ISecurityNotifier
-  >>> notifier = sm.getUtility(ISecurityNotifier)
-  >>> notifier
-  <grokui.admin.security.SecurityNotifier object at 0x...>
+managed by the local site manager of the root folder.
 
 The utility is local, because different root folders might want
 different settings for security notifications.
@@ -167,24 +157,17 @@ different settings for security notifications.
 The utility is persistent, so that the settings are preserved when
 shutting down.
 
-Immediately after startup, the notifier exists, but is disabled::
+Immediately after startup, the notifier doesn't exists::
 
-  >>> notifier.enabled
-  False
+  >>> from grokui.admin.interfaces import ISecurityNotifier
+  
+  >>> root = getRootFolder()
+  >>> sm = root.getSiteManager()
+  >>> notifier = sm.queryUtility(ISecurityNotifier)
+  >>> notifier is None
+  True
 
-We can get notifications, of course::
-
-  >>> notifier.getNotification()
-  u'Security notifications are disabled.'
-
-We can check in a formal way, whether the current notification is a
-warning::
-
-  >>> notifier.isWarning()
-  False
-
-The notifier we got here is the same as when using the UI. We log into
-the admin screen to set a new notifier URL::
+We log into the admin screen to set a new notifier URL::
 
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()

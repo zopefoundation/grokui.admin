@@ -20,7 +20,6 @@ setup(name='grokui.admin',
           '\n\n' +
           read('CHANGES.txt')
         ),
-      # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
@@ -40,7 +39,7 @@ setup(name='grokui.admin',
       packages=find_packages('src'),
       include_package_data=True,
       zip_safe=False,
-      namespace_packages = ['grokui'],
+      namespace_packages=['grokui'],
       install_requires=[
           'ZODB3',
           'grok',

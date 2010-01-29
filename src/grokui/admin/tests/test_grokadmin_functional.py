@@ -16,10 +16,6 @@ GrokAdminFunctionalLayer = ZCMLLayer(ftesting_zcml, __name__,
 
 def setUp(test):
     FunctionalTestSetup().setUp()
-    # In functional tests no IDatabaseOpenedWithRootEvent are fired. We
-    # therefore have to setup security notifications manually
-    from grokui.admin.security import setupSecurityNotification
-    setupSecurityNotification(getRootFolder())
 
 def tearDown(test):
     FunctionalTestSetup().tearDown()

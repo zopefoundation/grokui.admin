@@ -2,16 +2,17 @@
 """Views for the grok admin UI"""
 
 import grok
-import zope.component
 
 from BTrees.OOBTree import OOBTree
 from grokui.base import IGrokUIRealm, GrokUIView
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
+from grokui.admin.security import MSG_DISABLED
 
 from zope.site.interfaces import IRootFolder
 from zope.exceptions import DuplicationError
-  
+from zope.component import getUtility, queryUtility
+
 grok.context(IGrokUIRealm)
 grok.templatedir("templates")
 
@@ -56,10 +57,9 @@ class GrokAdminSecurityNotes(grok.View):
     grok.require('grok.ManageApplications')
     
     def render(self):
-        site = grok.getSite()
-        site_manager = site.getSiteManager()
-        notifier = site_manager.queryUtility(ISecurityNotifier, default=None)
-        return notifier.getNotification()
+        notifier = queryUtility(ISecurityNotifier, default=None)
+        return (notifier is not None and notifier.getNotification()
+                or MSG_DISABLED)
 
 
 class Add(grok.View):
@@ -80,8 +80,7 @@ class Add(grok.View):
         if name is None or name == "":
             self.redirect(self.url(self.context, 'applications'))
             return
-        app = zope.component.getUtility(grok.interfaces.IApplication,
-                                        name=application)
+        app = getUtility(grok.interfaces.IApplication, name=application)
         try:
             new_app = app()
             grok.notify(grok.ObjectCreatedEvent(new_app))

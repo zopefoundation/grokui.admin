@@ -6,17 +6,15 @@ import z3c.flashmessage.interfaces
 from grokui.base.layout import GrokUIView
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion
+from grokui.admin.security import SecurityNotifier
 
 from ZODB.interfaces import IDatabase
 from ZODB.FileStorage.FileStorage import FileStorageError
 
-import zope.component
 from zope.size import byteDisplay
-from ZODB.interfaces import IDatabase
-from zope.applicationcontrol.interfaces import IServerControl
-from zope.applicationcontrol.interfaces import IRuntimeInfo
+from zope.applicationcontrol.interfaces import IServerControl, IRuntimeInfo
 from zope.applicationcontrol.applicationcontrol import applicationController
-
+from zope.component import getUtility, queryUtility, getUtilitiesFor
 from zope.i18nmessageid import MessageFactory
 
 _ = MessageFactory('grokui')
@@ -80,7 +78,6 @@ class Server(GrokUIView):
     @property
     def secnotes_enabled(self):
         if self.security_notifier is None:
-            # Safety belt if installation of notifier failed
             return False
         return self.security_notifier.enabled
 
@@ -92,7 +89,7 @@ class Server(GrokUIView):
     
     @property
     def server_control(self):
-        return zope.component.queryUtility(IServerControl)
+        return queryUtility(IServerControl)
 
     @property
     def runtime_info(self):
@@ -133,7 +130,7 @@ class Server(GrokUIView):
 
     @property
     def current_message(self):
-        source = zope.component.getUtility(
+        source = getUtility(
           z3c.flashmessage.interfaces.IMessageSource, name='admin')
         messages = list(source.list())
         if messages:
@@ -142,7 +139,14 @@ class Server(GrokUIView):
     def updateSecurityNotifier(self, setsecnotes=None, setsecnotesource=None,
                                secnotesource=None):
         if self.security_notifier is None:
-            return
+            site = grok.getSite()
+            site_manager = site.getSiteManager()
+            if 'grokadmin_security' not in site_manager:
+                site_manager['grokadmin_security'] = SecurityNotifier()
+                utility = site_manager['grokadmin_security']
+                site_manager.registerUtility(
+                    utility, ISecurityNotifier, name=u'')
+                
         if setsecnotesource is not None:
             self.security_notifier.setLookupURL(secnotesource)
         if setsecnotes is not None:
@@ -172,7 +176,7 @@ class Server(GrokUIView):
             return
 
         # Admin message control
-        source = zope.component.getUtility(
+        source = getUtility(
           z3c.flashmessage.interfaces.IMessageSource, name='admin')
         if admin_message is not None:
             source.send(admin_message)
@@ -198,7 +202,7 @@ class Server(GrokUIView):
     @property
     def databases(self):
         res = []
-        for name, db in zope.component.getUtilitiesFor(IDatabase):
+        for name, db in getUtilitiesFor(IDatabase):
             d = dict(dbName = db.getName(),
                      utilName = str(name),
                      size = self._getSize(db),
@@ -219,7 +223,7 @@ class Server(GrokUIView):
         except ValueError:
             flash('Error: Invalid Number')
             return
-        db = zope.component.getUtility(IDatabase, name=dbName)
+        db = getUtility(IDatabase, name=dbName)
         print "DB: ", db, days
         db.pack(days=days)
         return
