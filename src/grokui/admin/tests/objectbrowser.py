@@ -130,7 +130,29 @@ Now the attributes and properties. The root folder got an attribute
   ...   <a href="http://localhost/docgrok-obj/data/@@inspect.html">&lt;BTrees.OOBTree.OOBTree object at ...&gt;</a>
   ... </div>
   ...
-  
 
+
+Traversing objects whose boolean value evaluates to ``False``
+-------------------------------------------------------------
+
+Due to a faulty traverser in former versions objects which evaluated
+to ``False`` when 'booleanized', empty containers for example, one
+could not browse those object.
+
+When we create an empty container:
+
+  >>> import grok
+  >>> mycontainer = grok.Container()
+  >>> getRootFolder()['mycontainer'] = mycontainer
+  >>> bool(mycontainer)
+  False
+
+we can browse it now:
+
+  >>> browser.open('http://localhost/docgrok-obj/mycontainer/@@inspect.html')
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ...<span>mycontainer</span>
+  ...<span>...<a ...>Container</a> object at 0x...</span>...
 
 """
