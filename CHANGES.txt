@@ -22,6 +22,15 @@ Bug fixes
 * Adding apps now emits IObjectCreated events.
 
 
+0.4.1 (2010-02-14)
+==================
+
+Bug fixes
+---------
+
+* Backports of fixes from 0.3.3 version (see below).
+
+
 0.4 (2009-08-21)
 ================
 
@@ -50,6 +59,15 @@ Bug fixes
   problem with zope.container versions.
 
 * Include the new grok.View permissions for testing.
+
+0.3.3 (2010-02-14)
+==================
+
+Bug fixes
+---------
+
+* Fixed bug in object browser: objects that 'booleanized' evaluated to
+  ``False`` (empty containers for instance) were not displayed.
 
 0.3.2 (2009-04-10)
 ==================
