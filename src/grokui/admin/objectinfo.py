@@ -304,7 +304,7 @@ class ObjectInfo(grok.Model):
                 new_obj = self.obj[name]
 
         # Try to get name as sequence entry...
-        if not new_obj:
+        if new_obj is None:
             # This is not the appropriate way to handle iterators. We
             # must find somehing to handle them too.
             try:
@@ -315,11 +315,11 @@ class ObjectInfo(grok.Model):
                 pass
 
         # Get name as obj attribute...
-        if not new_obj and hasattr(self.obj, name):
+        if new_obj is None and hasattr(self.obj, name):
             new_obj = getattr(self.obj, name, None)
 
         # Get name as annotation...
-        if not new_obj:
+        if new_obj is None:
             naked = zope.security.proxy.removeSecurityProxy(self.obj)
             try:
                 annotations = IAnnotations(naked)
@@ -330,7 +330,7 @@ class ObjectInfo(grok.Model):
                 pass
 
         # Give obj a location...
-        if new_obj:
+        if new_obj is not None:
             if not IPhysicallyLocatable(new_obj, False):
                 new_obj = location.LocationProxy(
                     new_obj, self.obj, name)
