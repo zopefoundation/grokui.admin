@@ -4,6 +4,9 @@ grokui.admin changes
 0.3.3 (unreleased)
 ==================
 
+* Fixed bug in object browser: objects that 'booleanized' evaluated to
+  ``False`` (empty containers for instance) were not displayed.
+
 0.3.2 (2009-04-10)
 ==================
 
