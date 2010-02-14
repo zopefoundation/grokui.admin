@@ -16,13 +16,13 @@
       id="zope.anybody"
       title="Unauthenticated User"
       />
+  <everybodyGroup id="zope.Everybody"
+		  title="All Users"
+		  />
+
   <grant
       permission="zope.View"
-      principal="zope.anybody"
-      />
-  <grant
-      permission="grok.View"
-      principal="zope.anybody"
+      principal="zope.Everybody"
       />
 
   <principal
