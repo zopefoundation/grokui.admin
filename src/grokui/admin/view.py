@@ -188,15 +188,3 @@ class Rename(GrokUIView):
             self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
         self.redirect(self.url(self.context, 'applications'))
         return
-
-
-class Index(grok.View):
-    """A redirector to the real frontpage.
-    """
-    grok.name('index.html') # The root folder is not a grok.Model
-    grok.require('grok.ManageApplications')
-    grok.context(IRootFolder)
-
-    def render(self):
-        grokui_url = self.url(self.context) + '/++grokui++/applications'
-        self.redirect(grokui_url)
