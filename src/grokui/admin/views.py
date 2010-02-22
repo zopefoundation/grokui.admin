@@ -9,7 +9,6 @@ from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 from grokui.admin.security import MSG_DISABLED
 
-from zope.site.interfaces import IRootFolder
 from zope.exceptions import DuplicationError
 from zope.component import getUtility, queryUtility
 

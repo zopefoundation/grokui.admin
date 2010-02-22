@@ -9,10 +9,9 @@ import urllib2
 import urlparse
 
 from persistent import Persistent
-from zope.component import adapter, provideHandler
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
-from grokui.base import Header, Messages, IGrokUIRealm
+from grokui.base import Messages, IGrokUIRealm
 
 MSG_DISABLED = u'Security notifications are disabled.'
 
