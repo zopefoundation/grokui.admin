@@ -52,7 +52,7 @@ class SecurityNotifier(Persistent):
 
     VERSION = 1 # for possibly updates/downgrades
     DEFAULT_URL = 'http://grok.zope.org/releaseinfo/'
-    
+
     lookup_url = DEFAULT_URL
     last_lookup = None   # When did we do the last lookup?
     lookup_timeout = 2   # Number of seconds to wait
@@ -62,7 +62,7 @@ class SecurityNotifier(Persistent):
 
     _message = u''
     _warningstate = False
-    
+
     def enable(self):
         """Enable security notifications.
         """
@@ -86,7 +86,7 @@ class SecurityNotifier(Persistent):
     def isWarning(self):
         self.updateMessage()
         return self._warningstate
-    
+
     def updateMessage(self):
         """Update the security message.
         """
@@ -97,7 +97,7 @@ class SecurityNotifier(Persistent):
                 return
         self.fetchMessage()
         return
-    
+
     def fetchMessage(self):
         """Possibly fetch security notfications from grok.zope.org.
         """
@@ -135,7 +135,7 @@ class SecurityNotifier(Persistent):
         self.lookup_url = url
         self.last_lookup = None
         return
-    
+
     def display(self):
         """Display the message.
 

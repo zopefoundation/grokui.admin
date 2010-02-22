@@ -8,20 +8,20 @@ from zope.contentprovider.interfaces import IContentProvider
 
 
 class IApplicationRepresentation(Interface):
-    """Defines an Grok application 
+    """Defines an Grok application
     """
     __name__ = schema.TextLine(
-        title = u"Name",
-        required = True)
-    
+        title=u"Name",
+        required=True)
+
     classname = PythonIdentifier(
-        title = u"Dotted name of the Application class",
-        required = True)
-    
+        title=u"Dotted name of the Application class",
+        required=True)
+
     description = schema.Text(
-        title = u"Description of the Application",
-        default = u"",
-        required = False)
+        title=u"Description of the Application",
+        default=u"",
+        required=False)
 
 
 class IInstallableApplication(IApplicationRepresentation):
@@ -33,8 +33,8 @@ class IInstalledApplication(IApplicationRepresentation, ILocation):
     """Defines an application that is installed in our system.
     """
     url = schema.URI(
-        title = u"Absolute URL of the application",
-        required = True)
+        title=u"Absolute URL of the application",
+        required=True)
 
 
 class IApplicationInformation(IContentProvider):

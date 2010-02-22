@@ -25,7 +25,7 @@ class GrokAdminInfoView(grok.View):
     """
     grok.name('admin')
     grok.require('grok.ManageApplications')
-    
+
     def render(self):
         return u'go to @@version or @@secnotes'
 
@@ -41,7 +41,7 @@ class GrokAdminVersion(grok.View):
     grok.name('version')
     grok.context(GrokAdminInfoView)
     grok.require('grok.ManageApplications')
-    
+
     def render(self, pkg='grok'):
         return u'%s %s' % (pkg, getVersion(pkg))
 
@@ -54,7 +54,7 @@ class GrokAdminSecurityNotes(grok.View):
     grok.name('secnote')
     grok.context(GrokAdminInfoView)
     grok.require('grok.ManageApplications')
-    
+
     def render(self):
         notifier = queryUtility(ISecurityNotifier, default=None)
         return (notifier is not None and notifier.getNotification()
@@ -68,8 +68,9 @@ class Add(grok.View):
 
     def update(self, inspectapp=None, application=None):
         if inspectapp is not None:
-            self.redirect(self.url("docgrok") + "/%s/index"%(
-                    application.replace('.','/'),))
+            self.redirect(
+                "%s/%s/index" % (
+                    self.url("docgrok"), application.replace('.', '/')))
         return
 
     def render(self, application, name, inspectapp=None):
@@ -109,7 +110,6 @@ class ManageApps(grok.View):
             except AttributeError:
                 # Object is broken.. Try it the hard way...
                 # TODO: Try to repair before deleting.
-                obj = self.context.root[name]
                 if not hasattr(self.context.root, 'data'):
                     msg = (
                         u'%sCould not delete application `%s`: no '
@@ -153,7 +153,6 @@ class Rename(GrokUIView):
     grok.require('grok.ManageApplications')
 
     def update(self, cancel=None, items=None, new_names=None):
-        msg = u''
 
         if cancel is not None or not items:
             return self.redirect(self.url(self.context, 'applications'))

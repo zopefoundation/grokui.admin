@@ -12,6 +12,7 @@ from ZODB.interfaces import IDatabase
 from ZODB.FileStorage.FileStorage import FileStorageError
 
 from zope.size import byteDisplay
+from zope.site.interfaces import IRootFolder
 from zope.applicationcontrol.interfaces import IServerControl, IRuntimeInfo
 from zope.applicationcontrol.applicationcontrol import applicationController
 from zope.component import getUtility, queryUtility, getUtilitiesFor
@@ -38,7 +39,7 @@ class Server(GrokUIView):
         "ProcessId",
         "DeveloperMode",
         )
-    
+
     _unavailable = _("Unavailable")
 
     @property
@@ -51,7 +52,6 @@ class Server(GrokUIView):
 
     def root_url(self, name=None):
         obj = self.context
-        result = ""
         while obj is not None:
             if IRootFolder.providedBy(obj):
                 return self.url(obj, name)
@@ -63,7 +63,7 @@ class Server(GrokUIView):
         """Get the URL to look up for security warnings.
         """
         return self.security_notifier.lookup_url
-    
+
     @property
     def security_notifier(self):
         """Get a local security notifier.
@@ -74,7 +74,7 @@ class Server(GrokUIView):
         site = grok.getSite()
         site_manager = site.getSiteManager()
         return site_manager.queryUtility(ISecurityNotifier, default=None)
-    
+
     @property
     def secnotes_enabled(self):
         if self.security_notifier is None:
@@ -86,7 +86,7 @@ class Server(GrokUIView):
         if self.security_notifier is None:
             return u'Security notifier is not installed.'
         return self.security_notifier.getNotification()
-    
+
     @property
     def server_control(self):
         return queryUtility(IServerControl)
@@ -100,7 +100,7 @@ class Server(GrokUIView):
             formatted["Uptime"] = self._unavailable
         else:
             formatted = self._getInfo(ri)
-            
+
         return formatted
 
     def _getInfo(self, ri):
@@ -122,11 +122,10 @@ class Server(GrokUIView):
         days, hours = divmod(hours, 24)
 
         return _('${days} day(s) ${hours}:${minutes}:${seconds}',
-                 mapping = {'days': '%d' % days,
-                            'hours': '%02d' % hours,
-                            'minutes': '%02d' % minutes,
-                            'seconds': '%02d' % seconds})
-
+                 mapping={'days': '%d' % days,
+                          'hours': '%02d' % hours,
+                          'minutes': '%02d' % minutes,
+                          'seconds': '%02d' % seconds})
 
     @property
     def current_message(self):
@@ -146,7 +145,7 @@ class Server(GrokUIView):
                 utility = site_manager['grokadmin_security']
                 site_manager.registerUtility(
                     utility, ISecurityNotifier, name=u'')
-                
+
         if setsecnotesource is not None:
             self.security_notifier.setLookupURL(secnotesource)
         if setsecnotes is not None:
@@ -157,7 +156,7 @@ class Server(GrokUIView):
         if self.secnotes_enabled is False:
             return
         return
-        
+
     def update(self, time=None, restart=None, shutdown=None,
                setsecnotes=None, secnotesource=None, setsecnotesource=None,
                admin_message=None, submitted=False, dbName="", pack=None,
@@ -171,7 +170,7 @@ class Server(GrokUIView):
         self.updateSecurityNotifier(setsecnotes, setsecnotesource,
                                     secnotesource)
 
-        
+
         if not submitted:
             return
 
@@ -203,16 +202,17 @@ class Server(GrokUIView):
     def databases(self):
         res = []
         for name, db in getUtilitiesFor(IDatabase):
-            d = dict(dbName = db.getName(),
-                     utilName = str(name),
-                     size = self._getSize(db),
-                     )
+            d = dict(
+                dbName=db.getName(),
+                utilName=str(name),
+                size=self._getSize(db))
             res.append(d)
         return res
-            
+
     def _getSize(self, db):
-        """Get the database size in a human readable format."""
-        size = db.getSize()        
+        """Get the database size in a human readable format.
+        """
+        size = db.getSize()
         if not isinstance(size, (int, long, float)):
             return str(size)
         return byteDisplay(size)
@@ -221,7 +221,7 @@ class Server(GrokUIView):
         try:
             days = int(days)
         except ValueError:
-            flash('Error: Invalid Number')
+            self.flash('Error: Invalid Number')
             return
         db = getUtility(IDatabase, name=dbName)
         print "DB: ", db, days
@@ -229,6 +229,6 @@ class Server(GrokUIView):
         return
         try:
             db.pack(days=days)
-            flash('ZODB `%s` successfully packed.' % (dbName))
+            self.flash('ZODB `%s` successfully packed.' % (dbName))
         except FileStorageError, err:
-            flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
+            self.flash('ERROR packing ZODB `%s`: %s' % (dbName, err))

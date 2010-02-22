@@ -12,7 +12,7 @@ def getURLWithParams(url, data=None):
     to enable use of ``grokui.admin`` with Grok versions < 0.13.
     """
     if data:
-        for k,v in data.items():
+        for k, v in data.items():
             if isinstance(v, unicode):
                 data[k] = v.encode('utf-8')
             if isinstance(v, (list, set, tuple)):
@@ -35,6 +35,7 @@ class TimeoutableHTTPConnection(httplib.HTTPConnection):
     """A customised HTTPConnection allowing a per-connection
     timeout, specified at construction.
     """
+
     def __init__(self, host, port=None, strict=None, timeout=None):
         httplib.HTTPConnection.__init__(self, host, port,
                 strict)
@@ -67,15 +68,17 @@ class TimeoutableHTTPHandler(urllib2.HTTPHandler):
     """A customised HTTPHandler which times out connection
     after the duration specified at construction.
     """
+
     def __init__(self, timeout=None):
         urllib2.HTTPHandler.__init__(self)
         self.timeout = timeout
 
     def http_open(self, req):
-        """Override http_open."""
+        """Override http_open.
+        """
 
         def makeConnection(host, port=None, strict=None):
-            return TimeoutableHTTPConnection(host, port, strict,
-                    timeout = self.timeout)
+            return TimeoutableHTTPConnection(
+                host, port, strict, timeout=self.timeout)
 
         return self.do_open(makeConnection, req)

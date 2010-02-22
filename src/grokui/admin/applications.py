@@ -14,7 +14,7 @@ grok.templatedir("templates")
 
 class InstalledApplication(object):
     grok.implements(representation.IInstalledApplication)
-   
+
     def __init__(self, obj, request):
         self.__name__ = obj.__name__
         self.url = absoluteURL(obj, request)
@@ -41,13 +41,13 @@ class BrokenApplication(object):
 
 class InstallableApplication(object):
     grok.implements(representation.IInstallableApplication)
-    
+
     def __init__(self, klass):
         self.__name__ = klass.__name__
         self.classname = ".".join((klass.__module__, klass.__name__))
         self.description = unicode(getattr(klass, '__doc__', u'') or u'')
 
-    
+
 class ApplicationInfo(grok.View):
     grok.name('info')
     grok.context(representation.IApplicationRepresentation)
