@@ -82,12 +82,9 @@ Our app was indeed renamed::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...
   ...<legend>Installed applications</legend>
-  ...
   ...<a href="http://localhost/my-new-mammoth-manager">
-  ...my-new-mammoth-manager
-  ...
+  ...my-new-mammoth-manager...
   
 We are able to delete installed mammoth-managers
 
