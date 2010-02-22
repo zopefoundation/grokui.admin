@@ -4,6 +4,8 @@ grokui.admin changes
 0.6 (unreleased)
 ================
 
+* Moved the ``Index`` view to ``grokui.base``.
+
 * The design has been slightly changed to get rid of the lazy Grok and
   to match the http://grok.zope.org website design.
 
