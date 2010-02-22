@@ -45,7 +45,7 @@ class InstallableApplication(object):
     def __init__(self, klass):
         self.__name__ = klass.__name__
         self.classname = ".".join((klass.__module__, klass.__name__))
-        self.description = unicode(klass.__doc__)
+        self.description = unicode(getattr(klass, '__doc__', u'') or u'')
 
     
 class ApplicationInfo(grok.View):
