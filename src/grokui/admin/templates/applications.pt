@@ -16,7 +16,7 @@
 	       tal:attributes="value app/__name__;
 			       name string:items" />
 	<a tal:attributes="href app/url">
-	  <span tal:replace="app/__name__"/>
+	  <b><span tal:replace="app/__name__"/></b>
 	</a>
 	(<span tal:replace="app/classname"/>)
 	<div tal:content="app/@@info" />
@@ -60,7 +60,11 @@
       </div>	  
       <form action="add" tal:attributes="name app/classname">
 	<fieldset>
-	  <label for="name">Create a new application</label>
+	  <label for="name">
+	    Name and create a new 
+	    <span tal:replace="app/__name__">Foo</span>
+	    application
+	  </label>
 	  <br />
 	  <input type="text" name="name"/>
 	  <input type="hidden" name="application" value=""
