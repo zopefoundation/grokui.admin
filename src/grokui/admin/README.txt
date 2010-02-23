@@ -69,7 +69,7 @@ Server
   ZODB automatically from `cron`. This can be done using a command
   like the following::
 
-    curl -q -s -u admin:admin "http://localhost:8080/server?pack=1&days=1"
+    curl -q -s -u admin:admin "http://localhost:8080/++grokui++/@@server?pack=1&days=1"
 
   which will remove old data older than one day. If you leave out the
   `days` parameter, all old data will be removed.
@@ -93,11 +93,11 @@ Currently the following infos are available this way:
 
 * The grok version working in background::
 
-   curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@version"
+   curl -q -s -u admin:admin "http://localhost:8080/++grokui++/@@admin/@@version"
 
 * The security notification (if any)::
 
-   curl -q -s -u admin:admin "http://localhost:8080/@@grokadmin/@@secnote"
+   curl -q -s -u admin:admin "http://localhost:8080/++grokui++/@@admin/@@secnote"
 
 Beside this you can pack the ZODB databases as described above.
 
@@ -105,10 +105,11 @@ Beside this you can pack the ZODB databases as described above.
 Bugs, Caveats and Ways to Get Help
 ==================================
 
-The Grok admin UI was developed basically during a Google Summer of
-Code project.
+The Grok admin UI has been refactored during the Cologne Neanderthal Sprint
+II, in september 2009.
 
-It is still full of bugs.
+As a matter of fact, it is still under development and
+improvement. Please, report any misbehavior or bug.
 
 For bugreports use:
 
