@@ -7,13 +7,17 @@ grokui.admin changes
 * Moved the ``Index`` view to ``grokui.base``.
 
 * The design has been slightly changed to get rid of the lazy Grok and
-  to match the http://grok.zope.org website design.
+  to match the http://grok.zope.org website design. The design belongs
+  now to ``grokui.base``.
 
 * ``grokui.admin`` has been splitted into several packages. It now depends
   on ``grokui.base`` that provides basic components to create and plug UI
   views. ``grokui.admin`` has been altered to reflect the splitting
   changes and now provides a collection of components that will allow
   you to plug your own administration panels and elements.
+
+* Dependencies have been drastically cut down. We are now using the
+  ZTK. The only zope.app package remaining is for the tests.
 
 * Reflect the changes in grokcore.view 1.12 where View and CodeView
   become a single View again.
