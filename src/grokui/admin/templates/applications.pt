@@ -1,0 +1,78 @@
+<div id="applications-panel" tal:define="root context/@@absolute_url">
+  <form action="manageapps" id="installed">
+    <fieldset>
+      <legend>Installed applications</legend>
+
+      <div tal:condition="not: view/installed">
+	<p class="menu-description1">
+	  Currently no working applications are installed.
+	</p>
+      </div>
+
+      <div tal:condition="view/installed"
+	   tal:repeat="app view/installed">
+	<input type="checkbox" 
+	       class="checkbox" 
+	       tal:attributes="value app/__name__;
+			       name string:items" />
+	<a tal:attributes="href app/url">
+	  <b><span tal:replace="app/__name__"/></b>
+	</a>
+	(<span tal:replace="app/classname"/>)
+	<div tal:content="app/@@info" />
+      </div>
+
+      <div tal:condition="view/broken">
+	<br/><div class="emph">Broken applications:</div>
+      </div>
+      <div tal:repeat="app view/broken">
+	<input type="checkbox" 
+	       class="checkbox" 
+	       tal:attributes="value app/__name__;
+			       name string:items" />
+	<span tal:content="app/__name__" />
+	(broken type: <span tal:replace="app/classname"/>).
+	This application is broken!
+      </div>
+
+      <p>
+	<input tal:condition="view/has_apps"
+	       class="button" type="submit" name="delete" 
+	       id="form.actions.delete"
+	       value="Delete Selected"/>
+	<input tal:condition="view/installed"
+	       class="button" type="submit" name="rename"
+	       value="Rename"/>
+      </p>
+    </fieldset>
+  </form>
+
+  <fieldset>	
+    <legend>Add application</legend>
+    <div tal:repeat="app view/installable">
+      <div class="details">
+	<h3 tal:content="app/__name__">Application Name</h3>
+	<p class="description"
+	   tal:content="structure app/description">
+	  Application description here.
+	</p>
+	<div tal:content="app/@@info" />
+      </div>	  
+      <form action="add" tal:attributes="name app/classname">
+	<fieldset>
+	  <label for="name">
+	    Name and create a new 
+	    <span tal:replace="app/__name__">Foo</span>
+	    application
+	  </label>
+	  <br />
+	  <input type="text" name="name"/>
+	  <input type="hidden" name="application" value=""
+		 tal:attributes="value app/classname" />
+	  <input class="button" type="submit" name="Add" value="Create"/>
+	</fieldset>
+      </form>
+    </div> 
+  </fieldset>
+
+</div>
