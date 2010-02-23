@@ -1,17 +1,6 @@
-##############################################################################
-#
-# Copyright (c) 2007 Zope Corporation and Contributors.
-# All Rights Reserved.
-#
-# This software is subject to the provisions of the Zope Public License,
-# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
-# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
-# FOR A PARTICULAR PURPOSE.
-#
-##############################################################################
 """
+Applications management
+=======================
 
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()
@@ -71,9 +60,8 @@ We get a form were we can enter new names::
 
   >>> print browser.contents
   <html xmlns="http://www.w3.org/1999/xhtml">
-  ...
-  <legend> Rename applications: </legend>
-  ...
+  ...<legend> Rename applications: </legend>...
+
   >>> subform = browser.getForm()
   >>> subform.getControl(
   ...     name='new_names:list').value = 'my-new-mammoth-manager'

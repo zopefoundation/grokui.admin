@@ -1,6 +1,6 @@
 <div>
   <form tal:define="apps context/root/values"
-	tal:attributes="action string:${context/@@absolute_url}/@@grokadmin_rename"
+	tal:attributes="action string:${context/@@absolute_url}/@@rename"
 	method="post">
     <fieldset>
       <legend> Rename applications: </legend>

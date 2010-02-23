@@ -2,13 +2,14 @@
 """Views for the grok admin UI"""
 
 import grok
+import z3c.flashmessage.interfaces
 
 from BTrees.OOBTree import OOBTree
-from grokui.base import IGrokUIRealm, GrokUIView
+from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 from grokui.admin.security import MSG_DISABLED
-
+from megrok.layout import Page
 from zope.exceptions import DuplicationError
 from zope.component import getUtility, queryUtility
 
@@ -35,8 +36,8 @@ class GrokAdminVersion(grok.View):
 
     Call this view via http://localhost:8080/@@admin/@@version to
     get the used grok version. Call
-    http://localhost:8080/@@admin/@@version?pkg=<pkgname> to get
-    the used version of package <pkgname>.
+    http://localhost:8080/++grokui++/@@admin/@@version?pkg=<pkgname>
+    to get the used version of package <pkgname>.
     """
     grok.name('version')
     grok.context(GrokAdminInfoView)
@@ -49,7 +50,7 @@ class GrokAdminVersion(grok.View):
 class GrokAdminSecurityNotes(grok.View):
     """Display current security notification.
 
-    Call this view via http://localhost:8080/@@admin/@@secnote
+    Call this view via http://localhost:8080/++grokui++/@@admin/@@secnote
     """
     grok.name('secnote')
     grok.context(GrokAdminInfoView)
@@ -140,17 +141,22 @@ class ManageApps(grok.View):
             return self.delete(items)
         elif rename is not None:
             return self.redirect(getURLWithParams(
-                    self.url(self.context, '@@grokadmin_rename'),
+                    self.url(self.context, '@@rename'),
                     data=dict(items=items)))
         self.redirect(self.url(self.context, 'applications'))
 
 
-class Rename(GrokUIView):
+class Rename(Page):
     """Rename Grok applications.
     """
-    grok.name('grokadmin_rename')
+    grok.name('rename')
     grok.template('rename')
     grok.require('grok.ManageApplications')
+
+    def flash(self, message, type='message'):
+        source = getUtility(
+            z3c.flashmessage.interfaces.IMessageSource, name='session')
+        source.send(message, type)
 
     def update(self, cancel=None, items=None, new_names=None):
 
