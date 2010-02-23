@@ -31,7 +31,7 @@ Security notifications are handled by a `SecurityNotifier`::
   >>> sn = SecurityNotifier()
 
 Instances provide the `ISecurityNotifier` interface.
-  
+
   >>> from grokui.admin.interfaces import ISecurityNotifier
   >>> ISecurityNotifier.providedBy(sn)
   True
@@ -39,7 +39,7 @@ Instances provide the `ISecurityNotifier` interface.
 
 Enabling and disabling the notifier
 -----------------------------------
-  
+
 By default a security notifier is not enabled::
 
   >>> sn.enabled
@@ -139,7 +139,7 @@ call the `isWarning` method::
   >>> sn.isWarning()
   True
 
-  
+
 `SecurityNotifier` in `grokui.admin`
 ====================================
 
@@ -160,7 +160,7 @@ shutting down.
 Immediately after startup, the notifier doesn't exists::
 
   >>> from grokui.admin.interfaces import ISecurityNotifier
-  
+
   >>> root = getRootFolder()
   >>> sm = root.getSiteManager()
   >>> notifier = sm.queryUtility(ISecurityNotifier)
@@ -218,7 +218,7 @@ We can of course disable security notifications at any time::
   ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
 
-  
+
 Clean up::
 
   >>> import os

@@ -60,15 +60,16 @@ import grok
 
 
 class StuffedMammoth(grok.Application, grok.Container):
-    """A stuffed mammoth"""
+    """A stuffed mammoth.
+    """
     stuffing = None
 
 
-class Index(grok.View):#
+class Index(grok.View):
 
     def update(self, stuffing=None):
         if stuffing is not None:
-            self.context.stuffing = stuffing*1000
+            self.context.stuffing = stuffing * 1000
         else:
             self.context.stuffing = None
 

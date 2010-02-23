@@ -80,6 +80,8 @@ and the 'Broken applications' section won't show up anymore:
 """
 import grok
 from ZODB.broken import Broken
+
+
 class PseudoBroken(grok.Application, grok.Container, Broken):
     """A class intentionally broken.
     """

@@ -40,12 +40,12 @@ def suiteFromPackage(name):
             continue
 
         dottedname = 'grokui.admin.tests.%s.%s' % (name, filename[:-3])
-        test = doctest.DocTestSuite(dottedname,
-                                    setUp=setUpZope,
-                                    tearDown=cleanUpZope,
-                                    optionflags=doctest.ELLIPSIS+
-                                    doctest.NORMALIZE_WHITESPACE)
-
+        test = doctest.DocTestSuite(
+            dottedname,
+            setUp=setUpZope,
+            tearDown=cleanUpZope,
+            optionflags=(doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE),
+            )
         suite.addTest(test)
     return suite
 
@@ -70,7 +70,7 @@ def test_suite():
             globs=globs,
             setUp=setUpZope,
             tearDown=cleanUpZope,
-            optionflags=(doctest.ELLIPSIS|doctest.NORMALIZE_WHITESPACE),
+            optionflags=(doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE),
             ))
     return suite
 

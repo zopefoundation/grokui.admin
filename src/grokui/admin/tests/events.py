@@ -20,7 +20,7 @@ When we create a new app, a grok.IObjectCreatedEvent is called:
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
-  
+
 We fetch the standard page, which should provide us a menu to get all
 installable grok applications/components.
 
@@ -37,8 +37,10 @@ below will be called:
 """
 import grok
 
+
 class App(grok.Application, grok.Container):
     pass
+
 
 @grok.subscribe(App, grok.IObjectCreatedEvent)
 def handle_my_event(obj, event):

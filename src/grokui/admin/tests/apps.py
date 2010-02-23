@@ -16,7 +16,7 @@
   >>> from zope.testbrowser.testing import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
-  
+
 We fetch the standard page, which should provide us a menu to get all
 installable grok applications/components.
 
@@ -75,7 +75,8 @@ We get a form were we can enter new names::
   <legend> Rename applications: </legend>
   ...
   >>> subform = browser.getForm()
-  >>> subform.getControl(name='new_names:list').value = 'my-new-mammoth-manager'
+  >>> subform.getControl(
+  ...     name='new_names:list').value = 'my-new-mammoth-manager'
   >>> subform.getControl('Rename').click()
 
 Our app was indeed renamed::
@@ -85,7 +86,7 @@ Our app was indeed renamed::
   ...<legend>Installed applications</legend>
   ...<a href="http://localhost/my-new-mammoth-manager">
   ...my-new-mammoth-manager...
-  
+
 We are able to delete installed mammoth-managers
 
   >>> browser.open("http://localhost/++grokui++/applications")
@@ -111,10 +112,14 @@ import grok
 
 
 class MammothManager(grok.Application, grok.Container):
-    """A mammoth manager"""
+    """A mammoth manager.
+    """
     pass
 
 
 class Index(grok.View):
+    """A mammoth manager view.
+    """
+
     def render(self):
         return u"Let's manage some mammoths!"

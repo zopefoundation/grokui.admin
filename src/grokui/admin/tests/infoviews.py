@@ -36,9 +36,9 @@ We must be authenticated to fetch those infos::
 
 Getting the current grok version
 --------------------------------
-  
+
 When we are authenticated, we can retrieve the grok version used::
-  
+
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
   >>> print browser.contents
@@ -63,7 +63,8 @@ by passing a `pkg` parameter.
 To determine the used version of `grokui.admin` we can call::
 
   >>> import pkg_resources
-  >>> browser.open('http://localhost/++grokui++/@@admin/@@version?pkg=grokui.admin')
+  >>> browser.open(
+  ...   'http://localhost/++grokui++/@@admin/@@version?pkg=grokui.admin')
   >>> version = pkg_resources.get_distribution('grokui.admin').version
   >>> browser.contents == ('grokui.admin ' + version)
   True

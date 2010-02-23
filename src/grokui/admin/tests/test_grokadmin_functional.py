@@ -1,6 +1,5 @@
 import re
 import unittest
-import grokui.admin
 import os.path
 
 from pkg_resources import resource_listdir
@@ -13,7 +12,7 @@ ftesting_zcml = os.path.join(
     os.path.dirname(__file__), 'ftesting.zcml')
 
 GrokAdminFunctionalLayer = ZCMLLayer(
-    ftesting_zcml, __name__, 'GrokAdminFunctionalLayer', allow_teardown = True)
+    ftesting_zcml, __name__, 'GrokAdminFunctionalLayer', allow_teardown=True)
 
 
 def setUp(test):
@@ -38,7 +37,7 @@ def http_call(method, path, data=None, **kw):
     data - (body) data to submit
     kw - any request parameters
     """
-    
+
     if path.startswith('http://localhost'):
         path = path[len('http://localhost'):]
     request_string = '%s %s HTTP/1.1\n' % (method, path)
@@ -69,9 +68,9 @@ def test_suite():
                             http_call=http_call,
                             getRootFolder=getRootFolder,
                             sync=sync),
-            optionflags=(doctest.ELLIPSIS+
-                         doctest.NORMALIZE_WHITESPACE+
-                         doctest.REPORT_NDIFF)
+            optionflags=(doctest.ELLIPSIS +
+                         doctest.NORMALIZE_WHITESPACE +
+                         doctest.REPORT_NDIFF),
             )
         test.layer = GrokAdminFunctionalLayer
 
