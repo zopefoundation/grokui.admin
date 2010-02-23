@@ -5,25 +5,30 @@ import os.path
 
 from pkg_resources import resource_listdir
 from zope.testing import doctest, renormalizing
-from zope.app.testing.functional import (HTTPCaller, getRootFolder,
-                                         FunctionalTestSetup, sync, ZCMLLayer)
+from zope.app.testing.functional import (
+    HTTPCaller, getRootFolder, FunctionalTestSetup, sync, ZCMLLayer)
 
-ftesting_zcml = os.path.join(os.path.dirname(grokui.admin.__file__),
-                             'ftesting.zcml')
-GrokAdminFunctionalLayer = ZCMLLayer(ftesting_zcml, __name__,
-                                     'GrokAdminFunctionalLayer',
-                                     allow_teardown = True)
+
+ftesting_zcml = os.path.join(
+    os.path.dirname(__file__), 'ftesting.zcml')
+
+GrokAdminFunctionalLayer = ZCMLLayer(
+    ftesting_zcml, __name__, 'GrokAdminFunctionalLayer', allow_teardown = True)
+
 
 def setUp(test):
     FunctionalTestSetup().setUp()
 
+
 def tearDown(test):
     FunctionalTestSetup().tearDown()
+
 
 checker = renormalizing.RENormalizing([
     # Accommodate to exception wrapping in newer versions of mechanize
     (re.compile(r'httperror_seek_wrapper:', re.M), 'HTTPError:'),
     ])
+
 
 def http_call(method, path, data=None, **kw):
     """Function to help make RESTful calls.
@@ -43,6 +48,7 @@ def http_call(method, path, data=None, **kw):
         request_string += '\r\n'
         request_string += data
     return HTTPCaller()(request_string, handle_errors=False)
+
 
 def test_suite():
     suite = unittest.TestSuite()
@@ -71,6 +77,7 @@ def test_suite():
 
         suite.addTest(test)
     return suite
+
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

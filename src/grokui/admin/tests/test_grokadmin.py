@@ -15,15 +15,18 @@
 
 import os
 import unittest
+import zope.component.eventtesting
 from pkg_resources import resource_listdir
 from zope.testing import doctest, cleanup
-import zope.component.eventtesting
+
 
 def setUpZope(test):
     zope.component.eventtesting.setUp(test)
 
+
 def cleanUpZope(test):
     cleanup.cleanUp()
+
 
 def suiteFromPackage(name):
     files = resource_listdir(__name__, name)
@@ -46,11 +49,13 @@ def suiteFromPackage(name):
         suite.addTest(test)
     return suite
 
+
 def pnorm(path):
     """Normalization of paths to use forward slashes. This is needed
     to make sure the tests work on windows.
     """
     return path.replace(os.sep, '/')
+
 
 def test_suite():
     suite = unittest.TestSuite()
