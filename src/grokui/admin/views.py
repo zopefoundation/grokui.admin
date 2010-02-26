@@ -2,8 +2,6 @@
 """Views for the grok admin UI"""
 
 import grok
-import z3c.flashmessage.interfaces
-
 from BTrees.OOBTree import OOBTree
 from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
@@ -153,10 +151,6 @@ class Rename(Page):
     grok.template('rename')
     grok.require('grok.ManageApplications')
 
-    def flash(self, message, type='message'):
-        source = getUtility(
-            z3c.flashmessage.interfaces.IMessageSource, name='session')
-        source.send(message, type)
 
     def update(self, cancel=None, items=None, new_names=None):
 

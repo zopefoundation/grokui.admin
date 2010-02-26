@@ -38,7 +38,7 @@ class SecurityNotificationViewlet(grok.Viewlet):
         notifier = self.security_notifier
         if notifier is None:
             return u""
-        return '''<div class="grokui-security message">%s</div>''' % (
+        return u'''<div class="grokui-security message">%s</div>''' % (
             self.security_notifier.getNotification())
 
 
