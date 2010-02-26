@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import grok
-from grokui.base import BasePluginInfo
+from grokui.base import BasePluginInfo, GrokUILayer
 from grokui.admin import utilities
 from grokui.admin.security import MSG_DISABLED
 from grokui.admin.interfaces import ISecurityNotifier
 from zope.component import queryUtility
+
+grok.layer(GrokUILayer)
 
 
 class AdminInfo(BasePluginInfo):
@@ -52,7 +54,7 @@ class Version(grok.View):
 class SecurityNotes(grok.View):
     """Display current security notification.
 
-    Call this view via http://localhost:8080/++grokui++/@@admin/@@secnote
+    Call this view via http://localhost:8080/++grokui++/++info++admin/secnote
     """
     grok.name('secnote')
     grok.context(AdminInfo)
