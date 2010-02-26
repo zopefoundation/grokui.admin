@@ -17,13 +17,6 @@ class AdminInfo(BasePluginInfo):
     description = (u'This module allows you to create and'
                    u' manage your Grok applications.')
 
-    @property
-    def version(self):
-        return self.getVersion('grokui.admin')
-
-    def getVersion(self, pkg='grok'):
-        return u'%s %s' % (pkg, utilities.getVersion(pkg))
-
     def getSecurityNotes(self):
         notifier = queryUtility(ISecurityNotifier, default=None)
         if notifier is not None:
@@ -34,8 +27,7 @@ class AdminInfo(BasePluginInfo):
 class Version(grok.View):
     """Display version of a package.
 
-    Call this view via http://localhost:8080/@@admin/@@version to
-    get the used grok version. Call
+    Call this view via
     http://localhost:8080/++grokui++/++info++admin++/version?pkg=<pkgname>
     or http://localhost:8080/++grokui++/++info++admin++/version/<pkgname>
     to get the used version of package <pkgname>.
@@ -48,7 +40,11 @@ class Version(grok.View):
         return self
 
     def render(self, pkg='grok'):
-        return self.context.getVersion(pkg)
+        version = utilities.getVersion(pkg)
+        if version is None:
+            version = u'Not installed or namespace package.'
+        return u'%s %s' % (pkg, version)
+
 
 
 class SecurityNotes(grok.View):
