@@ -25,9 +25,12 @@ def getURLWithParams(url, data=None):
 def getVersion(pkgname):
     """Determine the version of `pkgname` used in background.
     """
-    info = pkg_resources.get_distribution(pkgname)
-    if info.has_version and info.version:
-        return info.version
+    try:
+        info = pkg_resources.get_distribution(pkgname)
+        if info.has_version and info.version:
+            return info.version
+    except pkg_resources.DistributionNotFound:
+        pass
     return None
 
 
