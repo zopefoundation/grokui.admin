@@ -4,12 +4,10 @@
 import grok
 from BTrees.OOBTree import OOBTree
 from grokui.base import IGrokUIRealm
-from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getVersion, getURLWithParams
-from grokui.admin.security import MSG_DISABLED
+from grokui.admin.utilities import getURLWithParams
 from megrok.layout import Page
 from zope.exceptions import DuplicationError
-from zope.component import getUtility, queryUtility
+from zope.component import getUtility
 
 grok.context(IGrokUIRealm)
 grok.templatedir("templates")
@@ -17,47 +15,6 @@ grok.templatedir("templates")
 
 class ManageApplications(grok.Permission):
     grok.name('grok.ManageApplications')
-
-
-class GrokAdminInfoView(grok.View):
-    """A base to provide machinereadable views.
-    """
-    grok.name('admin')
-    grok.require('grok.ManageApplications')
-
-    def render(self):
-        return u'go to @@version or @@secnotes'
-
-
-class GrokAdminVersion(grok.View):
-    """Display version of a package.
-
-    Call this view via http://localhost:8080/@@admin/@@version to
-    get the used grok version. Call
-    http://localhost:8080/++grokui++/@@admin/@@version?pkg=<pkgname>
-    to get the used version of package <pkgname>.
-    """
-    grok.name('version')
-    grok.context(GrokAdminInfoView)
-    grok.require('grok.ManageApplications')
-
-    def render(self, pkg='grok'):
-        return u'%s %s' % (pkg, getVersion(pkg))
-
-
-class GrokAdminSecurityNotes(grok.View):
-    """Display current security notification.
-
-    Call this view via http://localhost:8080/++grokui++/@@admin/@@secnote
-    """
-    grok.name('secnote')
-    grok.context(GrokAdminInfoView)
-    grok.require('grok.ManageApplications')
-
-    def render(self):
-        notifier = queryUtility(ISecurityNotifier, default=None)
-        return (notifier is not None and notifier.getNotification()
-                or MSG_DISABLED)
 
 
 class Add(grok.View):
@@ -150,7 +107,6 @@ class Rename(Page):
     grok.name('rename')
     grok.template('rename')
     grok.require('grok.ManageApplications')
-
 
     def update(self, cancel=None, items=None, new_names=None):
 
