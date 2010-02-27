@@ -13,6 +13,10 @@ grok.layer(GrokUILayer)
 class AdminInfo(BasePluginInfo):
     grok.name('admin')
 
+    @property
+    def version(self):
+        return "grokui.admin %s" % utilities.getVersion('grokui.admin')
+    
     title = u'Applications manager'
     description = (u'This module allows you to create and'
                    u' manage your Grok applications.')
