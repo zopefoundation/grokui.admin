@@ -151,7 +151,6 @@ class Rename(Page):
     grok.template('rename')
     grok.require('grok.ManageApplications')
 
-
     def update(self, cancel=None, items=None, new_names=None):
         """Renaming applications process.
         """
