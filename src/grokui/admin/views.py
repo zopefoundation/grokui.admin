@@ -153,7 +153,8 @@ class Rename(Page):
 
 
     def update(self, cancel=None, items=None, new_names=None):
-
+        """Renaming applications process.
+        """
         if cancel is not None or not items:
             return self.redirect(self.url(self.context, 'applications'))
 
