@@ -1,10 +1,11 @@
 grokui.admin changes
 ********************
 
-0.6.1 (unreleased)
+0.6.1 (2010-03-07)
 ==================
 
-* ...
+* Added missing tests dependencies. Declarations and includes should
+  now be complete.
 
 
 0.6 (2010-02-28)
