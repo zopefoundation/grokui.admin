@@ -6,7 +6,8 @@ tests_require = [
     'zope.testbrowser',
     'zope.testing',
     'zope.security',
-    'zope.securitypolicy'
+    'zope.securitypolicy',
+    'zope.principalregistry',
     ]
 
 def read(*rnames):

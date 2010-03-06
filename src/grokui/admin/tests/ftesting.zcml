@@ -4,7 +4,15 @@
    i18n_domain="grok"
    package="grokui.admin">
 
-  <include package="grokui.base" />
+  <include package="zope.component" file="meta.zcml" />
+  <include package="zope.security" file="meta.zcml" />
+  <include package="zope.securitypolicy" file="meta.zcml" />
+  <include package="zope.principalregistry" file="meta.zcml" />
+
+  <include package="zope.security" />
+  <include package="zope.securitypolicy" />
+  <include package="zope.principalregistry" />
+
   <include package="grokui.admin" />
   <grok:grok package="grokui.admin.tests" />
 
