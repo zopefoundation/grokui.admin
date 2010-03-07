@@ -15,22 +15,23 @@ def read(*rnames):
 
 setup(name='grokui.admin',
       version='0.6.2dev',
-      description="The Grok administration and development UI (base)",
+      description="The Grok administration and development UI",
       long_description=(
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
           '\n\n' +
           read('CHANGES.txt')
         ),
       classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: Zope Public License',
-        'Programming Language :: Python',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope3'], 
+          'Development Status :: 4 - Beta',
+          'Environment :: Web Environment',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: Zope Public License',
+          'Programming Language :: Python',
+          'Natural Language :: English',
+          'Operating System :: OS Independent',
+          'Topic :: Internet :: WWW/HTTP',
+          'Framework :: Zope3',
+          ], 
       keywords="zope3 grok grokadmin",
       author="Uli Fouquet and lots of contributors from grok community",
       author_email="grok-dev@zope.org",
