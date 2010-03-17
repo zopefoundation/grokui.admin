@@ -75,7 +75,7 @@ class Add(grok.View):
             grok.notify(grok.ObjectCreatedEvent(new_app))
             self.context.root[name] = new_app
             self.flash(u'Added %s `%s`.' % (application, name))
-        except DuplicationError:
+        except (DuplicationError, KeyError):
             self.flash(u'Name `%s` already in use. '
                        u'Please choose another name.' % (name,))
         self.redirect(self.url(self.context, 'applications'))
