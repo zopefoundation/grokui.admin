@@ -176,6 +176,3 @@ class Rename(Page):
             self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
         self.redirect(self.url(self.context, 'applications'))
         return
-
-class MyApp(grok.Application, grok.Container):
-    pass
