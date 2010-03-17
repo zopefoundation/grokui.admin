@@ -65,17 +65,7 @@ class Add(grok.View):
     """
     grok.require('grok.ManageApplications')
 
-    def update(self, inspectapp=None, application=None):
-        if inspectapp is not None:
-            self.redirect(
-                "%s/%s/index" % (
-                    self.url("docgrok"), application.replace('.', '/')))
-        return
-
-    def render(self, application, name, inspectapp=None):
-        if name is None or name == "":
-            self.redirect(self.url(self.context, 'applications'))
-            return
+    def render(self, application, name):
         if name is None or name == "":
             self.redirect(self.url(self.context, 'applications'))
             return
@@ -186,3 +176,6 @@ class Rename(Page):
             self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
         self.redirect(self.url(self.context, 'applications'))
         return
+
+class MyApp(grok.Application, grok.Container):
+    pass
