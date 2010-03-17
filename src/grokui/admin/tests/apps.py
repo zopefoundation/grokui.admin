@@ -75,6 +75,19 @@ Our app was indeed renamed::
   ...<a href="http://localhost/my-new-mammoth-manager">
   ...my-new-mammoth-manager...
 
+If we try to create an application with an already existing name, this
+won't work, but the UI will tell us:
+
+  >>> browser.open("http://localhost/++grokui++/applications")
+  >>> subform = browser.getForm(name='grokui.admin.tests.apps.MammothManager')
+  >>> subform.getControl(name='name').value = 'my-new-mammoth-manager'
+  >>> subform.getControl('Create').click()
+
+  >>> print browser.contents
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  ...Name `my-new-mammoth-manager` already in use.
+  ...Please choose another name...
+
 We are able to delete installed mammoth-managers
 
   >>> browser.open("http://localhost/++grokui++/applications")
