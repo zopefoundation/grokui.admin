@@ -4,7 +4,8 @@ grokui.admin changes
 0.6.2 (unreleased)
 ==================
 
-* ...
+* Removed duplicated/unused code. 
+  Fix https://bugs.launchpad.net/grok/+bug/539940
 
 
 0.6.1 (2010-03-07)
