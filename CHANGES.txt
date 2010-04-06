@@ -4,6 +4,8 @@ grokui.admin changes
 0.6.2 (unreleased)
 ==================
 
+* Modified package to comply with Zope Foundation policy.
+
 * Removed duplicated/unused code. 
   Fix https://bugs.launchpad.net/grok/+bug/539940
 
