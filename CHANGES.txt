@@ -4,7 +4,7 @@ grokui.admin changes
 0.4.2 (unreleased)
 ==================
 
-* ...
+* Modified package to comply with Zope Foundation repository policy.
 
 0.4.1 (2010-02-14)
 ==================
