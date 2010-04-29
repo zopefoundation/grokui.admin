@@ -156,7 +156,7 @@ Immediately after startup, the notifier doesn't exists::
 
 We log into the admin screen to set a new notifier URL::
 
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open('http://localhost/++grokui++/@@server')

@@ -3,7 +3,7 @@ ZODB packing
 ============
 
 Create a mammoth-manager, and stuff it with data which can be packed.
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open("http://localhost/")
@@ -28,13 +28,13 @@ Time to pull the stuffing out again.
 Check the size of the ZODB.
   >>> browser.open("http://localhost/++grokui++/server")
   >>> lines = [ l.strip() for l in browser.contents.split('\\n') ]
-  >>> zodb_size = lines[lines.index("Demo storage 'unnamed'")+  1]
+  >>> zodb_size = lines[lines.index("main")+  1]
   >>> num_zodb_size = int(zodb_size.split(' ')[0])
 
 Now, pack the database.
 
   >>> lines = [ l.strip() for l in browser.contents.split('\\n') ]
-  >>> zodb_size = lines[lines.index("Demo storage 'unnamed'")+  1]
+  >>> zodb_size = lines[lines.index("main")+  1]
   >>> new_num_zodb_size = int(zodb_size.split(' ')[0])
 
 And clean up after ourselves.
