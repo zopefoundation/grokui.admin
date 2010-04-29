@@ -4,7 +4,7 @@ Events
 
 When we create a new app, a grok.IObjectCreatedEvent is called:
 
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 

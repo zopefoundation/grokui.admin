@@ -8,7 +8,7 @@ to repair broken objects are also still missing.
 
 We first setup the environment:
 
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 

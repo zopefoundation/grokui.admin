@@ -3,8 +3,9 @@ Tests for the server functionality of the admin interface.
 
 We start with authenticating ourselves::
 
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
+  >>> browser.handleErrors = False
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
 We fetch the standard page, which should provide us a menu to get all

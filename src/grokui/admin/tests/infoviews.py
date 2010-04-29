@@ -11,7 +11,7 @@ keep track of the site status via usual system administration tools.
 
 We must have a browser available::
 
-  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
 
 We must be authenticated to fetch those infos::

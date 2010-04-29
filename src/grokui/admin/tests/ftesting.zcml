@@ -1,5 +1,6 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:grok="http://namespaces.zope.org/grok"
    i18n_domain="grok"
    package="grokui.admin">
@@ -37,6 +38,11 @@
       password="mgrpw"
       />
 
+  <browser:defaultView
+      name="index.html"
+      for="zope.container.interfaces.IContainer"
+      />
+  
   <role id="zope.Manager" title="Site Manager" />
   <grantAll role="zope.Manager" />
   <grant role="zope.Manager" principal="zope.mgr" />
