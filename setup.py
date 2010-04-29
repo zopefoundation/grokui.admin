@@ -2,13 +2,12 @@ import os
 from setuptools import setup, find_packages
 
 tests_require = [
-    'zope.app.testing',
     'zope.app.wsgi',
-    'zope.testbrowser',
-    'zope.testing',
+    'zope.login',
+    'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
-    'zope.principalregistry',
+    'zope.testing',
     ]
 
 def read(*rnames):
@@ -58,7 +57,6 @@ setup(name='grokui.admin',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.location',
-          'zope.login',
           'zope.schema',
           'zope.site',
           'zope.size',
