@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import doctest
 import re
 import unittest
 import os.path
 import grokui.admin
 
 from pkg_resources import resource_listdir
-from zope.testing import doctest, renormalizing
+from zope.testing import renormalizing
 from zope.app.wsgi.testlayer import BrowserLayer
 
 ftesting_zcml = os.path.join(

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import doctest
 import os
 import unittest
 import zope.component.eventtesting
 from pkg_resources import resource_listdir
-from zope.testing import doctest, cleanup
+from zope.testing import cleanup
 
 
 def setUpZope(test):
