@@ -19,7 +19,6 @@ from zope.component import getUtility, queryUtility, getUtilitiesFor
 from zope.i18nmessageid import MessageFactory
 
 _ = MessageFactory('grokui')
-grok.templatedir("templates")
 
 
 class Server(GrokUIView):
