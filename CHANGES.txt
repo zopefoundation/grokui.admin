@@ -12,6 +12,9 @@ grokui.admin changes
 * Reflect changes in Folder API: check also for KeyError, not only for
   DuplicationError when adding new apps.
 
+* Added extra-templatedirs and moved templates into these in order to
+  avoid (erraneous) templatedir-registry warnings.
+
 0.6.1 (2010-03-07)
 ==================
 
