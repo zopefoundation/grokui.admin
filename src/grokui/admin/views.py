@@ -74,6 +74,7 @@ class Add(grok.View):
             new_app = app()
             grok.notify(grok.ObjectCreatedEvent(new_app))
             self.context.root[name] = new_app
+            grok.notify(grok.ApplicationInitializedEvent(new_app))
             self.flash(u'Added %s `%s`.' % (application, name))
         except (DuplicationError, KeyError):
             self.flash(u'Name `%s` already in use. '

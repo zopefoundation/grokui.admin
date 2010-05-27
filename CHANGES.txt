@@ -1,10 +1,16 @@
 grokui.admin changes
 ********************
 
-0.6.3 (unreleased)
+0.7.0 (unreleased)
 ==================
 
-* None yet...
+* The ApplicationInitializedEvent newly introduced in Grok is now
+  triggered while an application is created and persisted. This is an
+  important event, allowing to hook handlers that need local utilities
+  and catalog indexes that are not yet present at the
+  ObjectCreatedEvent stage.
+
+* ...
 
 0.6.2 (2010-05-19)
 ==================
