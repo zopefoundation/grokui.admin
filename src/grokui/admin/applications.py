@@ -9,7 +9,6 @@ from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
 from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
 
-grok.templatedir("templates")
 
 
 class InstalledApplication(object):
