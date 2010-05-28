@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-0.6.4 (unreleased)
+0.6.4 (2010-05-28)
 ==================
 
 - Fix bug where the tests would not run correctly when run form the egg itself.
