@@ -3,6 +3,7 @@
 
 import grok
 from BTrees.OOBTree import OOBTree
+from grok.util import create_application
 from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
@@ -71,10 +72,7 @@ class Add(grok.View):
             return
         app = getUtility(grok.interfaces.IApplication, name=application)
         try:
-            new_app = app()
-            grok.notify(grok.ObjectCreatedEvent(new_app))
-            self.context.root[name] = new_app
-            grok.notify(grok.ApplicationInitializedEvent(new_app))
+            new_app = create_application(app, self.context.root, name)
             self.flash(u'Added %s `%s`.' % (application, name))
         except (DuplicationError, KeyError):
             self.flash(u'Name `%s` already in use. '

@@ -4,11 +4,12 @@ grokui.admin changes
 0.7.0 (unreleased)
 ==================
 
-* The ApplicationInitializedEvent newly introduced in Grok is now
-  triggered while an application is created and persisted. This is an
-  important event, allowing to hook handlers that need local utilities
-  and catalog indexes that are not yet present at the
-  ObjectCreatedEvent stage.
+* The application creation view now uses the Grok util function
+  `create_application`. Therefore, the `ApplicationInitializedEvent`,
+  recently introduced in Grok, is now triggered while an application is
+  created and persisted. This is an important event, allowing to hook
+  handlers that need local utilities and catalog indexes that are not
+  yet present at the ObjectCreatedEvent stage.
 
 * ...
 
