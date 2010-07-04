@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-0.7.0 (unreleased)
+0.7.0 (2010-07-04)
 ==================
 
 * The application creation view now uses the Grok util function
@@ -10,8 +10,6 @@ grokui.admin changes
   created and persisted. This is an important event, allowing to hook
   handlers that need local utilities and catalog indexes that are not
   yet present at the ObjectCreatedEvent stage.
-
-* ...
 
 0.6.2 (2010-05-19)
 ==================
