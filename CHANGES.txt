@@ -4,7 +4,9 @@ grokui.admin changes
 0.7.1 (unreleased)
 ==================
 
-* No changes yet.
+* Fix https://bugs.launchpad.net/grok/+bug/638763
+  We don't hide away Duplication/KeyErrors that are raised during
+  application creation any more.
 
 
 0.7.0 (2010-07-04)
