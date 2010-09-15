@@ -9,7 +9,6 @@ We first setup the environment:
 
   >>> from zope.app.wsgi.testlayer import Browser
   >>> browser = Browser()
-  >>> #print dir(browser)
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
 We have an application type available, which raises DuplicationError
