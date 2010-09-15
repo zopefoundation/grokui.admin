@@ -71,12 +71,12 @@ class Add(grok.View):
             self.redirect(self.url(self.context, 'applications'))
             return
         app = getUtility(grok.interfaces.IApplication, name=application)
-        try:
-            new_app = create_application(app, self.context.root, name)
-            self.flash(u'Added %s `%s`.' % (application, name))
-        except (DuplicationError, KeyError):
+        if name in self.context.root.keys():
             self.flash(u'Name `%s` already in use. '
                        u'Please choose another name.' % (name,))
+        else:
+            new_app = create_application(app, self.context.root, name)
+            self.flash(u'Added %s `%s`.' % (application, name))
         self.redirect(self.url(self.context, 'applications'))
 
 
