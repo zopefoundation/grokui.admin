@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-0.7.1 (unreleased)
+0.7.1 (2010-10-07)
 ==================
 
 * Fix a bug in the test setup where zope.session was not configurred.
