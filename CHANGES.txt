@@ -4,10 +4,11 @@ grokui.admin changes
 0.7.1 (unreleased)
 ==================
 
+* Fix a bug in the test setup where zope.session was not configurred.
+
 * Fix https://bugs.launchpad.net/grok/+bug/638763
   We don't hide away Duplication/KeyErrors that are raised during
   application creation any more.
-
 
 0.7.0 (2010-07-04)
 ==================
@@ -24,7 +25,7 @@ grokui.admin changes
 
 * Modified package to comply with Zope Foundation policy.
 
-* Removed duplicated/unused code. 
+* Removed duplicated/unused code.
   Fix https://bugs.launchpad.net/grok/+bug/539940
 
 * Reflect changes in Folder API: check also for KeyError, not only for
@@ -107,7 +108,7 @@ Feature changes
 Bug fixes
 ---------
 
-* Adapting this package to use the new version of grokcore.view 
+* Adapting this package to use the new version of grokcore.view
   which splits View into CodeView.
 
 * Upgraded the versions to the alpha 4 list to avoid a dependency
