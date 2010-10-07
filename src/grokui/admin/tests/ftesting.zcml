@@ -13,6 +13,7 @@
   <include package="zope.security" />
   <include package="zope.securitypolicy" />
   <include package="zope.principalregistry" />
+  <include package="zope.session" />
 
   <include package="grokui.admin" />
   <grok:grok package="grokui.admin.tests" />
@@ -42,7 +43,7 @@
       name="index.html"
       for="zope.container.interfaces.IContainer"
       />
-  
+
   <role id="zope.Manager" title="Site Manager" />
   <grantAll role="zope.Manager" />
   <grant role="zope.Manager" principal="zope.mgr" />
