@@ -80,6 +80,7 @@ information source::
   >>> import os.path
   >>> fake_source = os.path.join(os.path.dirname(__file__), 'releaseinfo')
   >>> fake_source_url = 'file://%s' % fake_source + os.path.sep
+  >>> fake_source_url = fake_source_url.replace(os.path.sep, '/')
   >>> sn.setLookupURL(fake_source_url)
 
 Now we can safely enable the notifier and see, whether there are infos
