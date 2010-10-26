@@ -121,8 +121,7 @@ class SecurityNotifier(Persistent):
                 # No security warning found, good message.
                 self._message = u''
                 self._warningstate = False
-        except:
-            # An unexpected problem occured...
+        except Exception, e:
             pass
         if self._message == MSG_DISABLED:
             self._message = u''

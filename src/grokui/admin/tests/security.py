@@ -79,7 +79,7 @@ information source::
 
   >>> import os.path
   >>> fake_source = os.path.join(os.path.dirname(__file__), 'releaseinfo')
-  >>> fake_source_url = 'file://%s' % fake_source + os.path.sep
+  >>> fake_source_url = 'file://localhost/%s' % fake_source + os.path.sep
   >>> fake_source_url = fake_source_url.replace(os.path.sep, '/')
   >>> sn.setLookupURL(fake_source_url)
 
