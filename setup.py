@@ -8,6 +8,7 @@ tests_require = [
     'zope.security',
     'zope.securitypolicy',
     'zope.testing',
+    'zc.buildout',
     ]
 
 def read(*rnames):
@@ -31,7 +32,7 @@ setup(name='grokui.admin',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
           'Framework :: Zope3',
-          ], 
+          ],
       keywords="zope3 grok grokadmin",
       author="Zope Foundation and Contributors",
       author_email="grok-dev@zope.org",
