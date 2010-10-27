@@ -77,11 +77,10 @@ But we can change the place to look for security warnings. We prepared
 a local directory with some warnings, which we will use as our
 information source::
 
-  >>> import os.path
-  >>> fake_source = os.path.join(os.path.dirname(__file__), 'releaseinfo')
-  >>> fake_source_url = 'file://localhost/%s' % fake_source + os.path.sep
-  >>> fake_source_url = fake_source_url.replace(os.path.sep, '/')
-  >>> sn.setLookupURL(fake_source_url)
+  >>> import tempfile
+  >>> release_info_tmpdir = tempfile.mkdtemp()
+  >>> release_info_server = start_server(release_info_tmpdir)
+  >>> sn.setLookupURL(release_info_server)
 
 Now we can safely enable the notifier and see, whether there are infos
 for us. It is sufficient to call `getNotification()` as this will
@@ -104,8 +103,9 @@ one::
 
   >>> from grokui.admin.utilities import getVersion
   >>> version = getVersion('grok')
+  >>> import os.path
   >>> fake_warning_file = 'grok-%s.security.txt' % version
-  >>> fake_warning_file = os.path.join(fake_source, fake_warning_file)
+  >>> fake_warning_file = os.path.join(release_info_tmpdir, fake_warning_file)
   >>> open(fake_warning_file, 'w').write('You better smash %s' % version)
 
 When we now ask the security notifier again::
@@ -182,7 +182,7 @@ every `grokui.admin` page::
 But we are not bound to the default URL to do lookups. We can set
 another one ourselves::
 
-  >>> browser.getControl(name='secnotesource').value=fake_source_url
+  >>> browser.getControl(name='secnotesource').value=release_info_server
   >>> browser.getControl('Set URL').click()
 
 Now, as we set a lookup URL which we can control better, we can enable
