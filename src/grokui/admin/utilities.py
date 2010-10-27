@@ -77,7 +77,7 @@ class TimeoutableHTTPHandler(urllib2.HTTPHandler):
         """Override http_open.
         """
 
-        def makeConnection(host, port=None, strict=None):
+        def makeConnection(host, port=None, strict=None, timeout=None):
             return TimeoutableHTTPConnection(
                 host, port, strict, timeout=self.timeout)
 
