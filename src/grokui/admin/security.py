@@ -115,14 +115,13 @@ class SecurityNotifier(Persistent):
             message = opener.open(req).read()
             self._message = cgi.escape(message)
             self._warningstate = True
-        except (urllib2.HTTPError, OSError), e:
-            if (getattr(e, 'code', None) == 404) or (
-                getattr(e, 'errno', None) == 2):
+        except urllib2.HTTPError, e:
+            if e.code == 404:
                 # No security warning found, good message.
                 self._message = u''
                 self._warningstate = False
-        except Exception, e:
-            pass
+            else:
+                raise
         if self._message == MSG_DISABLED:
             self._message = u''
         self.last_lookup = time.time()
