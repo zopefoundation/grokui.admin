@@ -9,7 +9,6 @@ from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 from grokui.admin.security import MSG_DISABLED
 from megrok.layout import Page
-from zope.exceptions import DuplicationError
 from zope.component import getUtility, queryUtility
 
 grok.context(IGrokUIRealm)
@@ -75,7 +74,7 @@ class Add(grok.View):
             self.flash(u'Name `%s` already in use. '
                        u'Please choose another name.' % (name,))
         else:
-            new_app = create_application(app, self.context.root, name)
+            create_application(app, self.context.root, name)
             self.flash(u'Added %s `%s`.' % (application, name))
         self.redirect(self.url(self.context, 'applications'))
 

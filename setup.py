@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 
 tests_require = [
     'zope.app.wsgi',
-    'zope.login',
     'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
@@ -58,6 +57,7 @@ setup(name='grokui.admin',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.location',
+          'zope.login',
           'zope.schema',
           'zope.site',
           'zope.size',
@@ -65,7 +65,4 @@ setup(name='grokui.admin',
           ],
       tests_require = tests_require,
       extras_require = dict(test=tests_require),
-      entry_points="""
-      # Add entry points here
-      """,
       )
