@@ -1,8 +1,8 @@
 grokui.admin changes
 ********************
 
-0.7.3 (unreleased)
-==================
+0.8 (2010-10-27)
+================
 
 - In testing the security notifications, start a server instead of using
   file://localhost URLs. This saves a lot of urlopen troubles across
