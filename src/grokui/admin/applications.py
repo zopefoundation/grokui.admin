@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import grok
+from grokcore.site.interfaces import IApplication
 from ZODB.broken import Broken
 from grokui.admin import representation
 from zope.traversing.browser import absoluteURL
@@ -70,7 +71,7 @@ class Applications(GrokUIView):
 
     def update(self):
         # Available apps...
-        apps = getAllUtilitiesRegisteredFor(grok.interfaces.IApplication)
+        apps = getAllUtilitiesRegisteredFor(IApplication)
         self.installable = (InstallableApplication(x) for x in apps)
 
         # Installed apps...
