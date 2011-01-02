@@ -45,7 +45,7 @@ setup(name='grokui.admin',
       install_requires=[
           'ZODB3',
           'grok',
-          'grokcore.site >= 1.5',
+          'grokcore.site >= 1.5dev',
           'grokui.base',
           'megrok.layout >= 1.0.1',
           'setuptools',
