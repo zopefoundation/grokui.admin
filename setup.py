@@ -3,6 +3,7 @@ from setuptools import setup, find_packages
 
 tests_require = [
     'zope.app.wsgi',
+    'zope.fanstatic[test]',
     'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
