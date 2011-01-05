@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 
 tests_require = [
     'zope.app.wsgi',
-    'zope.fanstatic[test]',
     'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
@@ -46,7 +45,7 @@ setup(name='grokui.admin',
       install_requires=[
           'ZODB3',
           'grok',
-          'grokcore.site >= 1.5dev',
+          'grokcore.site >= 1.5',
           'grokui.base',
           'megrok.layout >= 1.0.1',
           'setuptools',
