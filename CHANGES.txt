@@ -6,7 +6,6 @@ grokui.admin changes
 
 - Nothing changed yet.
 
-
 0.8 (2010-10-27)
 ================
 

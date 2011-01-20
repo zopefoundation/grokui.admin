@@ -7,7 +7,6 @@ tests_require = [
     'zope.security',
     'zope.securitypolicy',
     'zope.testing',
-    'zope.fanstatic',
     'zc.buildout',
     ]
 
