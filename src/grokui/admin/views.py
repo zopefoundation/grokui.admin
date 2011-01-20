@@ -4,7 +4,6 @@
 import grok
 from BTrees.OOBTree import OOBTree
 from grok.util import create_application
-from grokcore.site.interfaces import IApplication
 from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
@@ -70,7 +69,7 @@ class Add(grok.View):
         if name is None or name == "":
             self.redirect(self.url(self.context, 'applications'))
             return
-        app = getUtility(IApplication, name=application)
+        app = getUtility(grok.IApplication, name=application)
         if name in self.context.root.keys():
             self.flash(u'Name `%s` already in use. '
                        u'Please choose another name.' % (name,))
