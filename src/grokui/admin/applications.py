@@ -10,7 +10,6 @@ from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
 
 
-
 class InstalledApplication(object):
     grok.implements(representation.IInstalledApplication)
 

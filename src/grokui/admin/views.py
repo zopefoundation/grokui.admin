@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """Views for the grok admin UI"""
 
-import grok
+from zope.component import getUtility, queryUtility
 from BTrees.OOBTree import OOBTree
+import grok
 from grok.util import create_application
 from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams
 from grokui.admin.security import MSG_DISABLED
-from megrok.layout import Page
-from zope.component import getUtility, queryUtility
 
 grok.context(IGrokUIRealm)
 grok.templatedir("templates")
@@ -132,7 +131,7 @@ class ManageApps(grok.View):
         self.redirect(self.url(self.context, 'applications'))
 
 
-class Rename(Page):
+class Rename(grok.Page):
     """Rename Grok applications.
     """
     grok.name('rename')
