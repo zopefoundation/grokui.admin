@@ -14,7 +14,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 setup(name='grokui.admin',
-      version='0.11dev',
+      version='0.11',
       description="The Grok administration and development UI",
       long_description=(
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
@@ -44,8 +44,8 @@ setup(name='grokui.admin',
       namespace_packages=['grokui'],
       install_requires=[
           'ZODB3',
-          'grok >= 1.8',
-          'grokcore.site >= 1.5',
+          'grok >= 1.10',
+          'grokcore.site >= 1.6.1',
           'grokui.base',
           'setuptools',
           'z3c.flashmessage',
