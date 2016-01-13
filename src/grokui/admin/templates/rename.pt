@@ -1,0 +1,24 @@
+<div>
+  <form tal:define="apps context/root/values"
+	tal:attributes="action string:${context/@@absolute_url}/@@rename"
+	method="post">
+    <fieldset>
+      <legend> Rename applications: </legend>
+      <div tal:repeat="app view/apps">
+	<span tal:replace="app">AppName</span>
+	<input type="hidden" name="items:list"
+	       tal:attributes="value app"/>
+	  to:
+	  <input type="text" name="new_names:list" 
+		 tal:attributes="value app" />
+      </div>
+      <hr />
+      <div>
+	<input type="submit" class="button" name="rename"
+	       value="Rename" />
+	<input type="submit" class="button" name="cancel"
+	       value="Cancel" />
+      </div>
+    </fieldset>
+  </form>
+</div>
