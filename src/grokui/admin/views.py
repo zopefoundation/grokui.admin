@@ -4,7 +4,7 @@
 from zope.component import getUtility, queryUtility
 from BTrees.OOBTree import OOBTree
 import grok
-from grok.util import create_application
+from grokcore.site.util import create_application
 from grokui.base import IGrokUIRealm
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, getURLWithParams

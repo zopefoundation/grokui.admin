@@ -12,13 +12,14 @@ checker = renormalizing.RENormalizing([
     (re.compile(r'httperror_seek_wrapper:', re.M), 'HTTPError:'),
     ])
 
+
 def test_suite():
     suite = unittest.TestSuite()
     functional_layer = BrowserLayer(grokui.admin.tests)
-    optionflags=(doctest.ELLIPSIS +
-                 doctest.NORMALIZE_WHITESPACE +
-                 doctest.REPORT_NDIFF)
-    globs=dict(getRootFolder=functional_layer.getRootFolder)
+    optionflags = (doctest.ELLIPSIS +
+                   doctest.NORMALIZE_WHITESPACE +
+                   doctest.REPORT_NDIFF)
+    globs = dict(getRootFolder=functional_layer.getRootFolder)
 
     tests = [
         'apps',
@@ -46,8 +47,7 @@ def test_suite():
         optionflags=optionflags,
         # In order to start a tiny http server in the test.
         setUp=zc.buildout.testing.buildoutSetUp,
-        tearDown=zc.buildout.testing.buildoutTearDown,
-        )
+        tearDown=zc.buildout.testing.buildoutTearDown)
     security_test.layer = functional_layer
     suite.addTest(security_test)
     return suite

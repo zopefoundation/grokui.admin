@@ -20,7 +20,7 @@ below will be called:
   >>> subform.getControl(name='name').value = 'my-app'
   >>> subform.getControl('Create').click()
   ObjectCreated event happened.
-  ApplicationInitialized event happened.
+  ApplicationAdded event happened.
 
 While the first event (of type `grok.ObjectCreatedEvent`) tells us
 that an application was created (but might not be completely
@@ -40,6 +40,7 @@ class App(grok.Application, grok.Container):
 def handle_my_event(obj, event):
     print "ObjectCreated event happened."
 
-@grok.subscribe(App, grok.ApplicationInitializedEvent)
+
+@grok.subscribe(App, grok.ApplicationAddedEvent)
 def handle_app_initialized_event(obj, event):
-    print "ApplicationInitialized event happened."
+    print "ApplicationAdded event happened."
