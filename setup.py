@@ -2,10 +2,11 @@ import os
 from setuptools import setup, find_packages
 
 tests_require = [
-    'zope.app.wsgi',
+    'zope.app.wsgi[test]',
     'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
+    'zope.testbrowser',
     'zope.testing',
     'zc.buildout',
     ]

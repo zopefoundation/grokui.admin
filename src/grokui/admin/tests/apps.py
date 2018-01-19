@@ -2,15 +2,16 @@
 Applications management
 =======================
 
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
+  >>> browser.handleErrors = True
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
 We fetch the standard page, which should provide us a menu to get all
 installable grok applications/components.
 
   >>> browser.open("http://localhost/")
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ...      <legend>Add application</legend>
@@ -19,7 +20,7 @@ installable grok applications/components.
 The opening screen should inform us, that there are no applications
 installed yet:
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ... Currently no working...applications are installed.
@@ -31,7 +32,7 @@ We are able to add a mammoth manager...
   >>> subform.getControl(name='name').value = 'my-mammoth-manager'
   >>> subform.getControl('Create').click()
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ...<legend>Installed applications</legend>
@@ -42,10 +43,10 @@ We are able to add a mammoth manager...
 Launch the added mammoth manager
 
   >>> mylink = browser.getLink('my-mammoth-manager').click()
-  >>> print browser.contents
+  >>> print(browser.contents)
   Let's manage some mammoths!
 
-  >>> print browser.url
+  >>> print(browser.url)
   http://localhost/my-mammoth-manager
 
 We can also rename applications. For this we choose the application we
@@ -58,7 +59,7 @@ installed and click `Rename`::
 
 We get a form were we can enter new names::
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...<legend> Rename applications: </legend>...
 
@@ -69,7 +70,7 @@ We get a form were we can enter new names::
 
 Our app was indeed renamed::
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...<legend>Installed applications</legend>
   ...<a href="http://localhost/my-new-mammoth-manager">
@@ -83,7 +84,7 @@ won't work, but the UI will tell us:
   >>> subform.getControl(name='name').value = 'my-new-mammoth-manager'
   >>> subform.getControl('Create').click()
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...Name `my-new-mammoth-manager` already in use.
   ...Please choose another name...
@@ -91,7 +92,7 @@ won't work, but the UI will tell us:
 We are able to delete installed mammoth-managers
 
   >>> browser.open("http://localhost/++grokui++/applications")
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ... <legend>Installed applications</legend>
@@ -99,7 +100,7 @@ We are able to delete installed mammoth-managers
   >>> ctrl = browser.getControl(name='items')
   >>> ctrl.getControl(value='my-new-mammoth-manager').selected = True
   >>> browser.getControl('Delete Selected').click()
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ... Currently no working applications are installed.
