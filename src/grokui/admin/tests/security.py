@@ -106,8 +106,8 @@ one::
   >>> import os.path
   >>> fake_warning_file = 'grok-%s.security.txt' % version
   >>> fake_warning_file = os.path.join(release_info_tmpdir, fake_warning_file)
-  >>> open(fake_warning_file, 'w').write('You better smash %s' % version)
-  22
+  >>> assert open(fake_warning_file, 'w').write('You better smash %s' % version)
+
 
 When we now ask the security notifier again::
 

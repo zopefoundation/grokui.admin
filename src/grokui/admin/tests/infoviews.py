@@ -36,7 +36,7 @@ a major release number (<MAJ>), a minor release number (<MIN>) and an
 oiptional bugfix release number like 'grok 0.14.1'::
 
   >>> import re
-  >>> re.match('^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
+  >>> re.match(r'^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
   <_sre.SRE_Match object; ...>
 
 
