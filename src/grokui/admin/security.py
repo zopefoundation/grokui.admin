@@ -12,10 +12,9 @@ from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 from grokui.base import Messages, IGrokUIRealm
 
 if sys.version_info >= (3, 3):
-    from html import escape
     import urllib.request as urllib
-    import urllib.parse as urlparse
-    import urllib.urljoin as urljoin
+    from html import escape
+    from urllib.parse import urlparse, urljoin
 else:
     import urllib2 as urllib
     from cgi import escape

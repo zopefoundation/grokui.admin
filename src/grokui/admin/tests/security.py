@@ -53,15 +53,13 @@ Getting notifications
 We can get a notification, of course. Asking for that will not trigger
 a lookup, while the notifier is disabled::
 
-  >>> sn.getNotification()
-  'Security notifications are disabled.'
+  >>> assert sn.getNotification() == 'Security notifications are disabled.'
 
 Even an explicit lookup request will not do lookups, while the
 notifier is not enabled::
 
   >>> sn.updateMessage()
-  >>> sn.getNotification()
-  'Security notifications are disabled.'
+  >>> assert sn.getNotification() == 'Security notifications are disabled.'
 
 
 Where to look for notifications
@@ -95,8 +93,7 @@ that stores our last tries::
 
   >>> sn.enable()
   >>> note = sn.getNotification()
-  >>> note
-  ''
+  >>> assert note == u''
 
 Ah, there is no security warning for our version. So let us create
 one::
@@ -106,21 +103,20 @@ one::
   >>> import os.path
   >>> fake_warning_file = 'grok-%s.security.txt' % version
   >>> fake_warning_file = os.path.join(release_info_tmpdir, fake_warning_file)
-  >>> assert open(fake_warning_file, 'w').write('You better smash %s' % version)
+  >>> with open(fake_warning_file, 'w') as fd:
+  ...     _ = fd.write('You better smash %s' % version)
 
 
 When we now ask the security notifier again::
 
-  >>> sn.getNotification()
-  ''
+  >>> assert sn.getNotification() == ''
 
 We got the same answer as before. Why? The lookups are done only in
 certain intervals to reduce the amount of outgoing traffic. When we
 fix the lookup timestamp, we get the real value::
 
   >>> sn.last_lookup = None
-  >>> sn.getNotification()
-  'You better smash 3.1'   
+  >>> assert sn.getNotification() == u'You better smash 3.1'   
 
 To decide, whether the delivered string is actually a warning, we can
 call the `isWarning` method::

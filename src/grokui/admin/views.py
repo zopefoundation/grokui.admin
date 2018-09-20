@@ -115,20 +115,19 @@ class ManageApps(grok.View):
         self.redirect(self.url(self.context, 'applications'))
 
     def render(self, rename=None, delete=None, items=None):
+        
+        if items is not None:
+            if not isinstance(items, list):
+                items = [items]
 
-        if items is None:
-            return self.redirect(self.url(self.context, 'applications'))
-
-        if not isinstance(items, list):
-            items = [items]
-
-        if delete is not None:
-            return self.delete(items)
-        elif rename is not None:
-            return self.redirect(getURLWithParams(
+            if delete is not None:
+                return self.delete(items)
+            elif rename is not None:
+                return self.redirect(getURLWithParams(
                     self.url(self.context, '@@rename'),
                     data=dict(items=items)))
-        self.redirect(self.url(self.context, 'applications'))
+
+        return self.redirect(self.url(self.context, 'applications'))
 
 
 class Rename(grok.Page):

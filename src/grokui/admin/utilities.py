@@ -1,12 +1,13 @@
 import pkg_resources
 import socket
-import urllib
 import sys
 
 if sys.version_info >= (3, 3):
     from http.client import HTTPConnection
     from urllib.request import HTTPHandler
+    from urllib.parse import urlencode
 else:
+    from urllib import urlencode
     from urllib2 import HTTPHandler
     from httplib import HTTPConnection
 
@@ -24,7 +25,7 @@ def getURLWithParams(url, data=None):
             if isinstance(v, (list, set, tuple)):
                 data[k] = [isinstance(item, str) and item.encode('utf-8')
                 or item for item in v]
-        url += '?' + urllib.parse.urlencode(data, doseq=True)
+        url += '?' + urlencode(data, doseq=True)
     return url
 
 

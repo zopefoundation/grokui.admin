@@ -18,7 +18,9 @@ def test_suite():
     functional_layer = ZopeFanstaticBrowserLayer(grokui.admin.tests)
     optionflags = (doctest.ELLIPSIS +
                    doctest.NORMALIZE_WHITESPACE +
-                   doctest.REPORT_NDIFF)
+                   doctest.REPORT_NDIFF +
+                   doctest.IGNORE_EXCEPTION_DETAIL
+    )
     globs = dict(getRootFolder=functional_layer.getRootFolder)
     
     tests = [

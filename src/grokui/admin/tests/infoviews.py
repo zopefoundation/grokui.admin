@@ -37,7 +37,7 @@ oiptional bugfix release number like 'grok 0.14.1'::
 
   >>> import re
   >>> re.match(r'^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
-  <_sre.SRE_Match object; ...>
+  <_sre.SRE_Match object...>
 
 
 Getting the version of any other installed package

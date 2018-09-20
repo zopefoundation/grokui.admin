@@ -57,6 +57,7 @@ installed and click `Rename`::
   >>> ctrl.getControl(value='my-mammoth-manager').selected = True
   >>> browser.getControl('Rename').click()
 
+
 We get a form were we can enter new names::
 
   >>> print(browser.contents)
