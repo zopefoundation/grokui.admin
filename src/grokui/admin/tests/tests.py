@@ -20,7 +20,7 @@ def test_suite():
                    doctest.NORMALIZE_WHITESPACE +
                    doctest.REPORT_NDIFF)
     globs = dict(getRootFolder=functional_layer.getRootFolder)
-
+    
     tests = [
         'apps',
         'brokenapps',

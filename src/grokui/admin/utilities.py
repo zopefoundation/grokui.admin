@@ -1,8 +1,14 @@
 import pkg_resources
 import socket
 import urllib
-import urllib.request
-import http.client
+import sys
+
+if sys.version_info >= (3, 3):
+    from http.client import HTTPConnection
+    from urllib.request import HTTPHandler
+else:
+    from urllib2 import HTTPHandler
+    from httplib import HTTPConnection
 
 
 def getURLWithParams(url, data=None):
@@ -31,13 +37,13 @@ def getVersion(pkgname):
     return None
 
 
-class TimeoutableHTTPConnection(http.client.HTTPConnection):
+class TimeoutableHTTPConnection(HTTPConnection):
     """A customised HTTPConnection allowing a per-connection
     timeout, specified at construction.
     """
 
     def __init__(self, host, port=None, strict=None, timeout=None):
-        http.client.HTTPConnection.__init__(self, host, port,
+        HTTPConnection.__init__(self, host, port,
                 strict)
         self.timeout = timeout
 
@@ -64,13 +70,13 @@ class TimeoutableHTTPConnection(http.client.HTTPConnection):
             raise socket.error(msg)
 
 
-class TimeoutableHTTPHandler(urllib.request.HTTPHandler):
+class TimeoutableHTTPHandler(HTTPHandler):
     """A customised HTTPHandler which times out connection
     after the duration specified at construction.
     """
 
     def __init__(self, timeout=None):
-        urllib.request.HTTPHandler.__init__(self)
+        HTTPHandler.__init__(self)
         self.timeout = timeout
 
     def http_open(self, req):

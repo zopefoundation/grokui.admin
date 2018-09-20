@@ -120,7 +120,7 @@ fix the lookup timestamp, we get the real value::
 
   >>> sn.last_lookup = None
   >>> sn.getNotification()
-  'You better smash ...'
+  'You better smash 3.1'   
 
 To decide, whether the delivered string is actually a warning, we can
 call the `isWarning` method::
