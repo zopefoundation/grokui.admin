@@ -115,7 +115,7 @@ class Server(GrokUIView):
 
     def _getUptime(self, ri):
         # make a unix "uptime" uptime format
-        uptime = long(ri.getUptime())
+        uptime = int(ri.getUptime())
         minutes, seconds = divmod(uptime, 60)
         hours, minutes = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
@@ -212,7 +212,7 @@ class Server(GrokUIView):
         """Get the database size in a human readable format.
         """
         size = db.getSize()
-        if not isinstance(size, (int, long, float)):
+        if not isinstance(size, (int, float)):
             return str(size)
         return byteDisplay(size)
 
@@ -223,11 +223,11 @@ class Server(GrokUIView):
             self.flash('Error: Invalid Number')
             return
         db = getUtility(IDatabase, name=dbName)
-        print "DB: ", db, days
+        print("DB: ", db, days)
         db.pack(days=days)
         return
         try:
             db.pack(days=days)
             self.flash('ZODB `%s` successfully packed.' % (dbName))
-        except FileStorageError, err:
+        except FileStorageError as err:
             self.flash('ERROR packing ZODB `%s`: %s' % (dbName, err))

@@ -5,7 +5,7 @@ import grokui.admin
 
 import zc.buildout.testing
 from zope.testing import renormalizing
-from zope.app.wsgi.testlayer import BrowserLayer
+from zope.fanstatic.testing import ZopeFanstaticBrowserLayer
 
 checker = renormalizing.RENormalizing([
     # Accommodate to exception wrapping in newer versions of mechanize
@@ -15,12 +15,14 @@ checker = renormalizing.RENormalizing([
 
 def test_suite():
     suite = unittest.TestSuite()
-    functional_layer = BrowserLayer(grokui.admin.tests)
+    functional_layer = ZopeFanstaticBrowserLayer(grokui.admin.tests)
     optionflags = (doctest.ELLIPSIS +
                    doctest.NORMALIZE_WHITESPACE +
-                   doctest.REPORT_NDIFF)
+                   doctest.REPORT_NDIFF +
+                   doctest.IGNORE_EXCEPTION_DETAIL
+    )
     globs = dict(getRootFolder=functional_layer.getRootFolder)
-
+    
     tests = [
         'apps',
         'brokenapps',

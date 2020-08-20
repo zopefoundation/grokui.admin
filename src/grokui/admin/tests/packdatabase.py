@@ -3,7 +3,7 @@ ZODB packing
 ============
 
 Create a mammoth-manager, and stuff it with data which can be packed.
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open("http://localhost/")
@@ -17,12 +17,12 @@ Create a mammoth-manager, and stuff it with data which can be packed.
 Stuff this mammoth.
   >>> url = browser.url
   >>> browser.open(url+"?stuffing=fresh+vegetables")
-  >>> print browser.contents
+  >>> print(browser.contents)
   Today's meal is stuffed mammoth!
 
 Time to pull the stuffing out again.
   >>> browser.open(url)
-  >>> print browser.contents
+  >>> print(browser.contents)
   Time to stuff a mammoth!
 
 Check the size of the ZODB.

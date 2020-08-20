@@ -8,7 +8,7 @@ to repair broken objects are also still missing.
 
 We first setup the environment:
 
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
@@ -38,7 +38,7 @@ We add an instance of that new type:
 
 and the broken object should show up in the applications list:
 
- >>> print browser.contents
+ >>> print(browser.contents)
  <html xmlns="http://www.w3.org/1999/xhtml">
  ...
  ...Currently no working applications are...installed...
@@ -54,7 +54,7 @@ If we want to delete the broken object, we can do so:
   >>> ctrl = browser.getControl(name='items')
   >>> ctrl.getControl(value='mybrokenobj').selected = True
   >>> browser.getControl('Delete Selected').click()
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ...Application `mybrokenobj` was successfully deleted.

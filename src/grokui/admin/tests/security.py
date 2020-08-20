@@ -53,15 +53,13 @@ Getting notifications
 We can get a notification, of course. Asking for that will not trigger
 a lookup, while the notifier is disabled::
 
-  >>> sn.getNotification()
-  u'Security notifications are disabled.'
+  >>> assert sn.getNotification() == 'Security notifications are disabled.'
 
 Even an explicit lookup request will not do lookups, while the
 notifier is not enabled::
 
   >>> sn.updateMessage()
-  >>> sn.getNotification()
-  u'Security notifications are disabled.'
+  >>> assert sn.getNotification() == 'Security notifications are disabled.'
 
 
 Where to look for notifications
@@ -95,8 +93,7 @@ that stores our last tries::
 
   >>> sn.enable()
   >>> note = sn.getNotification()
-  >>> note
-  u''
+  >>> assert note == u''
 
 Ah, there is no security warning for our version. So let us create
 one::
@@ -106,20 +103,20 @@ one::
   >>> import os.path
   >>> fake_warning_file = 'grok-%s.security.txt' % version
   >>> fake_warning_file = os.path.join(release_info_tmpdir, fake_warning_file)
-  >>> open(fake_warning_file, 'w').write('You better smash %s' % version)
+  >>> with open(fake_warning_file, 'w') as fd:
+  ...     _ = fd.write('You better smash %s' % version)
+
 
 When we now ask the security notifier again::
 
-  >>> sn.getNotification()
-  u''
+  >>> assert sn.getNotification() == ''
 
 We got the same answer as before. Why? The lookups are done only in
 certain intervals to reduce the amount of outgoing traffic. When we
 fix the lookup timestamp, we get the real value::
 
   >>> sn.last_lookup = None
-  >>> sn.getNotification()
-  'You better smash ...'
+  >>> assert sn.getNotification() == u'You better smash 3.1'   
 
 To decide, whether the delivered string is actually a warning, we can
 call the `isWarning` method::
@@ -157,7 +154,7 @@ Immediately after startup, the notifier doesn't exists::
 
 We log into the admin screen to set a new notifier URL::
 
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open('http://localhost/++grokui++/@@server')
@@ -165,7 +162,7 @@ We log into the admin screen to set a new notifier URL::
 On the server administration page we can see the status of our
 notifier (enabled or disabled)::
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ... Status: Security notifications are disabled
   ...
@@ -174,7 +171,7 @@ We can also see the current message which also informs us, if security
 notifications are disabled. This message is displayed on (nearly)
 every `grokui.admin` page::
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...
@@ -193,7 +190,7 @@ the security notifications::
 The result of the lookup again is displayed. This time we get a 'real'
 result::
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...<div id="grokui-messages"><div class="grokui-security message">You better smash ...</div>
   ...
@@ -201,7 +198,7 @@ result::
 We can of course disable security notifications at any time::
 
   >>> browser.getControl('Disable').click()
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...<div id="grokui-messages"><div class="grokui-security message">Security notifications are disabled.</div>
   ...

@@ -1,8 +1,15 @@
-import httplib
 import pkg_resources
 import socket
-import urllib
-import urllib2
+import sys
+
+if sys.version_info >= (3, 3):
+    from http.client import HTTPConnection
+    from urllib.request import HTTPHandler
+    from urllib.parse import urlencode
+else:
+    from urllib import urlencode
+    from urllib2 import HTTPHandler
+    from httplib import HTTPConnection
 
 
 def getURLWithParams(url, data=None):
@@ -13,12 +20,12 @@ def getURLWithParams(url, data=None):
     """
     if data:
         for k, v in data.items():
-            if isinstance(v, unicode):
+            if isinstance(v, str):
                 data[k] = v.encode('utf-8')
             if isinstance(v, (list, set, tuple)):
-                data[k] = [isinstance(item, unicode) and item.encode('utf-8')
+                data[k] = [isinstance(item, str) and item.encode('utf-8')
                 or item for item in v]
-        url += '?' + urllib.urlencode(data, doseq=True)
+        url += '?' + urlencode(data, doseq=True)
     return url
 
 
@@ -31,13 +38,13 @@ def getVersion(pkgname):
     return None
 
 
-class TimeoutableHTTPConnection(httplib.HTTPConnection):
+class TimeoutableHTTPConnection(HTTPConnection):
     """A customised HTTPConnection allowing a per-connection
     timeout, specified at construction.
     """
 
     def __init__(self, host, port=None, strict=None, timeout=None):
-        httplib.HTTPConnection.__init__(self, host, port,
+        HTTPConnection.__init__(self, host, port,
                 strict)
         self.timeout = timeout
 
@@ -54,23 +61,23 @@ class TimeoutableHTTPConnection(httplib.HTTPConnection):
                 if self.timeout:   # this is the new bit
                     self.sock.settimeout(self.timeout)
                 self.sock.connect(sa)
-            except socket.error, msg:
+            except socket.error as msg:
                 if self.sock:
                     self.sock.close()
                 self.sock = None
                 continue
             break
         if not self.sock:
-            raise socket.error, msg
+            raise socket.error(msg)
 
 
-class TimeoutableHTTPHandler(urllib2.HTTPHandler):
+class TimeoutableHTTPHandler(HTTPHandler):
     """A customised HTTPHandler which times out connection
     after the duration specified at construction.
     """
 
     def __init__(self, timeout=None):
-        urllib2.HTTPHandler.__init__(self)
+        HTTPHandler.__init__(self)
         self.timeout = timeout
 
     def http_open(self, req):

@@ -11,7 +11,7 @@ keep track of the site status via usual system administration tools.
 
 We must have a browser available::
 
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
 
 We must be authenticated to fetch those infos::
@@ -19,7 +19,7 @@ We must be authenticated to fetch those infos::
   >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
   Traceback (most recent call last):
   ...
-  HTTPError: HTTP Error 401: Unauthorized
+  urllib.error.HTTPError: HTTP Error 401: Unauthorized
 
 Getting the current grok version
 --------------------------------
@@ -28,7 +28,7 @@ When we are authenticated, we can retrieve the grok version used::
 
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
   >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
-  >>> print browser.contents
+  >>> print(browser.contents)
   grok ...
 
 The returned string has the format 'grok <MAJ>.<MIN>[.<BUGFIX>]' with
@@ -36,8 +36,8 @@ a major release number (<MAJ>), a minor release number (<MIN>) and an
 oiptional bugfix release number like 'grok 0.14.1'::
 
   >>> import re
-  >>> re.match('^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
-  <_sre.SRE_Match object at 0x...>
+  >>> re.match(r'^grok \d+\.\d+(\.\d+)?.*$', browser.contents)
+  <_sre.SRE_Match object...>
 
 
 Getting the version of any other installed package
@@ -63,7 +63,7 @@ Getting the current security notification
 We can get the current security notification::
 
   >>> browser.open('http://localhost/++grokui++/@@admin/@@secnote')
-  >>> print browser.contents
+  >>> print(browser.contents)
   Security notifications are disabled.
 
 """

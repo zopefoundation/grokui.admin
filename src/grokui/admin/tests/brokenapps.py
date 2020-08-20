@@ -7,7 +7,7 @@ these problem will not be hidden away.
 
 We first setup the environment:
 
-  >>> from zope.app.wsgi.testlayer import Browser
+  >>> from zope.testbrowser.wsgi import Browser
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic mgr:mgrpw')
 
@@ -28,7 +28,7 @@ visible:
   >>> subform.getControl('Create').click()
   Traceback (most recent call last):
   ...
-  DuplicationError: Intentional DuplicationError
+  zope.exceptions.interfaces.DuplicationError: Intentional DuplicationError
 
 If, however, we try to add two working apps under same name, the UI
 will inform us of the problem (without a traceback):
@@ -44,7 +44,7 @@ will inform us of the problem (without a traceback):
   >>> subform.getControl(name='name').value = 'somename'
   >>> subform.getControl('Create').click()
 
-  >>> print browser.contents
+  >>> print(browser.contents)
   <html xmlns="http://www.w3.org/1999/xhtml">
   ...
   ...Name `somename` already in use. Please choose another name...

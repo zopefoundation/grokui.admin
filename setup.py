@@ -1,17 +1,23 @@
 import os
 from setuptools import setup, find_packages
 
+
 tests_require = [
-    'zope.app.wsgi',
+    'zc.buildout',
+    'zope.exceptions',
+    'zope.fanstatic',
     'zope.principalregistry',
     'zope.security',
     'zope.securitypolicy',
+    'zope.session',
+    'zope.testbrowser',
     'zope.testing',
-    'zc.buildout',
-    ]
+]
+
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
 
 setup(name='grokui.admin',
       version='0.13.dev0',
@@ -20,7 +26,7 @@ setup(name='grokui.admin',
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
           '\n\n' +
           read('CHANGES.txt')
-        ),
+      ),
       classifiers=[
           'Development Status :: 4 - Beta',
           'Environment :: Web Environment',
@@ -43,17 +49,18 @@ setup(name='grokui.admin',
       zip_safe=False,
       namespace_packages=['grokui'],
       install_requires=[
-          'ZODB3',
+          'BTrees',
+          'ZODB >= 5.0',
           'grok >= 1.10',
           'grokcore.site >= 1.6.1',
           'grokui.base',
+          'persistent',
           'setuptools',
           'z3c.flashmessage',
           'zope.applicationcontrol',
           'zope.component',
           'zope.configuration',
           'zope.contentprovider',
-          'zope.exceptions',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.location',
@@ -62,7 +69,7 @@ setup(name='grokui.admin',
           'zope.site',
           'zope.size',
           'zope.traversing',
-          ],
+      ],
       tests_require = tests_require,
       extras_require = dict(test=tests_require),
-      )
+)

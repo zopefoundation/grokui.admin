@@ -3,15 +3,23 @@
 The machinery to do home-calling security notifications.
 """
 import grok
-import cgi
 import time
-import urllib2
-import urlparse
+import sys
 
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 from grokui.base import Messages, IGrokUIRealm
+
+if sys.version_info >= (3, 3):
+    import urllib.request as urllib
+    from html import escape
+    from urllib.parse import urlparse, urljoin
+else:
+    import urllib2 as urllib
+    from cgi import escape
+    from urlparse import urlparse, urljoin
+
 
 MSG_DISABLED = u'Security notifications are disabled.'
 
@@ -106,16 +114,16 @@ class SecurityNotifier(Persistent):
             return
         version = getVersion('grok')
         filename = 'grok-%s.security.txt' % version
-        url = urlparse.urljoin(self.lookup_url, filename)
+        url = urljoin(self.lookup_url, filename)
         # We create a HTTP handler with a timeout.
         http_handler = TimeoutableHTTPHandler(timeout=self.lookup_timeout)
-        opener = urllib2.build_opener(http_handler)
-        req = urllib2.Request(url)
+        opener = urllib.build_opener(http_handler)
+        req = urllib.Request(url)
         try:
             message = opener.open(req).read()
-            self._message = cgi.escape(message)
+            self._message = escape(message.decode())
             self._warningstate = True
-        except urllib2.HTTPError, e:
+        except urllib.HTTPError as e:
             if e.code == 404:
                 # No security warning found, good message.
                 self._message = u''
