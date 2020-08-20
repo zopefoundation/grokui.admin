@@ -20,7 +20,7 @@ def read(*rnames):
 
 
 setup(name='grokui.admin',
-      version='0.13.dev0',
+      version='0.13',
       description="The Grok administration and development UI",
       long_description=(
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
@@ -53,7 +53,7 @@ setup(name='grokui.admin',
           'ZODB >= 5.0',
           'grok >= 1.10',
           'grokcore.site >= 1.6.1',
-          'grokui.base',
+          'grokui.base >= 0.8.2',
           'persistent',
           'setuptools',
           'z3c.flashmessage',

@@ -1,11 +1,10 @@
 grokui.admin changes
 ********************
 
-0.13 (unreleased)
+0.13 (2020-08-20)
 =================
 
-- Nothing changed yet.
-
+- Python3.6+ compatibility.
 
 0.12 (2016-02-16)
 =================
