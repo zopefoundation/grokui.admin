@@ -20,7 +20,7 @@ def read(*rnames):
 
 
 setup(name='grokui.admin',
-      version='0.13',
+      version='0.14.dev0',
       description="The Grok administration and development UI",
       long_description=(
           read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
