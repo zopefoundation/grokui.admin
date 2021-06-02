@@ -54,12 +54,14 @@ will inform us of the problem (without a traceback):
 import grok
 from zope.exceptions import DuplicationError
 
+
 class IntentionallyBrokenApp(grok.Application, grok.Container):
     """An application that intentionally raises DuplicationError.
     """
 
     def __init__(self, *args, **kw):
         raise DuplicationError('Intentional DuplicationError')
+
 
 class WorkingApp(grok.Application, grok.Container):
     """A working app.

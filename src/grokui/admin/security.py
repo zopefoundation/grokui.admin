@@ -11,14 +11,14 @@ from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 from grokui.base import Messages, IGrokUIRealm
 
-if sys.version_info >= (3, 3):
+if sys.version_info >= (3, 3):  # pragma: PY3
     import urllib.request as urllib
     from html import escape
-    from urllib.parse import urlparse, urljoin
-else:
+    from urllib.parse import urljoin
+else:  # pragma: PY2
     import urllib2 as urllib
     from cgi import escape
-    from urlparse import urlparse, urljoin
+    from urlparse import urljoin
 
 
 MSG_DISABLED = u'Security notifications are disabled.'
@@ -58,7 +58,7 @@ class SecurityNotifier(Persistent):
     """
     grok.implements(ISecurityNotifier)
 
-    VERSION = 1 # for possibly updates/downgrades
+    VERSION = 1  # for possibly updates/downgrades
     DEFAULT_URL = 'http://grok.zope.org/releaseinfo/'
 
     lookup_url = DEFAULT_URL
@@ -66,7 +66,7 @@ class SecurityNotifier(Persistent):
     lookup_timeout = 2   # Number of seconds to wait
     enabled = False      # By default we disable the notfier.
 
-    lookup_frequency = 3600 # Lookup every hour.
+    lookup_frequency = 3600  # Lookup every hour.
 
     _message = u''
     _warningstate = False
@@ -148,4 +148,3 @@ class SecurityNotifier(Persistent):
         In fact we only keep track of timestamps of display actions.
         """
         self.last_display = time.time()
-        return

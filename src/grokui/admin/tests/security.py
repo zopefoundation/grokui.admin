@@ -116,7 +116,8 @@ certain intervals to reduce the amount of outgoing traffic. When we
 fix the lookup timestamp, we get the real value::
 
   >>> sn.last_lookup = None
-  >>> assert sn.getNotification() == u'You better smash 3.1'   
+  >>> str(sn.getNotification())
+  'You better smash 3.2'
 
 To decide, whether the delivered string is actually a warning, we can
 call the `isWarning` method::
@@ -209,4 +210,4 @@ Clean up::
   >>> import os
   >>> os.unlink(fake_warning_file)
 
-"""
+"""  # noqa: E501 line too long

@@ -115,7 +115,7 @@ class ManageApps(grok.View):
         self.redirect(self.url(self.context, 'applications'))
 
     def render(self, rename=None, delete=None, items=None):
-        
+
         if items is not None:
             if not isinstance(items, list):
                 items = [items]

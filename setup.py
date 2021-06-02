@@ -23,9 +23,9 @@ setup(name='grokui.admin',
       version='0.14.dev0',
       description="The Grok administration and development UI",
       long_description=(
-          read(os.path.join('src', 'grokui', 'admin', 'README.txt')) +
+          read('README.rst') +
           '\n\n' +
-          read('CHANGES.txt')
+          read('CHANGES.rst')
       ),
       classifiers=[
           'Development Status :: 4 - Beta',
@@ -33,21 +33,36 @@ setup(name='grokui.admin',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Zope Public License',
           'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
+          'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
+          'Programming Language :: Python :: Implementation :: CPython',
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
           'Framework :: Zope :: 3',
-          ],
+      ],
       keywords="zope3 grok grokadmin",
       author="Zope Foundation and Contributors",
       author_email="grok-dev@zope.org",
-      url="http://svn.zope.org/grokui.admin",
+      url="https://github.com/zopefoundation/grokui.admin",
+      project_urls={
+          'Issue Tracker': ('https://github.com/zopefoundation/'
+                            'grokui.admin/issues'),
+          'Sources': 'https://github.com/zopefoundation/grokui.admin',
+      },
       license="ZPL 2.1",
       package_dir={'': 'src'},
       packages=find_packages('src'),
       include_package_data=True,
       zip_safe=False,
       namespace_packages=['grokui'],
+      python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
       install_requires=[
           'BTrees',
           'ZODB >= 5.0',
@@ -70,6 +85,6 @@ setup(name='grokui.admin',
           'zope.size',
           'zope.traversing',
       ],
-      tests_require = tests_require,
-      extras_require = dict(test=tests_require),
-)
+      tests_require=tests_require,
+      extras_require=dict(test=tests_require),
+      )

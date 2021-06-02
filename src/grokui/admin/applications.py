@@ -22,7 +22,7 @@ class InstalledApplication(object):
                                    obj.__class__.__name__))
 
     def __cmp__(self, other):
-        return cmp(self.__name__, other.__name__)
+        return cmp(self.__name__, other.__name__)  # noqa: F821 undefined name
 
 
 class BrokenApplication(object):
@@ -34,7 +34,7 @@ class BrokenApplication(object):
                                    obj.__class__.__name__))
 
     def __cmp__(self, other):
-        return cmp(self.__name__, other.__name__)
+        return cmp(self.__name__, other.__name__)  # noqa: F821 undefined name
 
 
 class InstallableApplication(object):
