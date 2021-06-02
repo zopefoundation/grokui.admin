@@ -37,7 +37,7 @@ class Server(GrokUIView):
         "CommandLine",
         "ProcessId",
         "DeveloperMode",
-        )
+    )
 
     _unavailable = _("Unavailable")
 
@@ -129,7 +129,7 @@ class Server(GrokUIView):
     @property
     def current_message(self):
         source = getUtility(
-          z3c.flashmessage.interfaces.IMessageSource, name='admin')
+            z3c.flashmessage.interfaces.IMessageSource, name='admin')
         messages = list(source.list())
         if messages:
             return messages[0]
@@ -169,13 +169,12 @@ class Server(GrokUIView):
         self.updateSecurityNotifier(setsecnotes, setsecnotesource,
                                     secnotesource)
 
-
         if not submitted:
             return
 
         # Admin message control
         source = getUtility(
-          z3c.flashmessage.interfaces.IMessageSource, name='admin')
+            z3c.flashmessage.interfaces.IMessageSource, name='admin')
         if admin_message is not None:
             source.send(admin_message)
         elif getattr(source, 'current_message', False):
@@ -185,7 +184,7 @@ class Server(GrokUIView):
         if time is not None:
             try:
                 time = int(time)
-            except:
+            except BaseException:
                 time = 0
         else:
             time = 0

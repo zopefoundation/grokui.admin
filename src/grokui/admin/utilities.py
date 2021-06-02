@@ -2,11 +2,11 @@ import pkg_resources
 import socket
 import sys
 
-if sys.version_info >= (3, 3):
+if sys.version_info >= (3, 3):  # pragma: PY3
     from http.client import HTTPConnection
     from urllib.request import HTTPHandler
     from urllib.parse import urlencode
-else:
+else:  # pragma: PY2
     from urllib import urlencode
     from urllib2 import HTTPHandler
     from httplib import HTTPConnection
@@ -24,7 +24,7 @@ def getURLWithParams(url, data=None):
                 data[k] = v.encode('utf-8')
             if isinstance(v, (list, set, tuple)):
                 data[k] = [isinstance(item, str) and item.encode('utf-8')
-                or item for item in v]
+                           or item for item in v]
         url += '?' + urlencode(data, doseq=True)
     return url
 
@@ -44,8 +44,7 @@ class TimeoutableHTTPConnection(HTTPConnection):
     """
 
     def __init__(self, host, port=None, strict=None, timeout=None):
-        HTTPConnection.__init__(self, host, port,
-                strict)
+        HTTPConnection.__init__(self, host, port, strict)
         self.timeout = timeout
 
     def connect(self):
@@ -53,15 +52,15 @@ class TimeoutableHTTPConnection(HTTPConnection):
         host/port specified in __init__."""
 
         msg = "getaddrinfo returns an empty list"
-        for res in socket.getaddrinfo(self.host, self.port,
-                0, socket.SOCK_STREAM):
+        for res in socket.getaddrinfo(
+                self.host, self.port, 0, socket.SOCK_STREAM):
             af, socktype, proto, canonname, sa = res
             try:
                 self.sock = socket.socket(af, socktype, proto)
                 if self.timeout:   # this is the new bit
                     self.sock.settimeout(self.timeout)
                 self.sock.connect(sa)
-            except socket.error as msg:
+            except socket.error:
                 if self.sock:
                     self.sock.close()
                 self.sock = None

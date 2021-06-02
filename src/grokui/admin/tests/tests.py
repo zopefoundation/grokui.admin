@@ -10,7 +10,7 @@ from zope.fanstatic.testing import ZopeFanstaticBrowserLayer
 checker = renormalizing.RENormalizing([
     # Accommodate to exception wrapping in newer versions of mechanize
     (re.compile(r'httperror_seek_wrapper:', re.M), 'HTTPError:'),
-    ])
+])
 
 
 def test_suite():
@@ -20,9 +20,9 @@ def test_suite():
                    doctest.NORMALIZE_WHITESPACE +
                    doctest.REPORT_NDIFF +
                    doctest.IGNORE_EXCEPTION_DETAIL
-    )
+                   )
     globs = dict(getRootFolder=functional_layer.getRootFolder)
-    
+
     tests = [
         'apps',
         'brokenapps',
@@ -38,7 +38,7 @@ def test_suite():
             checker=checker,
             globs=globs,
             optionflags=optionflags,
-            )
+        )
         test.layer = functional_layer
         suite.addTest(test)
 
