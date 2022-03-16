@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import grok
 from grokui.admin import representation
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import grok
 from ZODB.broken import Broken
 from grokui.admin import representation
@@ -10,7 +8,7 @@ from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
 
 
-class InstalledApplication(object):
+class InstalledApplication:
     grok.implements(representation.IInstalledApplication)
 
     def __init__(self, obj, request):
@@ -25,7 +23,7 @@ class InstalledApplication(object):
         return cmp(self.__name__, other.__name__)  # noqa: F821 undefined name
 
 
-class BrokenApplication(object):
+class BrokenApplication:
     grok.implements(representation.IApplicationRepresentation)
 
     def __init__(self, name, obj):
@@ -37,7 +35,7 @@ class BrokenApplication(object):
         return cmp(self.__name__, other.__name__)  # noqa: F821 undefined name
 
 
-class InstallableApplication(object):
+class InstallableApplication:
     grok.implements(representation.IInstallableApplication)
 
     def __init__(self, klass):

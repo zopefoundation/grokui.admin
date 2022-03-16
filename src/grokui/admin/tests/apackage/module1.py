@@ -1,3 +1,3 @@
-class Klass(object):
+class Klass:
     """A class.
     """

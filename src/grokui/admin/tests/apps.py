@@ -125,4 +125,4 @@ class Index(grok.View):
     """
 
     def render(self):
-        return u"Let's manage some mammoths!"
+        return "Let's manage some mammoths!"

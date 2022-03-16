@@ -1,15 +1,8 @@
 import pkg_resources
 import socket
-import sys
-
-if sys.version_info >= (3, 3):  # pragma: PY3
-    from http.client import HTTPConnection
-    from urllib.request import HTTPHandler
-    from urllib.parse import urlencode
-else:  # pragma: PY2
-    from urllib import urlencode
-    from urllib2 import HTTPHandler
-    from httplib import HTTPConnection
+from http.client import HTTPConnection
+from urllib.request import HTTPHandler
+from urllib.parse import urlencode
 
 
 def getURLWithParams(url, data=None):
@@ -60,14 +53,14 @@ class TimeoutableHTTPConnection(HTTPConnection):
                 if self.timeout:   # this is the new bit
                     self.sock.settimeout(self.timeout)
                 self.sock.connect(sa)
-            except socket.error:
+            except OSError:
                 if self.sock:
                     self.sock.close()
                 self.sock = None
                 continue
             break
         if not self.sock:
-            raise socket.error(msg)
+            raise OSError(msg)
 
 
 class TimeoutableHTTPHandler(HTTPHandler):
