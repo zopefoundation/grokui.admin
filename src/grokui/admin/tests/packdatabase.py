@@ -64,6 +64,6 @@ class Index(grok.View):
 
     def render(self):
         if self.context.stuffing is None:
-            return u"Time to stuff a mammoth!"
+            return "Time to stuff a mammoth!"
         else:
-            return u"Today's meal is stuffed mammoth!"
+            return "Today's meal is stuffed mammoth!"

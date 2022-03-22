@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Views for the grok admin UI"""
 
 from zope.component import getUtility, queryUtility
@@ -25,7 +24,7 @@ class GrokAdminInfoView(grok.View):
     grok.require('grok.ManageApplications')
 
     def render(self):
-        return u'go to @@version or @@secnotes'
+        return 'go to @@version or @@secnotes'
 
 
 class GrokAdminVersion(grok.View):
@@ -41,7 +40,7 @@ class GrokAdminVersion(grok.View):
     grok.require('grok.ManageApplications')
 
     def render(self, pkg='grok'):
-        return u'%s %s' % (pkg, getVersion(pkg))
+        return f'{pkg} {getVersion(pkg)}'
 
 
 class GrokAdminSecurityNotes(grok.View):
@@ -70,11 +69,11 @@ class Add(grok.View):
             return
         app = getUtility(grok.IApplication, name=application)
         if name in self.context.root.keys():
-            self.flash(u'Name `%s` already in use. '
-                       u'Please choose another name.' % (name,))
+            self.flash('Name `%s` already in use. '
+                       'Please choose another name.' % (name,))
         else:
             create_application(app, self.context.root, name)
-            self.flash(u'Added %s `%s`.' % (application, name))
+            self.flash(f'Added {application} `{name}`.')
         self.redirect(self.url(self.context, 'applications'))
 
 
@@ -87,29 +86,29 @@ class ManageApps(grok.View):
     def delete(self, items):
         """Delete applications in items.
         """
-        msg = u''
+        msg = ''
         for name in items:
             try:
                 del self.context.root[name]
-                msg = (u'%sApplication `%s` was successfully '
-                       u'deleted.\n' % (msg, name))
+                msg = ('%sApplication `%s` was successfully '
+                       'deleted.\n' % (msg, name))
             except AttributeError:
                 # Object is broken.. Try it the hard way...
                 # TODO: Try to repair before deleting.
                 if not hasattr(self.context.root, 'data'):
                     msg = (
-                        u'%sCould not delete application `%s`: no '
-                        u'`data` attribute found.\n' % (msg, name))
+                        '%sCould not delete application `%s`: no '
+                        '`data` attribute found.\n' % (msg, name))
                     continue
                 if not isinstance(self.context.root.data, OOBTree):
                     msg = (
-                        u'%sCould not delete application `%s`: no '
-                        u'`data` is not a BTree.\n' % (msg, name))
+                        '%sCould not delete application `%s`: no '
+                        '`data` is not a BTree.\n' % (msg, name))
                     continue
                 self.context.root.data.pop(name)
                 self.context.root.data._p_changed = True
-                msg = (u'%sBroken application `%s` was successfully '
-                       u'deleted.\n' % (msg, name))
+                msg = ('%sBroken application `%s` was successfully '
+                       'deleted.\n' % (msg, name))
 
         self.flash(msg)
         self.redirect(self.url(self.context, 'applications'))
@@ -153,7 +152,7 @@ class Rename(grok.Page):
         if new_names is None:
             return
 
-        mapping = dict([(items[x], new_names[x]) for x in range(len(items))])
+        mapping = {items[x]: new_names[x] for x in range(len(items))}
         root = self.context.__parent__
         existing = root.keys()
 
@@ -169,6 +168,6 @@ class Rename(grok.Page):
             root[newname] = root[oldname]
             root[newname].__name__ = newname
             del root[oldname]
-            self.flash('Renamed `%s` to `%s`.' % (oldname, newname))
+            self.flash(f'Renamed `{oldname}` to `{newname}`.')
         self.redirect(self.url(self.context, 'applications'))
         return

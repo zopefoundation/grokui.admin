@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from zope import schema
 from zope.location import ILocation
 from zope.interface import Interface
@@ -11,16 +9,16 @@ class IApplicationRepresentation(Interface):
     """Defines an Grok application
     """
     __name__ = schema.TextLine(
-        title=u"Name",
+        title="Name",
         required=True)
 
     classname = PythonIdentifier(
-        title=u"Dotted name of the Application class",
+        title="Dotted name of the Application class",
         required=True)
 
     description = schema.Text(
-        title=u"Description of the Application",
-        default=u"",
+        title="Description of the Application",
+        default="",
         required=False)
 
 
@@ -33,7 +31,7 @@ class IInstalledApplication(IApplicationRepresentation, ILocation):
     """Defines an application that is installed in our system.
     """
     url = schema.URI(
-        title=u"Absolute URL of the application",
+        title="Absolute URL of the application",
         required=True)
 
 

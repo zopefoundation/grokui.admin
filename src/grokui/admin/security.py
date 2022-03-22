@@ -4,24 +4,18 @@ The machinery to do home-calling security notifications.
 """
 import grok
 import time
-import sys
 
 from persistent import Persistent
 from grokui.admin.interfaces import ISecurityNotifier
 from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
 from grokui.base import Messages, IGrokUIRealm
 
-if sys.version_info >= (3, 3):  # pragma: PY3
-    import urllib.request as urllib
-    from html import escape
-    from urllib.parse import urljoin
-else:  # pragma: PY2
-    import urllib2 as urllib
-    from cgi import escape
-    from urlparse import urljoin
+import urllib.request as urllib
+from html import escape
+from urllib.parse import urljoin
 
 
-MSG_DISABLED = u'Security notifications are disabled.'
+MSG_DISABLED = 'Security notifications are disabled.'
 
 
 class SecurityNotificationViewlet(grok.Viewlet):
@@ -45,8 +39,8 @@ class SecurityNotificationViewlet(grok.Viewlet):
     def render(self):
         notifier = self.security_notifier
         if notifier is None:
-            return u""
-        return u'''<div class="grokui-security message">%s</div>''' % (
+            return ""
+        return '''<div class="grokui-security message">%s</div>''' % (
             self.security_notifier.getNotification())
 
 
@@ -68,7 +62,7 @@ class SecurityNotifier(Persistent):
 
     lookup_frequency = 3600  # Lookup every hour.
 
-    _message = u''
+    _message = ''
     _warningstate = False
 
     def enable(self):
@@ -126,12 +120,12 @@ class SecurityNotifier(Persistent):
         except urllib.HTTPError as e:
             if e.code == 404:
                 # No security warning found, good message.
-                self._message = u''
+                self._message = ''
                 self._warningstate = False
             else:
                 raise
         if self._message == MSG_DISABLED:
-            self._message = u''
+            self._message = ''
         self.last_lookup = time.time()
         return
 

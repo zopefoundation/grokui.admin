@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Interfaces for the admin UI.
 """
 
@@ -12,14 +10,14 @@ class ISecurityNotifier(Interface):
     """
 
     lookup_url = TextLine(
-        title=u"Lookup URL",
-        description=u"URL to use when doing lookups",
+        title="Lookup URL",
+        description="URL to use when doing lookups",
         required=True,
-        default=u'http://grok.zope.org/releasinfo/')
+        default='http://grok.zope.org/releasinfo/')
 
     enabled = Bool(
-        title=u"Enabled",
-        description=u"Notifier instance is enabled or disabled",
+        title="Enabled",
+        description="Notifier instance is enabled or disabled",
         required=True,
         default=False)
 

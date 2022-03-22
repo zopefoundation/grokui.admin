@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import grok
 import z3c.flashmessage.interfaces
 
@@ -83,7 +81,7 @@ class Server(GrokUIView):
     @property
     def secnotes_message(self):
         if self.security_notifier is None:
-            return u'Security notifier is not installed.'
+            return 'Security notifier is not installed.'
         return self.security_notifier.getNotification()
 
     @property
@@ -143,7 +141,7 @@ class Server(GrokUIView):
                 site_manager['grokadmin_security'] = SecurityNotifier()
                 utility = site_manager['grokadmin_security']
                 site_manager.registerUtility(
-                    utility, ISecurityNotifier, name=u'')
+                    utility, ISecurityNotifier, name='')
 
         if setsecnotesource is not None:
             self.security_notifier.setLookupURL(secnotesource)
@@ -229,4 +227,4 @@ class Server(GrokUIView):
             db.pack(days=days)
             self.flash('ZODB `%s` successfully packed.' % (dbName))
         except FileStorageError as err:
-            self.flash('ERROR packing ZODB `%s`: %s' % (dbName, err))
+            self.flash(f'ERROR packing ZODB `{dbName}`: {err}')
