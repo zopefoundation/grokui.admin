@@ -49,7 +49,7 @@ setup(name='grokui.admin',
       ],
       keywords="zope3 grok grokadmin",
       author="Zope Foundation and Contributors",
-      author_email="grok-dev@zope.org",
+      author_email="grok-dev@zope.dev",
       url="https://github.com/zopefoundation/grokui.admin",
       project_urls={
           'Issue Tracker': ('https://github.com/zopefoundation/'

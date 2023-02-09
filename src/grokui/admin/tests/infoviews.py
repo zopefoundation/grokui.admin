@@ -16,10 +16,10 @@ We must have a browser available::
 
 We must be authenticated to fetch those infos::
 
+  >>> browser.raiseHttpErrors = False
   >>> browser.open('http://localhost/++grokui++/@@admin/@@version')
-  Traceback (most recent call last):
-  ...
-  urllib.error.HTTPError: HTTP Error 401: Unauthorized
+  >>> print(browser.headers['status'])
+  401 Unauthorized
 
 Getting the current grok version
 --------------------------------
