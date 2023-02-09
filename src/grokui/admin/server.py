@@ -1,20 +1,22 @@
 import grok
 import z3c.flashmessage.interfaces
-
 from grokui.base.layout import GrokUIView
-from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getVersion
-from grokui.admin.security import SecurityNotifier
-
-from ZODB.interfaces import IDatabase
 from ZODB.FileStorage.FileStorage import FileStorageError
-
-from zope.size import byteDisplay
-from zope.site.interfaces import IRootFolder
-from zope.applicationcontrol.interfaces import IServerControl, IRuntimeInfo
+from ZODB.interfaces import IDatabase
 from zope.applicationcontrol.applicationcontrol import applicationController
-from zope.component import getUtility, queryUtility, getUtilitiesFor
+from zope.applicationcontrol.interfaces import IRuntimeInfo
+from zope.applicationcontrol.interfaces import IServerControl
+from zope.component import getUtilitiesFor
+from zope.component import getUtility
+from zope.component import queryUtility
 from zope.i18nmessageid import MessageFactory
+from zope.site.interfaces import IRootFolder
+from zope.size import byteDisplay
+
+from grokui.admin.interfaces import ISecurityNotifier
+from grokui.admin.security import SecurityNotifier
+from grokui.admin.utilities import getVersion
+
 
 _ = MessageFactory('grokui')
 

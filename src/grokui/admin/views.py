@@ -1,13 +1,17 @@
 """Views for the grok admin UI"""
 
-from zope.component import getUtility, queryUtility
-from BTrees.OOBTree import OOBTree
 import grok
+from BTrees.OOBTree import OOBTree
 from grokcore.site.util import create_application
 from grokui.base import IGrokUIRealm
+from zope.component import getUtility
+from zope.component import queryUtility
+
 from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getVersion, getURLWithParams
 from grokui.admin.security import MSG_DISABLED
+from grokui.admin.utilities import getURLWithParams
+from grokui.admin.utilities import getVersion
+
 
 grok.context(IGrokUIRealm)
 grok.templatedir("templates")

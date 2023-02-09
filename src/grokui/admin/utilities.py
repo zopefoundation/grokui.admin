@@ -1,8 +1,9 @@
-import pkg_resources
 import socket
 from http.client import HTTPConnection
-from urllib.request import HTTPHandler
 from urllib.parse import urlencode
+from urllib.request import HTTPHandler
+
+import pkg_resources
 
 
 def getURLWithParams(url, data=None):

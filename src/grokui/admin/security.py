@@ -2,17 +2,19 @@
 
 The machinery to do home-calling security notifications.
 """
-import grok
 import time
-
-from persistent import Persistent
-from grokui.admin.interfaces import ISecurityNotifier
-from grokui.admin.utilities import getVersion, TimeoutableHTTPHandler
-from grokui.base import Messages, IGrokUIRealm
-
 import urllib.request as urllib
 from html import escape
 from urllib.parse import urljoin
+
+import grok
+from grokui.base import IGrokUIRealm
+from grokui.base import Messages
+from persistent import Persistent
+
+from grokui.admin.interfaces import ISecurityNotifier
+from grokui.admin.utilities import TimeoutableHTTPHandler
+from grokui.admin.utilities import getVersion
 
 
 MSG_DISABLED = 'Security notifications are disabled.'
