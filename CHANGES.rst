@@ -1,8 +1,8 @@
 grokui.admin changes
 ********************
 
-0.14 (unreleased)
-=================
+1.0 (unreleased)
+================
 
 - Add support for Python 3.7, 3.8, 3.9, and 3.10.
 
