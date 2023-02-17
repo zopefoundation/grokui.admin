@@ -1,5 +1,7 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 tests_require = [
@@ -20,7 +22,7 @@ def read(*rnames):
 
 
 setup(name='grokui.admin',
-      version='0.14.dev0',
+      version='1.0.dev0',
       description="The Grok administration and development UI",
       long_description=(
           read('README.rst') +
@@ -34,12 +36,11 @@ setup(name='grokui.admin',
           'License :: OSI Approved :: Zope Public License',
           'Programming Language :: Python',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3 :: Only',
-          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
           'Programming Language :: Python :: 3.9',
           'Programming Language :: Python :: 3.10',
+          'Programming Language :: Python :: 3.11',
           'Programming Language :: Python :: Implementation :: CPython',
           'Natural Language :: English',
           'Operating System :: OS Independent',
@@ -48,7 +49,7 @@ setup(name='grokui.admin',
       ],
       keywords="zope3 grok grokadmin",
       author="Zope Foundation and Contributors",
-      author_email="grok-dev@zope.org",
+      author_email="grok-dev@zope.dev",
       url="https://github.com/zopefoundation/grokui.admin",
       project_urls={
           'Issue Tracker': ('https://github.com/zopefoundation/'
@@ -61,7 +62,7 @@ setup(name='grokui.admin',
       include_package_data=True,
       zip_safe=False,
       namespace_packages=['grokui'],
-      python_requires='>=3.6, <4',
+      python_requires='>=3.7',
       install_requires=[
           'BTrees',
           'ZODB >= 5.0',

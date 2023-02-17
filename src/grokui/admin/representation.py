@@ -1,8 +1,8 @@
 from zope import schema
-from zope.location import ILocation
-from zope.interface import Interface
 from zope.configuration.fields import PythonIdentifier
 from zope.contentprovider.interfaces import IContentProvider
+from zope.interface import Interface
+from zope.location import ILocation
 
 
 class IApplicationRepresentation(Interface):

@@ -2,7 +2,8 @@
 """
 
 from zope.interface import Interface
-from zope.schema import TextLine, Bool
+from zope.schema import Bool
+from zope.schema import TextLine
 
 
 class ISecurityNotifier(Interface):

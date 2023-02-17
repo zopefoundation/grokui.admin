@@ -1,11 +1,13 @@
 import grok
-from ZODB.broken import Broken
-from grokui.admin import representation
-from zope.traversing.browser import absoluteURL
-from zope.contentprovider.interfaces import IContentProvider
-from zope.component import getMultiAdapter, getAllUtilitiesRegisteredFor
 from grokui.base.layout import GrokUIView
 from grokui.base.namespace import GrokUILayer
+from ZODB.broken import Broken
+from zope.component import getAllUtilitiesRegisteredFor
+from zope.component import getMultiAdapter
+from zope.contentprovider.interfaces import IContentProvider
+from zope.traversing.browser import absoluteURL
+
+from grokui.admin import representation
 
 
 class InstalledApplication:

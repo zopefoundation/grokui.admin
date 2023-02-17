@@ -1,11 +1,13 @@
 import doctest
 import re
 import unittest
-import grokui.admin
 
 import zc.buildout.testing
-from zope.testing import renormalizing
 from zope.fanstatic.testing import ZopeFanstaticBrowserLayer
+from zope.testing import renormalizing
+
+import grokui.admin
+
 
 checker = renormalizing.RENormalizing([
     # Accommodate to exception wrapping in newer versions of mechanize
