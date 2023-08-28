@@ -8,6 +8,8 @@ grokui.admin changes
 
 - Add support for Python 3.7, 3.8, 3.9, 3.10, 3.11.
 
+- Caution: With this release the maintenance of this package ends.
+
 
 0.13 (2020-08-20)
 =================

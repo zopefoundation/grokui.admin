@@ -50,7 +50,7 @@ Applications
 
 .. note:: starting with version 0.5 there is no introspector/class
    browser included in `grokui.admin` anymore. Eventually this will be
-   made availabel in another package by someone else.
+   made available in another package by someone else.
 
 
 Server
@@ -100,31 +100,3 @@ Currently the following infos are available this way:
    curl -q -s -u admin:admin "http://localhost:8080/++grokui++/@@admin/@@secnote"
 
 Beside this you can pack the ZODB databases as described above.
-
-
-Bugs, Caveats and Ways to Get Help
-==================================
-
-The Grok admin UI has been refactored during the Cologne Neanderthal Sprint
-II, in september 2009.
-
-As a matter of fact, it is still under development and
-improvement. Please, report any misbehavior or bug.
-
-For bugreports use:
-
-    https://launchpad.net/grok
-
-For discussions subscribe to the ``grok-dev`` mailing list, hosted on:
-
-    http://lists.zope.org.
-
-The projects' home is the subversion repository at:
-
-    http://svn.zope.org/grokui.admin/
-
-Grok's cave can be found at
-
-    http://grok.zope.org/
-
-Enjoy!
