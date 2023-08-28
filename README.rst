@@ -1,4 +1,7 @@
-.. caution:: This package is no longer maintained.
+**Caution!**
+
+This package is no longer maintained, its repository has been archived. If you want to work on it please open a ticket in https://github.com/zopefoundation/meta/issues requesting its unarchival.
+
 
 grokui.admin: A basic grok admin UI
 ***********************************
