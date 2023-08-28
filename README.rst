@@ -1,3 +1,5 @@
+.. caution:: This package is no longer maintained.
+
 grokui.admin: A basic grok admin UI
 ***********************************
 

@@ -37,7 +37,7 @@ grokui.admin changes
 0.10 (2011-07-14)
 =================
 
-- Nothing changed yet.
+- Changes not recorded.
 
 0.9 (2011-01-20)
 ================
