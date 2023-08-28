@@ -1,7 +1,7 @@
 grokui.admin changes
 ********************
 
-1.0 (unreleased)
+1.0 (2023-08-28)
 ================
 
 - Drop support for Python 2.7, 3.5, 3.6.

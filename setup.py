@@ -22,7 +22,7 @@ def read(*rnames):
 
 
 setup(name='grokui.admin',
-      version='1.0.dev0',
+      version='1.0',
       description="The Grok administration and development UI",
       long_description=(
           read('README.rst') +
